@@ -1,18 +1,11 @@
+import { mkdir } from 'node:fs/promises'
 import { chromium, type BrowserContext, type Page } from 'playwright'
+import { adapterFor, trustedSubmit } from './adapters.js'
 import { detectHandoff, fillByLabel, formLooksUnknown } from './guards.js'
-import type { AutomationTask, WorkerResult } from './types.js'
+import type { AutomationTask, WorkerEvidence, WorkerResult } from './types.js'
 
-function adapterFor(url: string) {
-  if (/greenhouse\.io/i.test(url)) return 'greenhouse'
-  if (/lever\.co/i.test(url)) return 'lever'
-  if (/ashbyhq\.com/i.test(url)) return 'ashby'
-  if (/linkedin\.com/i.test(url)) return 'linkedin'
-  if (/indeed\.com/i.test(url)) return 'indeed'
-  if (/naukri\.com/i.test(url)) return 'naukri'
-  if (/internshala\.com/i.test(url)) return 'internshala'
-  if (/instahyre\.com/i.test(url)) return 'instahyre'
-  return null
-}
+const NAV_TIMEOUT = Number(process.env.ROVA_NAV_TIMEOUT_MS || 30000)
+const ACTION_TIMEOUT = Number(process.env.ROVA_ACTION_TIMEOUT_MS || 10000)
 
 async function prepareForm(page: Page, task: AutomationTask) {
   const candidate = task.candidate
@@ -30,44 +23,60 @@ async function prepareForm(page: Page, task: AutomationTask) {
   }
 }
 
+async function captureEvidence(page: Page, taskId: string, reason: string): Promise<WorkerEvidence> {
+  const root = process.env.ROVA_EVIDENCE_DIR || './.evidence'
+  const dir = `${root}/${taskId}`
+  await mkdir(dir, { recursive: true })
+  const safeReason = reason.replace(/[^a-z0-9_-]/gi, '_')
+  const screenshotPath = `${dir}/${safeReason}.png`
+  const htmlPath = `${dir}/${safeReason}.html`
+  await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => undefined)
+  const html = await page.content().catch(() => '')
+  if (html) await import('node:fs/promises').then(fs => fs.writeFile(htmlPath, html, 'utf8')).catch(() => undefined)
+  return { screenshotPath, htmlPath }
+}
+
 export async function executeTask(task: AutomationTask): Promise<WorkerResult> {
   const adapter = adapterFor(task.applicationUrl)
   if (!adapter) return { taskId: task.id, state: 'handoff', url: task.applicationUrl, adapter: 'unknown', handoffReason: 'unsupported-flow', message: 'No supported browser adapter for this URL.' }
 
   const sessionRoot = process.env.ROVA_SESSION_DIR || './.sessions'
-  const context: BrowserContext = await chromium.launchPersistentContext(`${sessionRoot}/${adapter}`, {
+  const context: BrowserContext = await chromium.launchPersistentContext(`${sessionRoot}/${adapter.id}`, {
     headless: process.env.ROVA_HEADLESS !== 'false',
     viewport: { width: 1440, height: 1000 },
   })
 
   try {
     const page = context.pages()[0] || await context.newPage()
-    await page.goto(task.applicationUrl, { waitUntil: 'domcontentloaded', timeout: 30000 })
+    page.setDefaultTimeout(ACTION_TIMEOUT)
+    await page.goto(task.applicationUrl, { waitUntil: 'domcontentloaded', timeout: NAV_TIMEOUT })
 
     const handoff = await detectHandoff(page)
-    if (handoff) return { taskId: task.id, state: 'handoff', url: page.url(), adapter, handoffReason: handoff, message: 'Safety guard triggered; human intervention is required.' }
+    if (handoff) return { taskId: task.id, state: 'handoff', url: page.url(), adapter: adapter.id, handoffReason: handoff, message: 'Safety guard triggered; human intervention is required.', evidence: await captureEvidence(page, task.id, handoff) }
 
-    if (task.mode === 'dry-run') return { taskId: task.id, state: 'ready', url: page.url(), adapter, message: 'Dry run reached the application page without submission.' }
+    if (task.mode === 'dry-run') return { taskId: task.id, state: 'ready', url: page.url(), adapter: adapter.id, message: 'Dry run reached the application page without submission.' }
 
     await prepareForm(page, task)
 
     const secondHandoff = await detectHandoff(page)
-    if (secondHandoff) return { taskId: task.id, state: 'handoff', url: page.url(), adapter, handoffReason: secondHandoff, message: 'Safety guard triggered after form preparation.' }
-    if (await formLooksUnknown(page)) return { taskId: task.id, state: 'handoff', url: page.url(), adapter, handoffReason: 'unknown-form', message: 'Application form could not be deterministically recognized.' }
+    if (secondHandoff) return { taskId: task.id, state: 'handoff', url: page.url(), adapter: adapter.id, handoffReason: secondHandoff, message: 'Safety guard triggered after form preparation.', evidence: await captureEvidence(page, task.id, secondHandoff) }
+    if (await formLooksUnknown(page)) return { taskId: task.id, state: 'handoff', url: page.url(), adapter: adapter.id, handoffReason: 'unknown-form', message: 'Application form could not be deterministically recognized.', evidence: await captureEvidence(page, task.id, 'unknown-form') }
 
-    if (task.mode !== 'full-auto') return { taskId: task.id, state: 'ready', url: page.url(), adapter, message: 'Form prepared for explicit human review; no submission performed.' }
+    if (task.mode !== 'full-auto') return { taskId: task.id, state: 'ready', url: page.url(), adapter: adapter.id, message: 'Form prepared for explicit human review; no submission performed.' }
 
-    const submit = page.getByRole('button', { name: /submit|apply|send application/i }).first()
-    if (!(await submit.count())) return { taskId: task.id, state: 'handoff', url: page.url(), adapter, handoffReason: 'unknown-form', message: 'No trusted submission control was detected.' }
+    const submit = trustedSubmit(page, adapter)
+    if (!(await submit.count())) return { taskId: task.id, state: 'handoff', url: page.url(), adapter: adapter.id, handoffReason: 'unknown-form', message: 'No trusted submission control was detected.', evidence: await captureEvidence(page, task.id, 'missing-submit') }
 
     await submit.click()
     await page.waitForLoadState('domcontentloaded', { timeout: 15000 }).catch(() => undefined)
     const postSubmitHandoff = await detectHandoff(page)
-    if (postSubmitHandoff) return { taskId: task.id, state: 'handoff', url: page.url(), adapter, handoffReason: postSubmitHandoff, message: 'Post-submission safety guard triggered; verification required.' }
+    if (postSubmitHandoff) return { taskId: task.id, state: 'handoff', url: page.url(), adapter: adapter.id, handoffReason: postSubmitHandoff, message: 'Post-submission safety guard triggered; verification required.', evidence: await captureEvidence(page, task.id, postSubmitHandoff) }
 
-    return { taskId: task.id, state: 'submitted', url: page.url(), adapter, handoffReason: 'verification-required', message: 'Submission action completed; independent verification is still required.' }
+    return { taskId: task.id, state: 'submitted', url: page.url(), adapter: adapter.id, handoffReason: 'verification-required', message: 'Submission action completed; independent verification is still required.', evidence: await captureEvidence(page, task.id, 'submitted') }
   } catch (error) {
-    return { taskId: task.id, state: 'failed', url: task.applicationUrl, adapter, message: error instanceof Error ? error.message : 'Worker execution failed.' }
+    const page = context.pages()[0]
+    const evidence = page ? await captureEvidence(page, task.id, 'failed') : undefined
+    return { taskId: task.id, state: 'failed', url: page?.url() || task.applicationUrl, adapter: adapter.id, message: error instanceof Error ? error.message : 'Worker execution failed.', evidence }
   } finally {
     await context.close()
   }
