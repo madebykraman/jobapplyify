@@ -12,19 +12,26 @@ Core loop:
 
 `Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`
 
-## v0.5 — current build
+## v0.6 — current build
 
-The current build adds Job Intelligence on top of the resume, profile and career foundation:
+The current build adds Application Preparation and completes the audited Job Intelligence layer:
 
 - Public ATS job-board ingestion for Greenhouse, Lever and Ashby.
+- Individual public-job URL scanning where the source exposes the required data.
 - Server-side source allowlisting and HTTPS enforcement.
-- Normalized job records with source provenance and direct application links.
+- Normalized job records with provenance, canonical duplicate keys and direct application links.
 - Role search and filtering across loaded jobs.
 - Deterministic profile-to-job fit scoring.
-- Matched evidence and missing-signal analysis.
-- Seniority, compensation and work-mode extraction.
-- Job intelligence detail panel with the full source description.
-- Save-role interaction and duplicate-aware normalized IDs.
+- Matched evidence, missing signals, seniority, compensation and work-mode analysis.
+- Explicit career relevance, company/team context and project signals.
+- Persistent local saved-role state.
+- Role-specific application preparation from the selected job, profile and latest resume.
+- ATS readiness scoring and resume-variant metadata.
+- Role-specific cover-letter drafting.
+- Common application-answer drafting for motivation, fit and compensation.
+- Missing-evidence warnings and no-invention guardrails.
+- Direct Job Intelligence → Application Preparation workflow.
+- Copy controls for generated application material.
 - No paid job aggregator or employer credentials required for supported public feeds.
 
 ## v0.4 Career Intelligence retained
@@ -87,8 +94,8 @@ Supabase is optional until production persistence is activated. Copy `.env.examp
 
 ## Status
 
-**v0.5 — implementation complete; cloud build verification remains external to this assistant's Vercel connection.**
+**v0.6 — implementation complete; GitHub production build passes. Final Vercel deployment verification is still external to the connected Vercel account.**
 
-Next approved stage: **v0.6 — Application Preparation.**
+Next approved stage: **v0.7 — Automation Engine**, after the v0.6 deployment is smoke-tested.
 
 See `docs/BUILD_LOG.md` for the build-by-build audit record.
