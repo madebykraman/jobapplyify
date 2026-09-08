@@ -1,7 +1,41 @@
 'use client'
 import Link from 'next/link'
-import { ArrowUpRight, BriefcaseBusiness, FileText, Gauge, MessageSquareText, Sparkles, Target, Zap } from 'lucide-react'
+import { ArrowUpRight, BriefcaseBusiness, FileText, MessageSquareText, Sparkles, Target, Zap } from 'lucide-react'
 import { BRAND } from '@/lib/brand'
 import './workspace/workspace.css'
-const modules=[['Find work','Discover roles worth your attention.','/opportunities',BriefcaseBusiness],['Resume Studio','Build, audit and sharpen your evidence.','/resume',FileText],['Career Lab','Map the move, gaps and salary target.','/career',Target],['Application Studio','Turn one strong role into one strong application.','/applications',Sparkles],['Automation','Remove repetitive work. Keep the final say.','/automation',Zap],['Interview Lab','Prepare for the conversation after the application.','/insights',MessageSquareText]]
-export default function Home(){return <main className="neo"><header className="neoHeader"><Link href="/" className="neoLogo"><span>W</span>{BRAND.name}</Link><nav className="neoNav"><Link href="/opportunities">Find work</Link><Link href="/career">Career Lab</Link><Link href="/pricing">Pro</Link></nav><div className="neoHeaderRight"><Link href="/auth" className="neoLogin">Sign in</Link><Link href="/auth?mode=sign-up" className="neoHeaderCta">Create free account</Link></div></header><section className="neoHero"><div className="neoKicker">CAREER INTELLIGENCE / APPLICATION AUTOMATION</div><h1>A better career move<br/><em>starts here.</em></h1><p>WAYO brings your resume, opportunities, career direction and applications into one intelligent workspace.</p><div className="neoActions"><Link href="/opportunities" className="neoPrimary">Explore opportunities <ArrowUpRight size={17}/></Link><Link href="/resume" className="neoSecondary">Audit a resume</Link></div><div className="neoProof"><span>NO ACCOUNT FOR BASIC TOOLS</span><i/><span>PRO ACCESS BY BETA INVITE</span><i/><span>₹499/MONTH AFTER BETA</span></div></section><section className="neoManifesto"><div><span className="neoKicker">THE IDEA</span><h2>Don't apply more.<br/><em>Move better.</em></h2></div><p>Know which roles fit. Know what is missing. Build the right application. Track what happens. Learn from the outcome. Automation comes last.</p></section><section className="neoGrid">{modules.map(([title,desc,href,Icon])=>{const I=Icon as typeof FileText;return <Link href={href as string} className="neoModule" key={title as string}><div className="neoModuleTop"><I size={19}/><ArrowUpRight size={16}/></div><h2>{title as string}</h2><p>{desc as string}</p><span>Open module</span></Link>})}</section><section className="neoBeta"><div><span className="neoKicker">BETA ACCESS</span><h2>The complete Pro workspace is open.</h2><p>Create a free account with an invite code and use every Pro feature during beta. No invite? Pro starts at ₹499/month. International pricing will use purchasing-power-adjusted equivalents.</p></div><Link href="/auth?mode=sign-up" className="neoPrimary">Enter invite code <ArrowUpRight size={17}/></Link></section><section className="neoBottom"><div><span className="neoKicker">THE WAYO LOOP</span><h2>Find. Understand. Prepare. Apply. Interview. Grow.</h2></div><Link href="/review" className="neoSecondary">Review queue</Link></section><footer>{BRAND.name} · {BRAND.tagline} <span>Evidence over invention. Automation stays inside your permission boundary.</span></footer></main>}
+
+const modules = [
+  ['Find work', 'Discover roles worth your attention.', '/opportunities', BriefcaseBusiness],
+  ['Resume Studio', 'Build, audit and sharpen your evidence.', '/resume', FileText],
+  ['Career Lab', 'Map the move, gaps and salary target.', '/career', Target],
+  ['Application Studio', 'Turn one strong role into one strong application.', '/applications', Sparkles],
+  ['Automation', 'Remove repetitive work. Keep the final say.', '/automation', Zap],
+  ['Interview Lab', 'Prepare for the conversation after the application.', '/insights', MessageSquareText],
+] as const
+
+export default function Home() {
+  return <main className="neo">
+    <header className="neoHeader">
+      <Link href="/" className="neoLogo"><span>W</span>{BRAND.name}</Link>
+      <nav className="neoNav"><Link href="/opportunities">Find work</Link><Link href="/career">Career Lab</Link><Link href="/pricing">Pro</Link></nav>
+      <div className="neoHeaderRight"><Link href="/auth" className="neoLogin">Sign in</Link><Link href="/auth?mode=sign-up" className="neoHeaderCta">Create free account</Link></div>
+    </header>
+
+    <section className="neoHero">
+      <div className="neoKicker">Career intelligence / application automation</div>
+      <h1>A better career move<br /><em>starts here.</em></h1>
+      <p>WAYO brings your resume, opportunities, career direction and applications into one intelligent workspace.</p>
+      <div className="neoActions"><Link href="/opportunities" className="neoPrimary">Explore opportunities <ArrowUpRight size={17} /></Link><Link href="/resume" className="neoSecondary">Audit a resume · Pro</Link></div>
+      <div className="neoProof"><span>No account for basic tools</span><i /><span>Pro access by beta invite</span><i /><span>₹499/month after beta</span></div>
+    </section>
+
+    <section className="neoManifesto"><div><span className="neoKicker">The idea</span><h2>Don't apply more.<br /><em>Move better.</em></h2></div><p>Know which roles fit. Know what is missing. Build the right application. Track what happens. Learn from the outcome. Automation comes last.</p></section>
+
+    <section className="neoGrid">{modules.map(([title, desc, href, Icon]) => <Link href={href} className="neoModule" key={title}><div className="neoModuleTop"><Icon size={19} /><ArrowUpRight size={16} /></div><h2>{title}</h2><p>{desc}</p><span>{title === 'Find work' ? 'Open tool' : 'Open Pro module'}</span></Link>)}</section>
+
+    <section className="neoBeta"><div><span className="neoKicker">Beta access</span><h2>The complete Pro workspace is open.</h2><p>Create a free account with an invite code and use every Pro feature during beta. No invite? Pro starts at ₹499/month. International pricing will use purchasing-power-adjusted equivalents.</p></div><Link href="/auth?mode=sign-up" className="neoPrimary">Enter invite code <ArrowUpRight size={17} /></Link></section>
+
+    <section className="neoBottom"><div><span className="neoKicker">The WAYO loop</span><h2>Find. Understand. Prepare. Apply. Interview. Grow.</h2></div><Link href="/review" className="neoSecondary">Review queue</Link></section>
+    <footer>{BRAND.name} · {BRAND.tagline} <span>Evidence over invention. Automation stays inside your permission boundary.</span></footer>
+  </main>
+}
