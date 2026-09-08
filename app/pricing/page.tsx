@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowUpRight, Check, LockKeyhole, Sparkles } from 'lucide-react'
 import { BRAND } from '@/lib/brand'
 import '../growth/growth.css'
+import './pricing.css'
 
 const plans = [
   { name: 'Free', price: '₹0', note: 'Start with the signal layer. No account required for basic tools.', features: ['Basic resume audit', 'Job discovery + saved roles', 'Basic fit signals', 'Public job-post scanning'], cta: 'Explore free', href: '/opportunities' },
