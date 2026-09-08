@@ -57,6 +57,12 @@ Supabase provides the production persistence layer, authentication, RLS and priv
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
+## UI system
+
+WAYO now uses a unified product UI rather than page-by-page styling. The current visual system uses a warm neutral canvas, dark command navigation, high-contrast lime signal accents, restrained borders, rounded product surfaces and stronger information hierarchy. The dashboard, Career Lab, Job Intelligence and Application Studio share the same component language and responsive behaviour.
+
+The interface is deliberately closer to a focused career operating system than a generic AI dashboard: fewer decorative elements, clearer decision surfaces, stronger primary actions and denser evidence presentation.
+
 ## Automation safety
 
 - Never invent candidate facts.
@@ -121,8 +127,8 @@ See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) for the detailed implementation and
 
 ## Status
 
-**Active development — Build 08 / durable automation remediation.**
+**Active development — Build 08 / durable automation remediation + product UI transformation.**
 
-Recent work includes the WAYO brand transformation, durable automation job persistence, authenticated worker dispatch, callback control-plane integration, private resume transfer, safety gates and the dedicated browser-worker foundation.
+Recent work includes the WAYO brand transformation, unified UI system, durable automation job persistence, authenticated worker dispatch, callback control-plane integration, private resume transfer, safety gates and the dedicated browser-worker foundation.
 
 Known downstream gates remain: real platform adapters, durable worker recovery, secure evidence storage/retention, independent submission verification, production billing/entitlements, broader market integrations and full QA/security hardening.
