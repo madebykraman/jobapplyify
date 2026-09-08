@@ -19,6 +19,7 @@ export type AutomationTask = {
   role: string
   applicationUrl: string
   mode: WorkerMode
+  accountKey?: string
   candidate: CandidateData
 }
 
