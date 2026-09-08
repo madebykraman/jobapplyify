@@ -10,11 +10,13 @@ export type CandidateData = {
   linkedin?: string
   portfolio?: string
   resumePath?: string
+  resumeUrl?: string
   answers?: Record<string, string>
 }
 
 export type AutomationTask = {
   id: string
+  jobId?: string
   company: string
   role: string
   applicationUrl: string
