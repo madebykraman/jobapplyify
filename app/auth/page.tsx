@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Check, LockKeyhole, Sparkles } from 'lucide-react'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
-import { DEMO_EMAIL, DEMO_PASSWORD, redeemInviteCode } from '@/lib/entitlements'
+import { DEMO_EMAIL, DEMO_PASSWORD } from '@/lib/entitlements'
 import { BRAND } from '@/lib/brand'
 import './auth.css'
 
@@ -13,9 +13,8 @@ export default function AuthPage(){
  async function grantServerPro(){if(!supabase)return false;const {data}=await supabase.auth.getSession();const token=data.session?.access_token;if(!token)return false;const response=await fetch('/api/entitlements',{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({code:invite})});return response.ok}
  function grantLocalPro(){localStorage.setItem('wayo.proAccess','true');document.cookie='wayo_pro=1; path=/; max-age=31536000; samesite=lax'}
  async function submit(e:React.FormEvent){e.preventDefault();setBusy(true);setMessage('');try{
-  if(email.trim().toLowerCase()===DEMO_EMAIL && password===DEMO_PASSWORD){localStorage.setItem('rova.demo.email',DEMO_EMAIL);grantLocalPro();setMessage('Test account active. Full Pro beta access unlocked.');setTimeout(()=>window.location.href=next,500);return}
-  if(mode==='sign-up' && invite.trim() && !redeemInviteCode(invite)){setMessage('That invite code is not valid.');return}
-  if(!supabase){localStorage.setItem('rova.demo.email',email);if(mode==='sign-up'&&invite.trim()){redeemInviteCode(invite);grantLocalPro()}setMessage(mode==='sign-up'?'Account ready.':'Demo account ready.');return}
+  if(email.trim().toLowerCase()===DEMO_EMAIL && password===DEMO_PASSWORD){localStorage.setItem('kindleap.demo.email',DEMO_EMAIL);grantLocalPro();setMessage('Test account active. Full Pro beta access unlocked.');setTimeout(()=>window.location.href=next,500);return}
+  if(!supabase){localStorage.setItem('kindleap.demo.email',email);setMessage(mode==='sign-up'?'Account ready.':'Demo account ready.');return}
   const result=mode==='sign-in'?await supabase.auth.signInWithPassword({email,password}):await supabase.auth.signUp({email,password})
   if(result.error) throw result.error
   if(mode==='sign-up'&&invite.trim()){if(await grantServerPro())grantLocalPro();else throw new Error('Account created, but Pro could not be activated. Apply the entitlement migration and try the invite again.')}
