@@ -33,9 +33,9 @@ export async function POST(req: Request) {
         jobId = p[4] || null
         single = Boolean(jobId && p[3] === 'jobs')
       } else {
-        boardSlug = p[1] || p[0] || null
-        jobId = p[3] || null
-        single = Boolean(p[2] === 'jobs' && jobId)
+        boardSlug = p[0] || null
+        jobId = p[2] || null
+        single = Boolean(p[1] === 'jobs' && jobId)
       }
       if (!boardSlug) throw new Error('Greenhouse board token is missing.')
       endpoint = single ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(boardSlug)}/jobs/${encodeURIComponent(jobId!)}` : `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(boardSlug)}/jobs?content=true`
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     }
 
     if (source === 'ashby') {
-      boardSlug = p[p.length - 1] || null
+      boardSlug = p[0] || null
       if (!boardSlug) throw new Error('Ashby job-board name is missing.')
       endpoint = `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(boardSlug)}?includeCompensation=true`
       single = url.hostname === 'jobs.ashbyhq.com' && p.length > 1
