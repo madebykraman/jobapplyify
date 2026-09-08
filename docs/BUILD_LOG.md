@@ -24,14 +24,26 @@
 - Connected dashboard navigation to opportunities, applications, review queue, documents and insights routes.
 - Added responsive styling for all new surfaces.
 
-### Verification boundary
-- Repository imports and structure were audited after implementation.
-- The latest Vercel status was pending. The connected Vercel workspace does not expose the user's `jobapplyify` project to this assistant, so final cloud-build confirmation must be completed from the user's Vercel project.
+### v0.3 verification boundary
+- Repository imports, dependency declarations and route structure were audited after implementation.
+- Final cloud-build confirmation remains dependent on the user's separate Vercel project.
 - GitHub CI is configured to run `npm install` and `npm run build` on pushes and pull requests.
 
-### Outstanding external setup
-- Supabase project URL and anon key are required to activate production authentication/database/storage. No secret needs to be shared in chat.
-- The user needs to import/connect `madebykraman/jobapplyify` in Vercel to perform the final cloud build verification.
+## v0.4 — Career Intelligence
+- Audited v0.3 before advancing. No code-level blocker was identified; Supabase activation remains an external setup dependency and does not block the deterministic career-intelligence layer.
+- Added a deterministic career assessment engine using verified profile/resume signals.
+- Added role-fit ranking across product design, UX, design systems, brand/visual, creative technology, research and product tracks.
+- Added visible matched skills and next-skill gaps for each recommended role.
+- Added salary-target assessment with within-range, stretch and rebuild outcomes.
+- Added target salary input and actionable gap plan.
+- Added three career-path strategies covering depth, design+technology and adjacent-function pivots.
+- Added a dedicated Career Intelligence workspace and dashboard navigation entry.
+- Kept salary bands explicitly labelled as product planning heuristics until a live market-data connector is introduced.
+- Added responsive styling for the new career workspace.
+
+### v0.4 verification boundary
+- TypeScript/build verification is delegated to GitHub CI and the user's Vercel deployment because this environment cannot install repository dependencies directly.
+- No external API key is required for the v0.4 deterministic engine.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
