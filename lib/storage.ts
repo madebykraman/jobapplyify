@@ -14,7 +14,7 @@ export type RovaProfile = {
 export type RovaDocument = { id:string; name:string; type:string; size:number; uploadedAt:string; extractedText:string }
 export type RovaResume = { id:string; name:string; content:string; targetRole:string; atsScore:number; updatedAt:string }
 export type RovaSavedRole = { id:string; savedAt:string }
-const PROFILE_KEY='rova.profile', DOCUMENTS_KEY='rova.documents', RESUMES_KEY='rova.resumes', SAVED_ROLES_KEY='rova.savedRoles'
+const PROFILE_KEY='rova.profile', DOCUMENTS_KEY='rova.documents', RESUMES_KEY='rova.resumes', SAVED_ROLES_KEY='rova.savedRoles', PREP_JOB_KEY='rova.prepJob'
 export const defaultProfile:RovaProfile={name:'Kumar Aman',headline:'',location:'Patna, India',email:'',phone:'',yearsExperience:'',targetSalary:'',targetRoles:[],skills:[],linkedin:'',portfolio:''}
 export function loadProfile():RovaProfile{if(typeof window==='undefined')return defaultProfile;try{return{...defaultProfile,...JSON.parse(localStorage.getItem(PROFILE_KEY)||'{}')}}catch{return defaultProfile}}
 export function saveProfile(profile:RovaProfile){localStorage.setItem(PROFILE_KEY,JSON.stringify(profile))}
@@ -24,4 +24,6 @@ export function loadResumes():RovaResume[]{if(typeof window==='undefined')return
 export function saveResumes(resumes:RovaResume[]){localStorage.setItem(RESUMES_KEY,JSON.stringify(resumes))}
 export function loadSavedRoles():RovaSavedRole[]{if(typeof window==='undefined')return[];try{return JSON.parse(localStorage.getItem(SAVED_ROLES_KEY)||'[]')}catch{return[]}}
 export function saveSavedRoles(roles:RovaSavedRole[]){localStorage.setItem(SAVED_ROLES_KEY,JSON.stringify(roles))}
+export function savePreparationJob(job:unknown){localStorage.setItem(PREP_JOB_KEY,JSON.stringify(job))}
+export function loadPreparationJob<T=unknown>():T|null{if(typeof window==='undefined')return null;try{return JSON.parse(localStorage.getItem(PREP_JOB_KEY)||'null')}catch{return null}}
 export function uid(prefix='rova'){return`${prefix}_${Date.now()}_${Math.random().toString(36).slice(2,8)}`}
