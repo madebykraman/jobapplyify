@@ -1,0 +1,50 @@
+export type RovaProfile = {
+  name: string
+  headline: string
+  location: string
+  email: string
+  phone: string
+  yearsExperience: string
+  targetSalary: string
+  targetRoles: string[]
+  skills: string[]
+  linkedin: string
+  portfolio: string
+}
+
+export type RovaDocument = {
+  id: string
+  name: string
+  type: string
+  size: number
+  uploadedAt: string
+  extractedText: string
+}
+
+const PROFILE_KEY = 'rova.profile'
+const DOCUMENTS_KEY = 'rova.documents'
+
+export const defaultProfile: RovaProfile = {
+  name: 'Kumar Aman', headline: '', location: 'Patna, India', email: '', phone: '', yearsExperience: '',
+  targetSalary: '', targetRoles: [], skills: [], linkedin: '', portfolio: ''
+}
+
+export function loadProfile(): RovaProfile {
+  if (typeof window === 'undefined') return defaultProfile
+  try { return { ...defaultProfile, ...JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}') } } catch { return defaultProfile }
+}
+
+export function saveProfile(profile: RovaProfile) {
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile))
+}
+
+export function loadDocuments(): RovaDocument[] {
+  if (typeof window === 'undefined') return []
+  try { return JSON.parse(localStorage.getItem(DOCUMENTS_KEY) || '[]') } catch { return [] }
+}
+
+export function saveDocuments(documents: RovaDocument[]) {
+  localStorage.setItem(DOCUMENTS_KEY, JSON.stringify(documents))
+}
+
+export function uid(prefix = 'rova') { return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}` }
