@@ -4,7 +4,7 @@
 
 KINDLEAP is a career intelligence and application execution workspace built around one idea: make the next career move clearer, then remove repetitive work without removing the candidate from the loop.
 
-> Internal product name. Public/domain/brand clearance is not yet complete.
+> KINDLEAP is the approved internal product identity. Public/domain clearance remains a separate release gate.
 
 ## Product loop
 
@@ -31,6 +31,8 @@ Operating loop:
 - Controlled browser automation with human handoff.
 - Interview Lab, follow-up intelligence and outcome learning.
 - Company, referral, salary and community intelligence with provenance.
+- Goal planning that converts a target role, compensation and horizon into weekly actions.
+- Privacy-first community intelligence using aggregate signals rather than public candidate profiles.
 
 ## Automation
 
@@ -56,6 +58,8 @@ No silent submission. No verified state without independent evidence.
 
 **Career decisions with context.** Explain why a role, skill, company or path matters.
 
+**Privacy with control.** Community intelligence is aggregated, sourced and confidence-labelled; individual identity is not the product.
+
 ## Architecture
 
 The Next.js web application is the product/control plane. It owns profile data, documents, resumes, jobs, applications, permissions, review queues and analytics.
@@ -66,11 +70,13 @@ Supabase provides production persistence, authentication, RLS and private docume
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
+Build 10 adds a local-first goal primitive and community-signal presentation layer. Community contribution, aggregation infrastructure and live outcome ingestion remain intentionally gated until their privacy and provenance model is connected to production data.
+
 ## UI direction
 
-KINDLEAP is moving away from the generic dashboard pattern toward a career operating system: editorial hierarchy, decision surfaces, evidence-first layouts, contextual navigation and automation represented as a control instrument rather than a settings page.
+KINDLEAP is no longer being designed as a generic sidebar → cards → metrics dashboard. The product uses a career operating-system model: editorial hierarchy, decision surfaces, evidence-first layouts, contextual navigation and automation represented as a control instrument.
 
-The visual system is intentionally structured around `evidence → fit → action → outcome`. Responsive and reduced-motion behaviour are required parts of the system.
+The visual system uses warm paper/ink foundations, a single signal colour, hard rules, asymmetric grids, oversized typography, compact machine-readable metadata and motion only where it communicates state. Mobile collapses the editorial grid into a deliberate linear flow; reduced-motion behaviour remains required.
 
 ## Access and monetisation
 
@@ -78,7 +84,7 @@ The current beta model is freemium:
 
 - Basic tools remain usable without an account where implemented.
 - Pro routes require account-level Pro access.
-- Beta invite code: `WAYO-BETA`.
+- Beta invite code remains `WAYO-BETA` for compatibility with the current beta access implementation.
 - During beta, an accepted invite unlocks the complete Pro workspace.
 - India Pro positioning: **₹499/month**.
 - International pricing is intended to use purchasing-power-adjusted equivalents.
@@ -96,8 +102,8 @@ Billing and production entitlement enforcement remain later build gates.
 6. Application Studio
 7. Automation Engine
 8. Durable Control Center + Analytics
-9. **Interview Lab + Outcome Intelligence — current**
-10. Growth + Community
+9. Interview Lab + Outcome Intelligence
+10. **Growth + Community — current**
 11. Monetisation + Entitlements
 12. Full QA, Security + Launch
 
@@ -105,13 +111,13 @@ Every build is audited against the previous build before advancing. A feature is
 
 ## Current status
 
-**Active development — Build 09.**
+**Build 10 — Growth + Community implemented.**
 
-Build 08 core control-plane work is complete and audited: durable queue state, worker recovery/reclaim, persistent pause/cancel/retry, signed resume transfer, private automation evidence storage, callback state handling, follow-ups and analytics are implemented.
+Build 09 is retained as the outcome/intelligence layer and has been carried forward into Growth through the career health and weekly-plan surfaces.
 
-Build 09 adds the Interview Lab and Outcome Intelligence product surface, including application/reply/interview/offer signal modelling, next-best-action concepts, interview preparation and evidence-aware outcome analysis.
+Build 10 adds: target role/CTC/horizon goal planning with local persistence; weekly focus generation from the active target; career-health signals; a privacy-first community intelligence surface; provenance/date/confidence presentation; explicit privacy boundaries; and the editorial UI transformation across the new growth/community experience. KINDLEAP branding is now the canonical internal product identity across the command surface and document metadata.
 
-Explicit quality gates still open: real platform-specific browser fixtures/adapters, independent submission verification, evidence viewer/redaction hardening, outbound notifications, production billing/entitlements, broader integrations and full E2E/security/performance/mobile QA.
+Open release gates remain: real platform-specific browser fixtures/adapters, independent submission verification, evidence viewer/redaction hardening, outbound notifications, live community aggregation and contribution infrastructure, production billing/entitlements, broader integrations and full E2E/security/performance/mobile QA.
 
 ## Development
 
