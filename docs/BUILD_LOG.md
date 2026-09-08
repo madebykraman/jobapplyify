@@ -10,17 +10,21 @@ Implemented:
 - Server-side `is_pro` database function for entitlement checks.
 - Authenticated `/api/entitlements` endpoint for entitlement reads and beta invite activation.
 - Beta invite activation now writes a durable entitlement when Supabase is configured instead of relying only on browser localStorage.
+- Client-side invite validation was removed from the authenticated path; the server now validates the invite.
 - Pricing/access surface rebuilt around leverage, access depth and controlled entitlements.
 - New dedicated entitlement styling.
 - Global KINDLEAP dark visual system applied across the application.
 - Existing editorial pages receive dark instrument treatment while preserving responsive behaviour.
+- Auth surface now uses canonical KINDLEAP identity.
+- Package identity updated to `kindleap` 1.0.0.
+- Server-side beta invite environment variable documented as `KINDLEAP_BETA_INVITE`.
 - README updated with Build 11 state and release boundaries.
 
 ## Build 11 completion boundary
-The entitlement data model and beta activation API are implemented. Payment processor integration, webhook-driven subscription lifecycle, production billing, tax/invoice handling and final server-side route enforcement across every legacy client page remain release gates for the final monetisation production step. The existing `wayo_pro` cookie remains a compatibility bridge and must not be treated as the final security boundary.
+The entitlement data model and beta activation API are implemented. Payment processor integration, webhook-driven subscription lifecycle, production billing, tax/invoice handling and final server-side route enforcement across every legacy client page remain release gates for the final monetisation production step. The existing `wayo_pro` cookie remains a compatibility bridge and must not be treated as the final security boundary. The current beta invite default remains compatible with the existing `WAYO-BETA` implementation until the production secret is configured.
 
 ## CI audit
-The latest GitHub Actions CI run for commit `4865dafec975533fbf4fa214997196a5e805240b` completed successfully. Its build job completed checkout, Node setup, npm install and `npm run build` successfully. CI itself is therefore not blocked; the earlier Vercel failure was an account/build-rate-limit issue rather than a repository CI failure.
+GitHub Actions CI is passing. Run `34277371104` for commit `4865dafec975533fbf4fa214997196a5e805240b` completed successfully; checkout, Node setup, npm install and `npm run build` all passed. CI was not the blocker. The earlier Vercel failure was an account/build-rate-limit issue. Build 11 changes must still produce a fresh CI run before this build is considered code-verified.
 
 ## Product-wide pathway re-audit — 2026-09-09
 KINDLEAP is approved as the product identity and is now the canonical internal brand. ROVA and WAYO are legacy implementation names only where compatibility prevents an immediate technical rename; new product/UI copy must use KINDLEAP.
