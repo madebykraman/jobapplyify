@@ -1,134 +1,124 @@
-# WAYO
+# KINDLEAP
 
-**Your career, in motion.**
+**Make the next move count.**
 
-WAYO is a career intelligence and application automation workspace built around one idea: make the next career move clearer, then remove the repetitive work without removing the candidate from the loop.
+KINDLEAP is a career intelligence and application execution workspace built around one idea: make the next career move clearer, then remove repetitive work without removing the candidate from the loop.
+
+> Internal product name. Public/domain/brand clearance is not yet complete.
 
 ## Product loop
 
 `Find → Understand → Prepare → Apply → Interview → Grow`
 
-The deeper operating loop is:
+Operating loop:
 
 `Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`
 
-## What WAYO is building
-
-WAYO combines career intelligence, resume intelligence, job intelligence, application preparation and controlled automation in one system.
-
-Core capabilities include:
+## What it is building
 
 - Resume ingestion, structured resume building and versioning.
-- ATS/readiness analysis with role-specific evidence.
-- Resume audit and career audit.
+- ATS/readiness analysis and role-specific resume intelligence.
+- Resume and career audits.
 - Resume → best-fit role recommendations.
 - Explainable job-fit scoring and transferable-skills mapping.
 - Job-post URL scanning and normalized job intelligence.
-- Salary, work-mode, seniority and career-relevance analysis.
+- Salary, seniority, work-mode and career-relevance analysis.
 - Career paths, pivots, skill gaps and target-salary planning.
-- “Can I reach ₹X LPA?” feasibility analysis with an action plan.
+- India-specific CTC, notice-period and expected-CTC intelligence.
 - Role-specific resumes, cover letters and application answers.
-- Evidence-backed generation with an AI truth lock: unsupported candidate claims are never silently invented.
+- Evidence-backed generation with an AI truth lock.
 - Application tracking and durable automation orchestration.
-- Browser-worker architecture for controlled autofill and human handoff.
-- Interview preparation, follow-up intelligence and outcome learning as the product expands.
-- Company, referral, salary and community intelligence with source/date/confidence metadata.
-- India-specific career workflows including CTC, notice period and expected-CTC context.
+- Controlled browser automation with human handoff.
+- Interview Lab, follow-up intelligence and outcome learning.
+- Company, referral, salary and community intelligence with provenance.
+
+## Automation
+
+Automation has three operating levels:
+
+- **Dry Run — Free:** inspect and prepare the flow without submission.
+- **Review — Default:** prepare and fill verified information, then stop before submission.
+- **Full Auto — Pro:** submit supported applications automatically when all safety conditions pass.
+
+Full Auto is the chosen primary automation direction. It is not blind mass applying. CAPTCHA, unknown forms, sensitive questions, unsupported flows and other safety boundaries return control to the user.
+
+No silent submission. No verified state without independent evidence.
 
 ## Product principles
 
-**Clarity over noise.** Surface the next useful decision instead of adding another dashboard.
+**Clarity over noise.** Surface the next useful decision instead of another dashboard.
 
-**Evidence over invention.** Candidate claims must trace back to confirmed information.
+**Evidence over invention.** Candidate claims must trace to confirmed information.
 
-**Progress over volume.** Optimise for application quality and outcomes, not meaningless application counts.
+**Progress over volume.** Optimise for quality and outcomes, not application counts.
 
-**Automation with control.** Deterministic fields first; ambiguous, sensitive or unsupported flows go to human review.
+**Automation with control.** Deterministic fields first; ambiguous or sensitive decisions go to human review.
 
-**Career decisions with context.** Recommendations should explain why a role, skill, company or path matters.
+**Career decisions with context.** Explain why a role, skill, company or path matters.
 
-## Current architecture
+## Architecture
 
-The web application is the product/control plane. It owns profile data, documents, resumes, job records, application state, permissions, review queues and analytics.
+The Next.js web application is the product/control plane. It owns profile data, documents, resumes, jobs, applications, permissions, review queues and analytics.
 
-A separate browser worker owns Playwright sessions and site-specific execution. This keeps long-running browser work outside Vercel request lifecycles and allows platform adapters to evolve independently.
+A separate Playwright browser worker owns long-running browser sessions and site execution. Platform-specific adapters remain a quality gate and are not described as live until tested with representative fixtures.
 
-Supabase provides the production persistence layer, authentication, RLS and private document storage. A local-first fallback remains available for development.
+Supabase provides production persistence, authentication, RLS and private document/evidence storage. Local-first storage remains available for development.
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
-## UI system
+## UI direction
 
-WAYO now uses a unified product UI rather than page-by-page styling. The current visual system uses a warm neutral canvas, dark command navigation, high-contrast lime signal accents, restrained borders, rounded product surfaces and stronger information hierarchy. The dashboard, Career Lab, Job Intelligence and Application Studio share the same component language and responsive behaviour.
+KINDLEAP is moving away from the generic dashboard pattern toward a career operating system: editorial hierarchy, decision surfaces, evidence-first layouts, contextual navigation and automation represented as a control instrument rather than a settings page.
 
-The interface is deliberately closer to a focused career operating system than a generic AI dashboard: fewer decorative elements, clearer decision surfaces, stronger primary actions and denser evidence presentation.
+The visual system is intentionally structured around `evidence → fit → action → outcome`. Responsive and reduced-motion behaviour are required parts of the system.
 
-## Automation safety
+## Access and monetisation
 
-- Never invent candidate facts.
-- Never answer sensitive screening questions from guesswork.
-- Never treat navigation success as submission success.
-- Never claim verified submission without independent evidence.
-- Never silently submit an unsupported or ambiguous form.
-- Pause for CAPTCHA, unknown forms, sensitive decisions and unsupported flows.
-- Preserve an auditable automation event history.
-- Keep browser execution separated from the product control plane.
+The current beta model is freemium:
 
-## Brand
+- Basic tools remain usable without an account where implemented.
+- Pro routes require account-level Pro access.
+- Beta invite code: `WAYO-BETA`.
+- During beta, an accepted invite unlocks the complete Pro workspace.
+- India Pro positioning: **₹499/month**.
+- International pricing is intended to use purchasing-power-adjusted equivalents.
+- Credits are reserved as a later entitlement layer rather than gating the beta core.
 
-**Name:** WAYO (provisional working brand)
-
-**Tagline:** Your career, in motion.
-
-**Descriptor:** Career intelligence and application automation.
-
-The brand is intentionally calm, precise and useful. WAYO avoids hype, fake certainty, “apply to 1,000 jobs” positioning, generic AI tropes and dashboard clutter. Brand/legal/domain clearance is not treated as complete yet.
-
-## Monetisation direction
-
-The planned model is freemium:
-
-- **Free:** core career profile, limited resume intelligence, job intelligence and tracked applications.
-- **Pro:** deeper intelligence, higher usage limits, advanced preparation, automation credits and expanded career planning.
-- **Later:** credit packs, add-ons, team/coach plans and premium integrations.
-
-Pricing and entitlements are currently product UI only; billing enforcement is a later build gate.
-
-## Deployment
-
-Primary product target: Vercel.
-
-Browser execution: separate worker/runtime.
-
-Supabase: required for durable production persistence and authenticated automation control.
-
-For local development, copy `.env.example` and configure the Supabase and worker variables appropriate to the environment. Never expose service-role or worker secrets to the client.
+Billing and production entitlement enforcement remain later build gates.
 
 ## Build roadmap
 
-The project is being built in audited stages:
-
-1. Foundation + WAYO brand system
-2. Account, onboarding, persistent career profile and secure documents
+1. Foundation + brand system
+2. Account, onboarding, career profile + secure documents
 3. Resume Studio
 4. Career Lab
-5. Job Market Intelligence
+5. Market Intelligence
 6. Application Studio
 7. Automation Engine
 8. Durable Control Center + Analytics
-9. Interview Lab + Outcome Intelligence
+9. **Interview Lab + Outcome Intelligence — current**
 10. Growth + Community
 11. Monetisation + Entitlements
 12. Full QA, Security + Launch
 
-Each build is gated by the previous build’s audit. A feature is not marked complete merely because its UI exists; production claims require the corresponding persistence, security, integration and verification gates.
+Every build is audited against the previous build before advancing. A feature is not complete merely because its UI exists; completion requires the relevant data model, persistence, validation, security, integration, failure handling and verification gates.
 
-See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) for the detailed implementation and audit record.
+## Current status
 
-## Status
+**Active development — Build 09.**
 
-**Active development — Build 08 / durable automation remediation + product UI transformation.**
+Build 08 core control-plane work is complete and audited: durable queue state, worker recovery/reclaim, persistent pause/cancel/retry, signed resume transfer, private automation evidence storage, callback state handling, follow-ups and analytics are implemented.
 
-Recent work includes the WAYO brand transformation, unified UI system, durable automation job persistence, authenticated worker dispatch, callback control-plane integration, private resume transfer, safety gates and the dedicated browser-worker foundation.
+Build 09 adds the Interview Lab and Outcome Intelligence product surface, including application/reply/interview/offer signal modelling, next-best-action concepts, interview preparation and evidence-aware outcome analysis.
 
-Known downstream gates remain: real platform adapters, durable worker recovery, secure evidence storage/retention, independent submission verification, production billing/entitlements, broader market integrations and full QA/security hardening.
+Explicit quality gates still open: real platform-specific browser fixtures/adapters, independent submission verification, evidence viewer/redaction hardening, outbound notifications, production billing/entitlements, broader integrations and full E2E/security/performance/mobile QA.
+
+## Development
+
+Copy `.env.example` and configure the environment-specific Supabase and worker variables. Never expose service-role, worker or callback secrets to the client.
+
+Primary deployment target: Vercel.
+
+Browser execution: separate worker/runtime.
+
+See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) for the audited implementation history and roadmap log.
