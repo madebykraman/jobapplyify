@@ -82,12 +82,16 @@
 - Added copy controls for generated application material.
 - Bumped product version to 0.6.0.
 
-### v0.6 verification boundary
-- Initial GitHub CI exposed a TypeScript regression in onboarding: the generic profile updater accepted only strings while `targetRoles` and `skills` are string arrays.
-- Fixed by separating scalar-field updates from array-field updates.
-- The CSS autoprefixer message is a warning only and is not the deployment failure.
-- CI is being rerun from the fix commit; build success is not claimed until it reports completed.
-- Final production verification remains dependent on the user's Vercel deployment.
+### v0.6 debugging and verification
+- Initial CI exposed a TypeScript regression in onboarding because `targetRoles` and `skills` are string arrays while the generic updater accepted only strings.
+- Fixed the onboarding updater by separating scalar fields from list fields.
+- CI then exposed a `pdfjs-dist` typing incompatibility for the browser PDF parser's `disableWorker` option; preserved the intended browser behavior with a narrowly scoped compatibility cast.
+- Review also found a latent typing defect in `canonicalJobKey`, where `source` was referenced but omitted from its declared input type; fixed before final verification.
+- Review found compensation text could produce malformed output such as `₹₹12 LPA`; normalized the target salary before drafting.
+- The CSS autoprefixer `align-items:end` message is a warning only and does not block production compilation.
+- GitHub Actions `npm install` and `npm run build` passed on commit `6dd91f9a02ab2ca184db75198c27eb18437af112` after the code fixes.
+- The final documentation commits trigger another CI pass; production Vercel deployment remains an external account action.
+- `npm install` currently reports 3 dependency vulnerabilities (1 moderate, 2 high); this is tracked for dependency hardening and is not a build failure.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
