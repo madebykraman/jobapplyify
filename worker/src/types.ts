@@ -22,6 +22,11 @@ export type AutomationTask = {
   candidate: CandidateData
 }
 
+export type WorkerEvidence = {
+  screenshotPath?: string
+  htmlPath?: string
+}
+
 export type WorkerResult = {
   taskId: string
   state: WorkerState
@@ -29,4 +34,5 @@ export type WorkerResult = {
   adapter: string
   handoffReason?: 'captcha' | 'unknown-form' | 'sensitive-question' | 'unsupported-flow' | 'session-expired' | 'verification-required'
   message: string
+  evidence?: WorkerEvidence
 }
