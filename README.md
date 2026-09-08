@@ -1,101 +1,128 @@
-# ROVA
+# WAYO
 
-**Career automation, with judgment.**
+**Your career, in motion.**
 
-ROVA is the working brand for `jobapplyify`: a career-automation workspace designed to move a job search from discovery to application without turning the candidate into a passenger.
+WAYO is a career intelligence and application automation workspace built around one idea: make the next career move clearer, then remove the repetitive work without removing the candidate from the loop.
 
-## Product promise
+## Product loop
 
-**Find the right roles, prepare the right application, automate the repetitive work, and keep the candidate in control of consequential decisions.**
+`Find → Understand → Prepare → Apply → Interview → Grow`
 
-Core loop:
+The deeper operating loop is:
 
 `Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`
 
-## v0.6 — current build
+## What WAYO is building
 
-The current build adds Application Preparation and completes the audited Job Intelligence layer:
+WAYO combines career intelligence, resume intelligence, job intelligence, application preparation and controlled automation in one system.
 
-- Public ATS job-board ingestion for Greenhouse, Lever and Ashby.
-- Individual public-job URL scanning where the source exposes the required data.
-- Server-side source allowlisting and HTTPS enforcement.
-- Normalized job records with provenance, canonical duplicate keys and direct application links.
-- Role search and filtering across loaded jobs.
-- Deterministic profile-to-job fit scoring.
-- Matched evidence, missing signals, seniority, compensation and work-mode analysis.
-- Explicit career relevance, company/team context and project signals.
-- Persistent local saved-role state.
-- Role-specific application preparation from the selected job, profile and latest resume.
-- ATS readiness scoring and resume-variant metadata.
-- Role-specific cover-letter drafting.
-- Common application-answer drafting for motivation, fit and compensation.
-- Missing-evidence warnings and no-invention guardrails.
-- Direct Job Intelligence → Application Preparation workflow.
-- Copy controls for generated application material.
-- No paid job aggregator or employer credentials required for supported public feeds.
+Core capabilities include:
 
-## v0.4 Career Intelligence retained
+- Resume ingestion, structured resume building and versioning.
+- ATS/readiness analysis with role-specific evidence.
+- Resume audit and career audit.
+- Resume → best-fit role recommendations.
+- Explainable job-fit scoring and transferable-skills mapping.
+- Job-post URL scanning and normalized job intelligence.
+- Salary, work-mode, seniority and career-relevance analysis.
+- Career paths, pivots, skill gaps and target-salary planning.
+- “Can I reach ₹X LPA?” feasibility analysis with an action plan.
+- Role-specific resumes, cover letters and application answers.
+- Evidence-backed generation with an AI truth lock: unsupported candidate claims are never silently invented.
+- Application tracking and durable automation orchestration.
+- Browser-worker architecture for controlled autofill and human handoff.
+- Interview preparation, follow-up intelligence and outcome learning as the product expands.
+- Company, referral, salary and community intelligence with source/date/confidence metadata.
+- India-specific career workflows including CTC, notice period and expected-CTC context.
 
-- Deterministic profile-to-role fit ranking.
-- Recommended roles across product design, UX, design systems, brand/visual, creative technology, research and product tracks.
-- Matched evidence and missing skill signals.
-- Salary-target assessment with within-range, stretch and rebuild outcomes.
-- Career-path mapping and concrete gap-closing actions.
+## Product principles
 
-## v0.3 foundation retained
+**Clarity over noise.** Surface the next useful decision instead of adding another dashboard.
 
-- Supabase-ready authentication, profile, database and private storage with RLS.
-- Local-first fallback.
-- Candidate onboarding and editable profile.
-- PDF, DOCX, TXT and Markdown resume ingestion.
-- Deterministic resume normalisation and ATS/fit analysis.
-- Persisted resume versions.
-- Editable resume builder with live preview and browser print/save-to-PDF.
+**Evidence over invention.** Candidate claims must trace back to confirmed information.
 
-## Brand system
+**Progress over volume.** Optimise for application quality and outcomes, not meaningless application counts.
 
-**Working brand:** ROVA
+**Automation with control.** Deterministic fields first; ambiguous, sensitive or unsupported flows go to human review.
 
-**Descriptor:** Career automation, with judgment.
+**Career decisions with context.** Recommendations should explain why a role, skill, company or path matters.
 
-**Positioning:** The intelligent operating layer between a candidate and the modern job application stack.
+## Current architecture
 
-**Personality:** precise, calm, capable, transparent, quietly technical.
+The web application is the product/control plane. It owns profile data, documents, resumes, job records, application state, permissions, review queues and analytics.
 
-**Avoid:** hype, robot language, fake certainty, "apply to 1,000 jobs" positioning, childish AI tropes, neon cyberpunk aesthetics, generic purple gradients, dashboard clutter.
+A separate browser worker owns Playwright sessions and site-specific execution. This keeps long-running browser work outside Vercel request lifecycles and allows platform adapters to evolve independently.
 
-Typography: Manrope for product/UI, DM Mono for metadata and system labels.
+Supabase provides the production persistence layer, authentication, RLS and private document storage. A local-first fallback remains available for development.
 
-Palette: Ink `#171717`, Dark `#1B1B19`, Canvas `#F4F2ED`, Panel `#FBFAF7`, Line `#D8D5CD`, Muted `#77746D`, Signal `#D8FF52`, Review `#DFE8FF`.
+AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
-## Architecture direction
+## Automation safety
 
-The product/control plane remains separate from browser execution. The web application owns profile, preferences, job records, application state, review queues, documents, permissions and analytics. A dedicated execution layer will own Playwright/browser sessions and site-specific adapters.
+- Never invent candidate facts.
+- Never answer sensitive screening questions from guesswork.
+- Never treat navigation success as submission success.
+- Never claim verified submission without independent evidence.
+- Never silently submit an unsupported or ambiguous form.
+- Pause for CAPTCHA, unknown forms, sensitive decisions and unsupported flows.
+- Preserve an auditable automation event history.
+- Keep browser execution separated from the product control plane.
 
-AI is a semantic layer, not the source of truth. Deterministic extraction and validation happen before model-assisted interpretation. Platform adapters remain isolated so site changes do not destabilise the entire engine.
+## Brand
 
-The repository contains no copied implementation from third-party projects. Public projects informed requirements and architectural direction only.
+**Name:** WAYO (provisional working brand)
+
+**Tagline:** Your career, in motion.
+
+**Descriptor:** Career intelligence and application automation.
+
+The brand is intentionally calm, precise and useful. WAYO avoids hype, fake certainty, “apply to 1,000 jobs” positioning, generic AI tropes and dashboard clutter. Brand/legal/domain clearance is not treated as complete yet.
+
+## Monetisation direction
+
+The planned model is freemium:
+
+- **Free:** core career profile, limited resume intelligence, job intelligence and tracked applications.
+- **Pro:** deeper intelligence, higher usage limits, advanced preparation, automation credits and expanded career planning.
+- **Later:** credit packs, add-ons, team/coach plans and premium integrations.
+
+Pricing and entitlements are currently product UI only; billing enforcement is a later build gate.
 
 ## Deployment
 
-Primary product target: Vercel. Browser execution will use a separate worker/runtime rather than long-running Vercel request lifecycles.
+Primary product target: Vercel.
 
-Supabase is optional until production persistence is activated. Copy `.env.example`, create a Supabase project, run `supabase/schema.sql`, then add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to the deployment environment.
+Browser execution: separate worker/runtime.
 
-## Guardrails
+Supabase: required for durable production persistence and authenticated automation control.
 
-- Never invent candidate facts.
-- Never answer high-risk screening questions from guesswork.
-- Never treat navigation success as submission success.
-- Never submit when verification confidence is insufficient.
-- Persist application state across runs.
-- Preserve an auditable event history.
-- Pause for CAPTCHA, unknown forms, unsupported flows and sensitive decisions.
+For local development, copy `.env.example` and configure the Supabase and worker variables appropriate to the environment. Never expose service-role or worker secrets to the client.
+
+## Build roadmap
+
+The project is being built in audited stages:
+
+1. Foundation + WAYO brand system
+2. Account, onboarding, persistent career profile and secure documents
+3. Resume Studio
+4. Career Lab
+5. Job Market Intelligence
+6. Application Studio
+7. Automation Engine
+8. Durable Control Center + Analytics
+9. Interview Lab + Outcome Intelligence
+10. Growth + Community
+11. Monetisation + Entitlements
+12. Full QA, Security + Launch
+
+Each build is gated by the previous build’s audit. A feature is not marked complete merely because its UI exists; production claims require the corresponding persistence, security, integration and verification gates.
+
+See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) for the detailed implementation and audit record.
 
 ## Status
 
-**v0.6 — implementation complete; GitHub production build passes. Final Vercel deployment verification is still external to the connected Vercel account.**
+**Active development — Build 08 / durable automation remediation.**
 
-Next approved stage: **v0.7 — Automation Engine**, after the v0.6 deployment is smoke-tested.
+Recent work includes the WAYO brand transformation, durable automation job persistence, authenticated worker dispatch, callback control-plane integration, private resume transfer, safety gates and the dedicated browser-worker foundation.
 
-See `docs/BUILD_LOG.md` for the build-by-build audit record.
+Known downstream gates remain: real platform adapters, durable worker recovery, secure evidence storage/retention, independent submission verification, production billing/entitlements, broader market integrations and full QA/security hardening.
