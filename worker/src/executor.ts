@@ -1,4 +1,5 @@
 import { mkdir } from 'node:fs/promises'
+import { createHash } from 'node:crypto'
 import { chromium, type BrowserContext, type Page } from 'playwright'
 import { adapterFor, trustedSubmit } from './adapters.js'
 import { detectHandoff, fillByLabel, formLooksUnknown } from './guards.js'
@@ -36,12 +37,17 @@ async function captureEvidence(page: Page, taskId: string, reason: string): Prom
   return { screenshotPath, htmlPath }
 }
 
+function sessionId(task: AutomationTask, adapterId: string) {
+  const scope = task.accountKey || 'unscoped'
+  return createHash('sha256').update(`${scope}:${adapterId}`).digest('hex').slice(0, 32)
+}
+
 export async function executeTask(task: AutomationTask): Promise<WorkerResult> {
   const adapter = adapterFor(task.applicationUrl)
   if (!adapter) return { taskId: task.id, state: 'handoff', url: task.applicationUrl, adapter: 'unknown', handoffReason: 'unsupported-flow', message: 'No supported browser adapter for this URL.' }
 
   const sessionRoot = process.env.ROVA_SESSION_DIR || './.sessions'
-  const context: BrowserContext = await chromium.launchPersistentContext(`${sessionRoot}/${adapter.id}`, {
+  const context: BrowserContext = await chromium.launchPersistentContext(`${sessionRoot}/${sessionId(task, adapter.id)}`, {
     headless: process.env.ROVA_HEADLESS !== 'false',
     viewport: { width: 1440, height: 1000 },
   })
