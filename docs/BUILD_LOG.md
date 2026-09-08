@@ -1,77 +1,110 @@
-# ROVA Build Log
+# WAYO Build Log
 
-## Full product audit — 2026-09-08
-The original proposal was re-audited feature-by-feature before advancing. The product is not considered complete merely because a UI surface or contract exists; a feature is complete only when its data model, runtime behavior, persistence, failure handling, security boundary, responsive UI and CI coverage are implemented and verified.
+## Product-wide audit + market expansion — 2026-09-09
+ROVA is abandoned as the product brand. The new provisional working brand is **WAYO** — “Your career, in motion.” Brand clearance is intentionally not treated as complete until later legal/domain research.
 
-### Capability audit
-- Brand/design system: implemented as working ROVA foundation; naming remains intentionally provisional.
-- Account/auth/profile/onboarding: implemented with Supabase-ready auth/profile foundation and local-first fallback.
-- Secure document storage: foundation and RLS schema exist; production transfer into browser worker remains incomplete.
-- Resume ingestion: PDF/DOCX/TXT/Markdown import and normalization implemented.
-- Resume builder: implemented with editable structured content and print-to-PDF.
-- ATS analysis: deterministic structural/keyword analysis implemented; advanced benchmark data remains a future intelligence layer.
-- Career intelligence: role fit, skill gaps, salary-target assessment, gap plan and career paths implemented; live market data not yet connected.
-- Job intelligence: normalized jobs, public Greenhouse/Lever/Ashby feeds, URL scanning, fit scoring, company/project/career relevance, deduplication and provenance implemented.
-- Application preparation: role-specific resume metadata, ATS readiness, cover letters, answers, evidence warnings and no-invention guardrail implemented.
-- Automation engine: state machine, modes, safety policy and human-handoff model implemented.
-- Browser worker: isolated Playwright runtime, account-scoped persistent sessions, generic form primitives, evidence capture and secure HTTP boundary implemented.
-- Durable automation: database schema exists, but control-plane queue and worker result persistence are not yet wired end-to-end.
-- Real platform automation: adapter contracts exist; production-grade platform-specific selectors/flows are not yet complete and must not be represented as live support.
-- Submission verification: not complete; a click/navigation result is never treated as verified.
-- Control center: functional local queue UI exists, but it must move to durable job/event data and live worker status.
-- Analytics: schema foundation is present; persistent metrics/event aggregation/UI are not complete.
-- Notifications: not complete.
-- Browser session bootstrap/human handoff: not complete.
-- Retry/recovery/queue workers: process-local foundation exists; durable claiming/recovery is not complete.
-- Security/privacy: RLS and worker bearer boundary exist; evidence retention/redaction, SSRF allowlisting, signed document transfer and production secret separation remain to be hardened.
-- Billing/subscription/freemium: not started.
-- Production QA/E2E/load/security testing: not complete.
+The product was re-audited against the original proposal plus current 2026 competitor/community patterns. Current market products increasingly combine job discovery, matching, tailored resumes, cover letters, application tracking, interview preparation, browser autofill/agents, referral intelligence and persistent career context. Community feedback repeatedly values accurate autofill, role-specific tailoring, useful tracking and truthful answers; it also flags fabricated application answers, bloated resumes and low-quality mass applying as major failure modes. WAYO therefore differentiates on evidence-backed career intelligence, truthful generation, outcome-aware decisions and controlled automation rather than application volume. citeturn0search6turn0reddit36turn0reddit40turn0reddit42
 
-## Revised execution roadmap
-The approved 10-build roadmap is retained, but each build now has explicit completion gates and remediation sub-builds. No later build is marked complete while a prerequisite gate is open.
+### Required product capability matrix
 
-1. Build 01 — Brand + Foundation: complete.
-2. Build 02 — Core Product + Account: substantially complete; production auth/storage verification remains a hardening gate.
-3. Build 03 — Resume Intelligence: complete for deterministic MVP; advanced intelligence is layered later.
-4. Build 04 — Career Intelligence: complete for deterministic MVP; live market intelligence is a later data connector.
-5. Build 05 — Job Intelligence: complete for supported public ATS sources; broader sources remain adapter work.
-6. Build 06 — Application Preparation: complete for deterministic MVP; richer document rendering is later.
-7. Build 07 — Automation Engine: complete as orchestration contract; live platform adapters and durable execution are downstream gates.
-8. Build 08 — Control Center + Analytics: next major build. It begins only after the current 0.9 durable-integration remediation is complete.
-9. Build 09 — Full Testing + Hardening: full unit/integration/E2E/browser/security/performance/mobile/recovery/billing QA.
-10. Build 10 — Launch Release: production infrastructure, monitoring, backups, onboarding, pricing, legal/docs and final regression.
+Core capabilities from the original brief:
+- Freemium monetisation: Free + Pro, usage/automation credits, later add-ons and team/coach plans.
+- One-click structured resume builder.
+- ATS checker and role-specific ATS readiness.
+- LinkedIn/PDF/resume ingestion and analysis.
+- Resume upload → evidence extraction → best-fit roles.
+- Cover letter generation.
+- Role-specific resume generation.
+- AI role recommendations + compensation intelligence.
+- Any-job-post scanner and intelligence layer.
+- Career paths, pivots, transferable skills, salary progression and action plans.
+- Salary-target feasibility engine: “Can I reach ₹12 LPA?” → current fit, gaps, required work, timeline and next actions.
+- Resume audit / career audit.
+- Community-driven data signals from public internet/forums, with provenance and confidence.
+- One-click profile import from LinkedIn and other supported sources where technically and legally permitted.
+- Exclusive community: coming soon, not represented as live until built.
 
-### Build 08 completion gates
-A Build 08 completion claim requires: authenticated durable automation jobs; durable event history; worker task/result synchronization; live queue polling; persistent application pipeline; evidence references with privacy controls; retry/recovery semantics; queue pause/resume/limits; analytics derived from persisted events; notifications; responsive control-center UX; and CI coverage for critical state transitions.
+Market-demand additions now part of the roadmap:
+1. Job match score with explainable evidence, not just keywords.
+2. Transferable-skills mapper for career switching.
+3. Company intelligence: team, product, funding/news, hiring velocity, role context and risk signals.
+4. Referral intelligence: identify relevant connections/referral paths where lawful and data is public/consented.
+5. Interview Lab: role-specific questions, answer coaching, mock interviews, readiness tracking.
+6. Follow-up assistant: reminders and recruiter follow-up drafts based on application age/status.
+7. Application email intelligence: classify interview/rejection/next-step signals and update pipeline with consented mailbox integration.
+8. Job-post freshness/duplicate detection and repost detection.
+9. Salary negotiation intelligence: target, floor, market range and negotiation preparation.
+10. Offer comparison: compensation, location, growth, stability and career-option value.
+11. Notice-period / CTC / expected-CTC intelligence for India-specific workflows.
+12. Visa/sponsorship/work-authorization filters and evidence where applicable.
+13. Remote/hybrid/on-site preference intelligence.
+14. Skills-to-project planner: recommend projects that close specific target-role gaps.
+15. Learning roadmap: courses/resources mapped to actual skill gaps, with cost/time tradeoffs.
+16. Portfolio/project audit and portfolio-to-role fit.
+17. LinkedIn/profile audit and rewrite.
+18. Personal career memory: goals, evidence, applications, outcomes and decisions persist as a living career record.
+19. Career health dashboard: search quality, application conversion, interview rate, skill progress and response trends.
+20. Community intelligence: anonymized, aggregated market patterns; no private user data sold or exposed.
+21. Chrome/browser extension: capture any job page and open the relevant WAYO workflow in context.
+22. Application autofill agent with deterministic fields first and AI only for ambiguity.
+23. Human review queue and permission gates for sensitive/unknown/CAPTCHA flows.
+24. Evidence vault: preserve the exact resume/job/application version used for each action.
+25. AI truth lock: generated claims must trace to confirmed user evidence; unsupported claims require explicit user confirmation.
+26. Application quality score: prioritize fewer high-fit applications over blind volume.
+27. Rejection learning loop: use outcomes to improve future recommendations without silently changing facts.
+28. Community-sourced salary/job intelligence with source/date/confidence labels.
+29. Career pivot simulator: compare “stay / upskill / switch / freelance / further study” paths.
+30. Goal planner: target role + salary + deadline → weekly action plan and progress.
 
-### Build 09 completion gates
-A Build 09 completion claim requires actual tests, not only contracts: control-plane unit/integration tests, worker tests, browser E2E against controlled fixtures, adapter tests, failure/recovery tests, security/SSRF tests, evidence/privacy tests, responsive/mobile QA and dependency audit.
+### Competitor/community audit synthesis
+Current competitive patterns observed across Jobright, Simplify, Teal, Huntr, Jobscan, Careerflow, AIApply/AIApplyd, JobCopilot, LoopCV, Kairo/X-style products and community discussions:
+- Jobright: broad matching, tailoring, cover letters, referrals and automation.
+- Simplify: strong autofill/browser workflow and broad job-site compatibility.
+- Teal/Huntr: strong tracking, resume workflows and organization.
+- Jobscan: deep ATS/keyword checking.
+- Careerflow: LinkedIn/profile and career workflow.
+- AIApply/JobCopilot/LoopCV: application automation and volume.
+- Newer products increasingly add interview preparation, email tracking, browser extensions, persistent career memory and agent permissions.
+- India-native competitors emphasize Naukri, CTC, notice period, Indian portals and INR pricing.
+- Community feedback highlights autofill accuracy, truthful answers, resume length control and actual fit analysis as important quality signals.
+- Current market trend: the differentiator is shifting from “more applications” to “better decisions + connected workflow + controlled agents.” citeturn0search0turn0search1turn0search3turn0search7turn0search9turn0reddit35turn0reddit36turn0reddit40turn0reddit42
 
-### Build 10 completion gates
-A Build 10 completion claim requires production deployment verification, monitoring/alerting, backups/recovery, onboarding, pricing/freemium controls, legal/privacy surfaces, documentation, environment validation and final regression.
+## Brand transformation
+WAYO replaces ROVA across product-facing UI. The design direction is intentionally cleaner and more consumer-grade:
+- Name: WAYO (provisional).
+- Tagline: Your career, in motion.
+- Product descriptor: Career intelligence and application automation.
+- Tone: direct, calm, intelligent, useful, never hype-heavy.
+- Product model: one connected career system rather than a collection of tools.
+- Primary mental model: Find → Understand → Prepare → Apply → Interview → Grow.
+- Core promise: make the next career move clearer and the repetitive work lighter.
 
-## v0.9 — Worker Integration Boundary
-- Audited v0.8 before advancing.
-- Added authenticated worker HTTP boundary, `/health`, asynchronous `/tasks` dispatch, task status endpoint, request limits and Vercel dispatch bridge.
-- Added account-scoped task/session contracts and execution locking by account + origin.
-- Added explicit HTTPS and metadata validation.
-- Control plane never receives or stores platform passwords.
+## Revised roadmap
+1. Build 01 — Foundation + WAYO brand system.
+2. Build 02 — Account, onboarding, persistent career profile and secure documents.
+3. Build 03 — Resume Studio: ingestion, builder, audit, ATS, versions, PDF/DOCX export.
+4. Build 04 — Career Lab: fit, paths, pivots, salary targets, gaps, skill/project/learning plans.
+5. Build 05 — Market: job search, job URL scanner, company intelligence, salary, community signals, deduplication.
+6. Build 06 — Application Studio: tailored resume, cover letter, answers, truth lock, evidence packet.
+7. Build 07 — Automation Engine: browser worker, adapters, permissions, human handoff.
+8. Build 08 — Control Center: durable queue, application pipeline, evidence vault, analytics, notifications, follow-ups.
+9. Build 09 — Interview Lab + Outcome Intelligence: interview prep, email classification, rejection learning, offer comparison and negotiation.
+10. Build 10 — Growth + Community: LinkedIn/browser integrations, community intelligence, referral layer, learning/project marketplace signals.
+11. Build 11 — Monetisation: Free/Pro entitlements, credits, billing, trials, add-ons, team/coach plans.
+12. Build 12 — Full QA + Security + Launch: E2E, browser fixtures, adapter testing, privacy, security, performance, mobile, backups, monitoring, legal, onboarding and production launch.
 
-## v0.9 audit → integration hardening
-- Confirmed long browser jobs must not occupy a synchronous Vercel request.
-- Confirmed worker status needs a queryable lifecycle.
-- Confirmed concurrent browser work must be serialized per account and application origin.
-- Confirmed worker task/status endpoints require bearer authentication.
-- Confirmed worker task input needs protocol, mode, metadata and account-key validation.
-- Added worker job lifecycle primitives as a foundation.
+### Current status
+- Builds 01–07: foundations substantially implemented, but production completion gates remain for auth/storage, live adapters and durable automation.
+- v0.9 durable integration: active remediation.
+- WAYO branding/UI transformation: started.
+- Pricing surface: added as provisional Free/Pro model.
+- Build 08 remains the active engineering target until its completion gates are actually satisfied.
 
-## Current remediation state
-- Worker queue is still process-local and must become durable before production automation.
-- Resume transfer from private storage to worker is still incomplete.
-- Platform-specific form adapters are still contracts/generic primitives, not live support claims.
-- Independent submission verification is still required.
-- Durable event history and persistent analytics are now schema-backed but not yet fully wired.
-- Evidence is currently local worker filesystem output and needs secure object storage/retention controls.
-
-### Rule
-Before every build: audit the previous build against this log, remediate every prerequisite gap, run CI, then advance. Never mark a build complete from UI presence alone.
+### Non-negotiable quality rules
+- No fabricated candidate facts.
+- No silent application submission.
+- No claim of verified submission without independent evidence.
+- No unsupported “live integration” labels.
+- Community data must retain source/date/confidence and never expose private user data.
+- AI recommendations must distinguish evidence, inference and uncertainty.
+- Before every build: audit the previous build, remediate gaps, run CI, then advance.
