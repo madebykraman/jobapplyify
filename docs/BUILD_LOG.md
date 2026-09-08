@@ -3,7 +3,7 @@
 ## Product-wide audit + market expansion — 2026-09-09
 ROVA is abandoned as the product brand. The new provisional working brand is **WAYO** — “Your career, in motion.” Brand clearance is intentionally not treated as complete until later legal/domain research.
 
-The product was re-audited against the original proposal plus current 2026 competitor/community patterns. Current market products increasingly combine job discovery, matching, tailored resumes, cover letters, application tracking, interview preparation, browser autofill/agents, referral intelligence and persistent career context. Community feedback repeatedly values accurate autofill, role-specific tailoring, useful tracking and truthful answers; it also flags fabricated application answers, bloated resumes and low-quality mass applying as major failure modes. WAYO therefore differentiates on evidence-backed career intelligence, truthful generation, outcome-aware decisions and controlled automation rather than application volume. citeturn0search6turn0reddit36turn0reddit40turn0reddit42
+The product was re-audited against the original proposal plus current 2026 competitor/community patterns. Current market products increasingly combine job discovery, matching, tailored resumes, cover letters, application tracking, interview preparation, browser autofill/agents, referral intelligence and persistent career context. Community feedback repeatedly values accurate autofill, role-specific tailoring, useful tracking and truthful answers; it also flags fabricated application answers, bloated resumes and low-quality mass applying as major failure modes. WAYO therefore differentiates on evidence-backed career intelligence, truthful generation, outcome-aware decisions and controlled automation rather than application volume.
 
 ### Required product capability matrix
 
@@ -56,7 +56,33 @@ Market-demand additions now part of the roadmap:
 29. Career pivot simulator: compare “stay / upskill / switch / freelance / further study” paths.
 30. Goal planner: target role + salary + deadline → weekly action plan and progress.
 
-### Competitor/community audit synthesis
+## Build audit before advancing
+
+Previous work was rechecked before moving forward. The durable automation layer was not marked complete because the browser worker still has process-local execution state, real platform adapters are not yet implemented, evidence is not yet in durable object storage, and independent submission verification is not complete.
+
+Build 08 therefore remains active. The latest remediation hardens the control-plane boundary rather than pretending those downstream gates are solved.
+
+### Build 08 remediation shipped — 2026-09-09
+- Automation dispatch now requires an authenticated user and a durable `jobId`.
+- Dispatch verifies job ownership through Supabase RLS before contacting the worker.
+- Dispatch rejects URL or mode mismatches between the durable job and worker task.
+- Successful dispatch records the worker task ID and running state in the durable job record.
+- A durable `automation_events` record is written for dispatch.
+- Worker dispatch remains HTTPS-only in production.
+- App metadata now uses WAYO as the canonical product-facing name.
+- README rewritten around the WAYO product, architecture, roadmap, safety model and current implementation status.
+
+### Still blocked before Build 08 completion
+- Worker queue state must survive process restart.
+- Retry/claim/lease semantics must be durable and race-safe.
+- Resume signed URL must be wired end-to-end from the application UI into the worker task.
+- Real platform-specific adapters and fixtures must be implemented and tested.
+- Evidence must move from worker-local filesystem to secure object storage with retention/redaction.
+- Independent submission verification must exist before any `verified` state can be claimed.
+- Queue pause/cancel/retry controls must persist server-side.
+- Notifications and automation analytics remain incomplete.
+
+## Competitor/community audit synthesis
 Current competitive patterns observed across Jobright, Simplify, Teal, Huntr, Jobscan, Careerflow, AIApply/AIApplyd, JobCopilot, LoopCV, Kairo/X-style products and community discussions:
 - Jobright: broad matching, tailoring, cover letters, referrals and automation.
 - Simplify: strong autofill/browser workflow and broad job-site compatibility.
@@ -67,7 +93,7 @@ Current competitive patterns observed across Jobright, Simplify, Teal, Huntr, Jo
 - Newer products increasingly add interview preparation, email tracking, browser extensions, persistent career memory and agent permissions.
 - India-native competitors emphasize Naukri, CTC, notice period, Indian portals and INR pricing.
 - Community feedback highlights autofill accuracy, truthful answers, resume length control and actual fit analysis as important quality signals.
-- Current market trend: the differentiator is shifting from “more applications” to “better decisions + connected workflow + controlled agents.” citeturn0search0turn0search1turn0search3turn0search7turn0search9turn0reddit35turn0reddit36turn0reddit40turn0reddit42
+- Current market trend: the differentiator is shifting from “more applications” to “better decisions + connected workflow + controlled agents.”
 
 ## Brand transformation
 WAYO replaces ROVA across product-facing UI. The design direction is intentionally cleaner and more consumer-grade:
@@ -79,7 +105,8 @@ WAYO replaces ROVA across product-facing UI. The design direction is intentional
 - Primary mental model: Find → Understand → Prepare → Apply → Interview → Grow.
 - Core promise: make the next career move clearer and the repetitive work lighter.
 
-## Revised roadmap
+## 12-build roadmap
+
 1. Build 01 — Foundation + WAYO brand system.
 2. Build 02 — Account, onboarding, persistent career profile and secure documents.
 3. Build 03 — Resume Studio: ingestion, builder, audit, ATS, versions, PDF/DOCX export.
@@ -88,23 +115,19 @@ WAYO replaces ROVA across product-facing UI. The design direction is intentional
 6. Build 06 — Application Studio: tailored resume, cover letter, answers, truth lock, evidence packet.
 7. Build 07 — Automation Engine: browser worker, adapters, permissions, human handoff.
 8. Build 08 — Control Center: durable queue, application pipeline, evidence vault, analytics, notifications, follow-ups.
-9. Build 09 — Interview Lab + Outcome Intelligence: interview prep, email classification, rejection learning, offer comparison and negotiation.
+9. Build 09 — Interview Lab + Outcome Intelligence: interview prep, email classification, rejection learning, offer comparison, negotiation.
 10. Build 10 — Growth + Community: LinkedIn/browser integrations, community intelligence, referral layer, learning/project marketplace signals.
 11. Build 11 — Monetisation: Free/Pro entitlements, credits, billing, trials, add-ons, team/coach plans.
-12. Build 12 — Full QA + Security + Launch: E2E, browser fixtures, adapter testing, privacy, security, performance, mobile, backups, monitoring, legal, onboarding and production launch.
+12. Build 12 — Full QA + Security + Launch: E2E, browser fixtures, adapter testing, privacy, security, performance, mobile, backups, monitoring, legal, onboarding, production launch.
 
-### Current status
-- Builds 01–07: foundations substantially implemented, but production completion gates remain for auth/storage, live adapters and durable automation.
-- v0.9 durable integration: active remediation.
-- WAYO branding/UI transformation: started.
-- Pricing surface: added as provisional Free/Pro model.
-- Build 08 remains the active engineering target until its completion gates are actually satisfied.
+## Quality rules
 
-### Non-negotiable quality rules
-- No fabricated candidate facts.
-- No silent application submission.
-- No claim of verified submission without independent evidence.
-- No unsupported “live integration” labels.
-- Community data must retain source/date/confidence and never expose private user data.
-- AI recommendations must distinguish evidence, inference and uncertainty.
-- Before every build: audit the previous build, remediate gaps, run CI, then advance.
+A UI is not a completed feature. Completion requires the corresponding data model, persistence, validation, security boundary, integration, failure handling and verification path.
+
+No platform is described as “live” until an actual adapter and representative fixture have been tested.
+
+No application is described as “submitted” merely because a form was navigated. No application is described as “verified” without independent evidence.
+
+AI output must distinguish confirmed evidence, inference and uncertainty. Candidate facts are never silently invented.
+
+The user remains the authority for consequential career decisions and sensitive application answers.
