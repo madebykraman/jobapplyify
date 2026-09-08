@@ -12,30 +12,38 @@ Core loop:
 
 `Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`
 
-## v0.4 — current build
+## v0.5 — current build
 
-The current build adds the Career Intelligence layer on top of the resume/profile foundation:
+The current build adds Job Intelligence on top of the resume, profile and career foundation:
+
+- Public ATS job-board ingestion for Greenhouse, Lever and Ashby.
+- Server-side source allowlisting and HTTPS enforcement.
+- Normalized job records with source provenance and direct application links.
+- Role search and filtering across loaded jobs.
+- Deterministic profile-to-job fit scoring.
+- Matched evidence and missing-signal analysis.
+- Seniority, compensation and work-mode extraction.
+- Job intelligence detail panel with the full source description.
+- Save-role interaction and duplicate-aware normalized IDs.
+- No paid job aggregator or employer credentials required for supported public feeds.
+
+## v0.4 Career Intelligence retained
 
 - Deterministic profile-to-role fit ranking.
 - Recommended roles across product design, UX, design systems, brand/visual, creative technology, research and product tracks.
-- Matched evidence and missing skill signals for every recommended role.
+- Matched evidence and missing skill signals.
 - Salary-target assessment with within-range, stretch and rebuild outcomes.
-- Concrete next actions for closing target-salary gaps.
-- Career-path mapping for deeper specialisation, design+technology compounding and adjacent-function pivots.
-- Dedicated Career Intelligence workspace connected from the main navigation.
-- No AI/API key required for the core assessment engine.
-- Salary bands are explicitly treated as planning heuristics until live market data is connected.
+- Career-path mapping and concrete gap-closing actions.
 
 ## v0.3 foundation retained
 
 - Supabase-ready authentication, profile, database and private storage with RLS.
-- Local-first fallback so the product remains usable before external setup.
+- Local-first fallback.
 - Candidate onboarding and editable profile.
 - PDF, DOCX, TXT and Markdown resume ingestion.
 - Deterministic resume normalisation and ATS/fit analysis.
 - Persisted resume versions.
 - Editable resume builder with live preview and browser print/save-to-PDF.
-- Connected product routes for opportunities, applications, review queue and documents.
 
 ## Brand system
 
@@ -79,8 +87,8 @@ Supabase is optional until production persistence is activated. Copy `.env.examp
 
 ## Status
 
-**v0.4 — implementation complete; cloud build verification pending the user's separate Vercel deployment.**
+**v0.5 — implementation complete; cloud build verification remains external to this assistant's Vercel connection.**
 
-Next approved stage: **v0.5 — Job Intelligence.**
+Next approved stage: **v0.6 — Application Preparation.**
 
 See `docs/BUILD_LOG.md` for the build-by-build audit record.
