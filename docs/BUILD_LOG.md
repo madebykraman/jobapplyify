@@ -45,5 +45,23 @@
 - TypeScript/build verification is delegated to GitHub CI and the user's Vercel deployment because this environment cannot install repository dependencies directly.
 - No external API key is required for the v0.4 deterministic engine.
 
+## v0.5 — Job Intelligence
+- Audited v0.4 before advancing: career engine and workspace are present, deterministic, and isolated from external AI dependencies.
+- Added normalized job schema and deterministic job-fit analysis.
+- Added public ATS source adapters for Greenhouse, Lever and Ashby.
+- Added server-side public-feed loader with source allowlisting and HTTPS enforcement.
+- Added job search/filtering across loaded roles.
+- Added fit score, matched evidence, missing signal, seniority, compensation and work-mode analysis.
+- Added source provenance and direct application/source links.
+- Added saved-role interaction and role intelligence detail panel.
+- Added dashboard navigation for Job Intelligence.
+- Added responsive styling for the job intelligence workspace.
+- Core job discovery works without paid aggregators or employer credentials for supported public ATS feeds.
+
+### v0.5 verification boundary
+- Live source availability depends on the employer's public ATS board and can change independently of ROVA.
+- GitHub CI/Vercel must perform the final dependency and production build verification.
+- Broader sources such as LinkedIn, Indeed, Naukri, Internshala, Workday and other platforms remain planned adapter work; they are intentionally not represented as supported live feeds yet.
+
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
