@@ -1,9 +1,10 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import { BRAND } from '@/lib/brand'
 
 export const metadata: Metadata = {
-  title: 'WAYO — Your career, in motion.',
-  description: 'Career intelligence and application automation for a better job search.',
+  title: `${BRAND.name} — ${BRAND.tagline}`,
+  description: BRAND.descriptor,
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
