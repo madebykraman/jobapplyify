@@ -1,7 +1,7 @@
-export const INVITE_CODE = 'WAYO-BETA'
-export const PRO_STORAGE_KEY = 'wayo.proAccess'
-export const DEMO_EMAIL = 'test@wayo.app'
-export const DEMO_PASSWORD = 'WAYOtest2026!'
+export const INVITE_CODE = process.env.NEXT_PUBLIC_BETA_INVITE || 'WAYO-BETA'
+export const PRO_STORAGE_KEY = 'kindleap.proAccess'
+export const DEMO_EMAIL = 'test@kindleap.app'
+export const DEMO_PASSWORD = 'KINDLEAPtest2026!'
 
 export function hasProAccess() {
   if (typeof window === 'undefined') return false
@@ -9,7 +9,7 @@ export function hasProAccess() {
 }
 
 export function redeemInviteCode(code: string) {
-  const valid = code.trim().toUpperCase() === INVITE_CODE
+  const valid = code.trim().toUpperCase() === INVITE_CODE.toUpperCase()
   if (valid && typeof window !== 'undefined') localStorage.setItem(PRO_STORAGE_KEY, 'true')
   return valid
 }
