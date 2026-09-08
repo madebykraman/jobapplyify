@@ -90,8 +90,27 @@
 - Review found compensation text could produce malformed output such as `₹₹12 LPA`; normalized the target salary before drafting.
 - The CSS autoprefixer `align-items:end` message is a warning only and does not block production compilation.
 - GitHub Actions `npm install` and `npm run build` passed on commit `6dd91f9a02ab2ca184db75198c27eb18437af112` after the code fixes.
-- The final documentation commits trigger another CI pass; production Vercel deployment remains an external account action.
-- `npm install` currently reports 3 dependency vulnerabilities (1 moderate, 2 high); this is tracked for dependency hardening and is not a build failure.
+- The final documentation commits triggered another CI pass; production Vercel deployment was completed by the user from a separate Vercel account at `https://jobapplyify.vercel.app/`.
+- `npm install` currently reports 3 dependency vulnerabilities (1 moderate, 2 high); this remains tracked for dependency hardening and is not a build failure.
+
+## v0.7 — Automation Engine
+- Audited v0.6 before advancing: application preparation is deterministic, evidence-bound and connected to Job Intelligence; the remaining roadmap gap was the execution/control plane rather than preparation.
+- Added explicit automation states: queued, preparing, ready, running, paused, human-review, submitted, verified, failed and cancelled.
+- Added execution policy modes: dry-run, review and full-auto.
+- Added hard permission boundaries for CAPTCHA, unknown forms, sensitive questions and submission verification.
+- Added adapter contracts for Greenhouse, Lever, Ashby, LinkedIn, Indeed, Naukri, Internshala and Instahyre.
+- Added adapter capability declarations for login, resume upload, form filling, answers, submission and verification.
+- Added retry limits and explicit state transitions instead of implicit sleeps or navigation assumptions.
+- Added persistent local automation queue records and timestamps.
+- Added Automation Engine control-center UI with queue pause/resume, retry, cancellation and human-handoff controls.
+- Added direct handoff from the selected application package into the automation queue.
+- Added automation navigation to the main Command workspace.
+- Kept browser execution, credentials and persistent sessions outside the Vercel request lifecycle; the control plane does not falsely claim that a browser submission occurred.
+- Bumped product version to 0.7.0.
+
+### v0.7 verification boundary
+- GitHub CI must pass `npm install` and `npm run build` for the new automation layer before this build is treated as verified.
+- The separate browser worker/runtime is intentionally the next execution integration boundary; no fake browser submission is represented in the product.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
