@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Check, LockKeyhole, Sparkles } from 'lucide-react'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { DEMO_EMAIL, DEMO_PASSWORD, redeemInviteCode } from '@/lib/entitlements'
+import './auth.css'
 
 export default function AuthPage(){
  const [mode,setMode]=useState<'sign-in'|'sign-up'>('sign-in'); const [email,setEmail]=useState(''); const [password,setPassword]=useState(''); const [invite,setInvite]=useState(''); const [message,setMessage]=useState(''); const [busy,setBusy]=useState(false)
