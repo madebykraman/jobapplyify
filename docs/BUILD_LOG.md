@@ -58,10 +58,26 @@
 - Added responsive styling for the job intelligence workspace.
 - Core job discovery works without paid aggregators or employer credentials for supported public ATS feeds.
 
-### v0.5 verification boundary
-- Live source availability depends on the employer's public ATS board and can change independently of ROVA.
-- GitHub CI/Vercel must perform the final dependency and production build verification.
-- Broader sources such as LinkedIn, Indeed, Naukri, Internshala, Workday and other platforms remain planned adapter work; they are intentionally not represented as supported live feeds yet.
+### v0.5 audit before v0.6
+- Found four gaps against the approved Job Intelligence roadmap: individual job URL scanning was incomplete, saved roles were ephemeral, duplicate detection was only advisory, and career/company/project relevance was under-specified.
+- These gaps were remediated before treating the build as complete.
+
+## v0.6 — Job Intelligence completion + Application Preparation foundation
+- Added public individual-job URL scanning for Greenhouse and Lever, plus Ashby board resolution and individual-job matching where exposed by the public feed.
+- Kept server-side source allowlisting and HTTPS enforcement; the scanner is not an arbitrary URL fetcher.
+- Added persistent local saved-role state with timestamps.
+- Added canonical duplicate keys using ATS source IDs, canonical URLs or normalized role identity.
+- Added duplicate-source detection in the opportunity UI.
+- Strengthened company/team context without inventing unavailable facts.
+- Added project-signal extraction from the supplied job description.
+- Added explicit career relevance against declared target roles.
+- Improved ATS normalization fallbacks for company, workplace type, employment and publication timestamps.
+- Added richer job-intelligence detail sections and source-provenance guardrails.
+- Bumped product version to 0.6.0.
+
+### v0.6 verification boundary
+- GitHub Actions is configured to run `npm install` and `npm run build`, but the latest v0.6 commit currently has no reported status checks in the connector, so build success is not claimed yet.
+- Final production verification remains dependent on the user's Vercel deployment.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
