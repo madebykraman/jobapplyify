@@ -70,13 +70,11 @@ Supabase provides production persistence, authentication, RLS and private docume
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
-Build 10 adds a local-first goal primitive and community-signal presentation layer. Community contribution, aggregation infrastructure and live outcome ingestion remain intentionally gated until their privacy and provenance model is connected to production data.
-
 ## UI direction
 
-KINDLEAP is no longer being designed as a generic sidebar → cards → metrics dashboard. The product uses a career operating-system model: editorial hierarchy, decision surfaces, evidence-first layouts, contextual navigation and automation represented as a control instrument.
+KINDLEAP is no longer being designed as a generic sidebar → cards → metrics dashboard. The target visual language is a dark, spatial career instrument: editorial hierarchy, decision surfaces, evidence-first layouts, contextual navigation and automation represented as a control instrument.
 
-The visual system uses warm paper/ink foundations, a single signal colour, hard rules, asymmetric grids, oversized typography, compact machine-readable metadata and motion only where it communicates state. Mobile collapses the editorial grid into a deliberate linear flow; reduced-motion behaviour remains required.
+The current visual system uses a near-black foundation, warm off-white type, restrained rules, a single signal accent, asymmetric composition, oversized typography, compact machine-readable metadata and motion only where it communicates state. Mobile collapses the spatial system into a deliberate linear flow; reduced-motion behaviour remains required.
 
 ## Access and monetisation
 
@@ -84,40 +82,38 @@ The current beta model is freemium:
 
 - Basic tools remain usable without an account where implemented.
 - Pro routes require account-level Pro access.
-- Beta invite code remains `WAYO-BETA` for compatibility with the current beta access implementation.
+- Beta invite activation is now persisted through Supabase entitlements.
 - During beta, an accepted invite unlocks the complete Pro workspace.
 - India Pro positioning: **₹499/month**.
 - International pricing is intended to use purchasing-power-adjusted equivalents.
 - Credits are reserved as a later entitlement layer rather than gating the beta core.
 
-Billing and production entitlement enforcement remain later build gates.
+The entitlement data model and authenticated activation API are implemented. Production payment processor/webhook lifecycle, tax/invoice handling and final enforcement across every legacy client page remain launch gates.
 
 ## Build roadmap
 
-1. Foundation + brand system
-2. Account, onboarding, career profile + secure documents
-3. Resume Studio
-4. Career Lab
-5. Market Intelligence
-6. Application Studio
-7. Automation Engine
-8. Durable Control Center + Analytics
-9. Interview Lab + Outcome Intelligence
-10. **Growth + Community — current**
-11. Monetisation + Entitlements
-12. Full QA, Security + Launch
+1. Build 01 — Foundation + internal product system.
+2. Build 02 — Account, onboarding, persistent career profile + secure documents.
+3. Build 03 — Resume Studio.
+4. Build 04 — Career Lab.
+5. Build 05 — Market Intelligence.
+6. Build 06 — Application Studio.
+7. Build 07 — Automation Engine.
+8. Build 08 — Control Center.
+9. Build 09 — Interview + Outcome Intelligence.
+10. Build 10 — Growth + Community.
+11. Build 11 — Monetisation + Entitlements.
+12. **Build 12 — Full QA, Security + Launch — current.**
 
 Every build is audited against the previous build before advancing. A feature is not complete merely because its UI exists; completion requires the relevant data model, persistence, validation, security, integration, failure handling and verification gates.
 
 ## Current status
 
-**Build 10 — Growth + Community implemented.**
+**Build 12 — QA, security and launch hardening in progress.**
 
-Build 09 is retained as the outcome/intelligence layer and has been carried forward into Growth through the career health and weekly-plan surfaces.
+Build 12 carries forward the full product pathway and performs the final release audit rather than adding another feature-heavy surface. CI now runs both TypeScript typecheck and the production Next.js build on every main push and pull request. Supabase entitlement infrastructure is connected and verified. The application remains deliberately conservative around browser automation: unsupported or ambiguous flows hand control back to the user.
 
-Build 10 adds: target role/CTC/horizon goal planning with local persistence; weekly focus generation from the active target; career-health signals; a privacy-first community intelligence surface; provenance/date/confidence presentation; explicit privacy boundaries; and the editorial UI transformation across the new growth/community experience. KINDLEAP branding is now the canonical internal product identity across the command surface and document metadata.
-
-Open release gates remain: real platform-specific browser fixtures/adapters, independent submission verification, evidence viewer/redaction hardening, outbound notifications, live community aggregation and contribution infrastructure, production billing/entitlements, broader integrations and full E2E/security/performance/mobile QA.
+Launch gates still requiring production evidence are: representative platform browser fixtures/adapters, independent submission verification, evidence viewer/redaction hardening, outbound notifications, live community aggregation/contribution infrastructure, payment processor/webhook lifecycle, final server-side entitlement enforcement for all protected surfaces, broader integrations, and full device-level E2E/performance testing.
 
 ## Development
 
