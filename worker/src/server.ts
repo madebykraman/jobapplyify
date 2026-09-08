@@ -1,70 +1,14 @@
 import { createServer } from 'node:http'
+import { randomUUID } from 'node:crypto'
 import { executeTask } from './executor.js'
 import { adapterFor } from './adapters.js'
 import type { AutomationTask, WorkerMode } from './types.js'
 
-const port = Number(process.env.ROVA_WORKER_PORT || 8787)
-const token = process.env.ROVA_WORKER_TOKEN || ''
-const maxBody = 256 * 1024
-const modes = new Set<WorkerMode>(['dry-run', 'review', 'full-auto'])
-const activeAccounts = new Set<string>()
-const jobs = new Map<string, { state: 'queued' | 'running'; taskId: string } | Awaited<ReturnType<typeof executeTask>>>()
-const allowedHosts = new Set((process.env.ROVA_ALLOWED_HOSTS || '').split(',').map(x => x.trim().toLowerCase()).filter(Boolean))
-
-async function readBody(req: import('node:http').IncomingMessage) {
-  let body = ''
-  for await (const chunk of req) {
-    body += chunk.toString()
-    if (Buffer.byteLength(body, 'utf8') > maxBody) throw new Error('Request body too large.')
-  }
-  return body
-}
-
-function json(res: import('node:http').ServerResponse, status: number, data: unknown) {
-  res.statusCode = status
-  res.end(JSON.stringify(data))
-}
-
-function authorized(req: import('node:http').IncomingMessage) {
-  return Boolean(token) && req.headers.authorization === `Bearer ${token}`
-}
-
-const server = createServer(async (req, res) => {
-  res.setHeader('content-type', 'application/json')
-  if (req.method === 'GET' && req.url === '/health') return json(res, 200, { ok: true, service: 'rova-browser-worker', jobs: jobs.size })
-
-  const taskMatch = req.url?.match(/^\/tasks\/([^/]+)$/)
-  if (req.method === 'GET' && taskMatch) {
-    if (!authorized(req)) return json(res, 401, { error: 'Unauthorized.' })
-    const job = jobs.get(taskMatch[1])
-    return job ? json(res, 200, job) : json(res, 404, { error: 'Task not found.' })
-  }
-  if (req.method !== 'POST' || req.url !== '/tasks') return json(res, 404, { error: 'Not found.' })
-  if (!authorized(req)) return json(res, 401, { error: 'Unauthorized.' })
-
-  let task: AutomationTask
-  try {
-    task = JSON.parse(await readBody(req)) as AutomationTask
-    const url = new URL(String(task?.applicationUrl || ''))
-    if (!task?.id || !task.applicationUrl || !modes.has(task.mode) || url.protocol !== 'https:') throw new Error('Invalid automation task.')
-    if (allowedHosts.size && !allowedHosts.has(url.hostname.toLowerCase())) throw new Error('Application host is not allowlisted.')
-    if (!adapterFor(task.applicationUrl)) throw new Error('No supported adapter for this application URL.')
-    if (!task.candidate?.name || !task.candidate?.email) throw new Error('Candidate name and email are required.')
-    if (task.id.length > 128 || task.company.length > 200 || task.role.length > 200) throw new Error('Task metadata is too long.')
-    if (task.accountKey && !/^[a-zA-Z0-9_-]{1,128}$/.test(task.accountKey)) throw new Error('Invalid account key.')
-    if (task.candidate.resumeUrl && !new URL(task.candidate.resumeUrl).protocol.startsWith('https')) throw new Error('Resume URL must use HTTPS.')
-    if (jobs.has(task.id)) return json(res, 409, { error: 'Task already exists.', task: jobs.get(task.id) })
-  } catch (error) {
-    return json(res, 400, { error: error instanceof Error ? error.message : 'Invalid task.' })
-  }
-
-  const account = `${task.accountKey || 'unscoped'}:${new URL(task.applicationUrl).origin}`
-  if (activeAccounts.has(account)) return json(res, 409, { error: 'A browser task is already running for this account and origin.' })
-  jobs.set(task.id, { state: 'queued', taskId: task.id })
-  activeAccounts.add(account)
-  jobs.set(task.id, { state: 'running', taskId: task.id })
-  void executeTask(task).then(result => jobs.set(task.id, result)).catch(error => jobs.set(task.id, { taskId: task.id, state: 'failed', url: task.applicationUrl, adapter: 'unknown', message: error instanceof Error ? error.message : 'Worker execution failed.' })).finally(() => activeAccounts.delete(account))
-  return json(res, 202, { taskId: task.id, state: 'running', statusPath: `/tasks/${encodeURIComponent(task.id)}` })
-})
-
-server.listen(port, () => console.log(`ROVA browser worker listening on :${port}`))
+const port=Number(process.env.ROVA_WORKER_PORT||8787);const token=process.env.ROVA_WORKER_TOKEN||'';const controlUrl=process.env.ROVA_CONTROL_URL||'';const maxBody=256*1024;const modes=new Set<WorkerMode>(['dry-run','review','full-auto']);const activeAccounts=new Set<string>();const jobs=new Map<string,any>();const allowedHosts=new Set((process.env.ROVA_ALLOWED_HOSTS||'').split(',').map(x=>x.trim().toLowerCase()).filter(Boolean));const workerId=process.env.ROVA_WORKER_ID||`worker-${randomUUID().slice(0,12)}`
+async function readBody(req:import('node:http').IncomingMessage){let body='';for await(const chunk of req){body+=chunk.toString();if(Buffer.byteLength(body,'utf8')>maxBody)throw new Error('Request body too large.')}return body}
+function json(res:import('node:http').ServerResponse,status:number,data:unknown){res.statusCode=status;res.end(JSON.stringify(data))}function authorized(req:import('node:http').IncomingMessage){return Boolean(token)&&req.headers.authorization===`Bearer ${token}`}
+async function claimLoop(){if(!controlUrl||!token)return;for(;;){try{const r=await fetch(new URL('/api/automation/worker/claim',controlUrl),{method:'POST',headers:{authorization:`Bearer ${token}`,'content-type':'application/json'},body:JSON.stringify({workerId}),signal:AbortSignal.timeout(15000)});if(r.ok){const d=await r.json();if(d.job){const task=d.job as AutomationTask;const account=`${task.accountKey||'unscoped'}:${new URL(task.applicationUrl).origin}`;if(!activeAccounts.has(account)){activeAccounts.add(account);jobs.set(task.id,{state:'running',taskId:task.id});void executeTask(task).then(result=>jobs.set(task.id,result)).catch(error=>jobs.set(task.id,{taskId:task.id,state:'failed',url:task.applicationUrl,adapter:'unknown',message:error instanceof Error?error.message:'Worker execution failed.'})).finally(()=>activeAccounts.delete(account))}}}}catch{}await new Promise(r=>setTimeout(r,3000))}}
+const server=createServer(async(req,res)=>{res.setHeader('content-type','application/json');if(req.method==='GET'&&req.url==='/health')return json(res,200,{ok:true,service:'wayo-browser-worker',workerId,jobs:jobs.size,durableQueue:Boolean(controlUrl)});const taskMatch=req.url?.match(/^\/tasks\/([^/]+)$/);if(req.method==='GET'&&taskMatch){if(!authorized(req))return json(res,401,{error:'Unauthorized.'});const job=jobs.get(taskMatch[1]);return job?json(res,200,job):json(res,404,{error:'Task not found.'})}
+ if(req.method!=='POST'||req.url!=='/tasks')return json(res,404,{error:'Not found.'});if(!authorized(req))return json(res,401,{error:'Unauthorized.'});let task:AutomationTask;try{task=JSON.parse(await readBody(req));const url=new URL(String(task?.applicationUrl||''));if(!task?.id||!task.applicationUrl||!modes.has(task.mode)||url.protocol!=='https:')throw new Error('Invalid automation task.');if(allowedHosts.size&&!allowedHosts.has(url.hostname.toLowerCase()))throw new Error('Application host is not allowlisted.');if(!adapterFor(task.applicationUrl))throw new Error('No supported adapter for this application URL.');if(!task.candidate?.name||!task.candidate?.email)throw new Error('Candidate name and email are required.');if(task.id.length>128||task.company.length>200||task.role.length>200)throw new Error('Task metadata is too long.');if(task.accountKey&&!/^[a-zA-Z0-9_-]{1,128}$/.test(task.accountKey))throw new Error('Invalid account key.');if(task.candidate.resumeUrl&&new URL(task.candidate.resumeUrl).protocol!=='https:')throw new Error('Resume URL must use HTTPS.');if(jobs.has(task.id))return json(res,409,{error:'Task already exists.',task:jobs.get(task.id)})}catch(error){return json(res,400,{error:error instanceof Error?error.message:'Invalid task.'})}
+ const account=`${task.accountKey||'unscoped'}:${new URL(task.applicationUrl).origin}`;if(activeAccounts.has(account))return json(res,409,{error:'A browser task is already running for this account and origin.'});jobs.set(task.id,{state:'running',taskId:task.id});activeAccounts.add(account);void executeTask(task).then(result=>jobs.set(task.id,result)).catch(error=>jobs.set(task.id,{taskId:task.id,state:'failed',url:task.applicationUrl,adapter:'unknown',message:error instanceof Error?error.message:'Worker execution failed.'})).finally(()=>activeAccounts.delete(account));return json(res,202,{taskId:task.id,state:'running',statusPath:`/tasks/${encodeURIComponent(task.id)}`})})
+server.listen(port,()=>{console.log(`WAYO browser worker listening on :${port} (${workerId})`);void claimLoop()})
