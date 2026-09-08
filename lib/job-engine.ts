@@ -42,7 +42,7 @@ export function terms(text: string) {
 function profileText(p: RovaProfile) { return `${p.headline} ${p.skills.join(' ')} ${p.targetRoles.join(' ')}`.toLowerCase() }
 function cleanKey(value: string) { return value.toLowerCase().replace(/https?:\/\/|www\./g, '').replace(/[^a-z0-9]+/g, ' ').trim() }
 
-export function canonicalJobKey(job: Pick<JobRecord,'company'|'title'|'location'|'url'|'sourceId'>) {
+export function canonicalJobKey(job: Pick<JobRecord,'company'|'title'|'location'|'url'|'source'|'sourceId'>) {
   if (job.sourceId) return `${job.source}:${job.sourceId}`.toLowerCase()
   if (job.url) return `url:${cleanKey(job.url)}`
   return `role:${cleanKey(`${job.company}|${job.title}|${job.location}`)}`
