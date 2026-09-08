@@ -138,16 +138,26 @@
 ## v0.9 — Worker Integration Boundary
 - Audited v0.8 before advancing: the worker now compiles independently and executes browser tasks, but there was no network boundary for the Vercel control plane to dispatch a prepared task to a worker runtime.
 - Added a standalone HTTP worker service with `/health` and authenticated `POST /tasks` endpoints.
-- Added request-size limits and bearer-token protection when `ROVA_WORKER_TOKEN` is configured.
+- Added request-size limits and bearer-token protection.
 - Added control-plane `/api/automation/dispatch` bridge using `ROVA_WORKER_URL` and `ROVA_WORKER_TOKEN`; the Vercel app never receives or stores platform passwords.
 - Added explicit task validation and bounded worker dispatch timeout.
 - Added worker service scripts for local task execution and HTTP serving.
 - Preserved the separation between Vercel orchestration and persistent Playwright browser execution.
 - Bumped the control-plane and worker package versions to 0.9.0.
 
+### v0.9 audit and hardening
+- CI for the v0.9 service boundary passed on commit `bcfab897cce48b4ec1bab01b77b8efeaf4071d34`; the check completed successfully on September 8, 2026. citeturn347file0
+- Before advancing, audited the worker boundary for production risks rather than treating the dispatch endpoint as complete automation.
+- Hardened the worker so `/tasks` always requires the bearer token instead of silently allowing unauthenticated execution when the environment variable is absent.
+- Added strict worker task mode validation, HTTPS-only application URL validation, metadata length limits and account-key validation.
+- Added per-account/per-origin concurrency protection to prevent overlapping browser tasks from sharing the same persistent session.
+- Added an account-scoped persistent session key derived from the account scope and platform adapter, preventing different accounts from sharing the same adapter session directory.
+- Extended the worker task contract with an optional `accountKey` for explicit session isolation.
+- The worker still uses synchronous task execution and local evidence paths; durable queueing, private object storage, result/event persistence and independent submission verification remain required before production-grade automation.
+
 ### v0.9 verification boundary
-- Root control-plane CI passed after the worker isolation fix.
-- The new dispatch/service changes are awaiting their CI result before v0.9 is marked verified.
+- The hardening commits after `bcfab897cce48b4ec1bab01b77b8efeaf4071d34` require a fresh CI pass before v0.9 is marked fully verified.
+- Actual end-to-end dispatch is not yet claimed because the control-plane queue is still local-first and resume files are not yet transferred through a secure document reference.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
