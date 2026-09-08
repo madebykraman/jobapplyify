@@ -11,17 +11,27 @@
 - Account, persistence and document functionality were not implemented; this was carried forward as a gap rather than treated as complete.
 
 ## v0.3
-- Added Supabase-ready account/profile/database foundation with RLS schema and private document bucket policy.
-- Added local-first profile persistence so the product remains usable before external credentials are configured.
+- Repaired the `@/*` TypeScript path alias that caused the Vercel module-resolution failure.
+- Added Supabase-ready authentication, profile, database and private-storage foundation with RLS schema.
+- Added local-first profile and document persistence so the product remains usable before external credentials are configured.
 - Added account sign-in/create-account surface with explicit demo-mode boundary.
+- Added onboarding and editable candidate profile.
+- Added private Supabase document upload when configured.
 - Added resume import for PDF, DOCX, TXT and Markdown.
 - Added deterministic resume parsing/normalisation and ATS/fit analysis.
 - Added target-role comparison, matched/missing terms, section detection and structural warnings.
-- Added responsive styling for account and resume intelligence surfaces.
+- Added persisted resume versions and an editable resume builder with live preview and browser PDF printing.
+- Connected dashboard navigation to opportunities, applications, review queue, documents and insights routes.
+- Added responsive styling for all new surfaces.
+
+### Verification boundary
+- Repository imports and structure were audited after implementation.
+- The latest Vercel status was pending. The connected Vercel workspace does not expose the user's `jobapplyify` project to this assistant, so final cloud-build confirmation must be completed from the user's Vercel project.
+- GitHub CI is configured to run `npm install` and `npm run build` on pushes and pull requests.
 
 ### Outstanding external setup
-- Supabase project URL and anon key are required to activate production authentication/database/storage.
-- Dependency installation and production build verification must be performed in a network-enabled environment.
+- Supabase project URL and anon key are required to activate production authentication/database/storage. No secret needs to be shared in chat.
+- The user needs to import/connect `madebykraman/jobapplyify` in Vercel to perform the final cloud build verification.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
