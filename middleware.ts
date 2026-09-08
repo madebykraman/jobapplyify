@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const proPaths = ['/resume', '/career', '/applications', '/automation', '/insights', '/profile']
+const proPaths = ['/resume', '/career', '/applications', '/automation', '/insights', '/profile', '/review']
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
@@ -15,4 +15,4 @@ export function middleware(request: NextRequest) {
   return NextResponse.redirect(url)
 }
 
-export const config = { matcher: ['/resume/:path*', '/career/:path*', '/applications/:path*', '/automation/:path*', '/insights/:path*', '/profile/:path*'] }
+export const config = { matcher: ['/resume/:path*', '/career/:path*', '/applications/:path*', '/automation/:path*', '/insights/:path*', '/profile/:path*', '/review/:path*'] }
