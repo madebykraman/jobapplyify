@@ -122,12 +122,17 @@
 - Added unknown-form detection and explicit human handoff results.
 - Added dry-run and review execution paths that never submit applications.
 - Added full-auto submission only behind the explicit full-auto mode and trusted submission-control detection; successful navigation is never treated as verification.
+- Added evidence capture for safety handoffs, failures and submission attempts.
+- Added a centralized worker adapter registry instead of duplicating URL/platform matching in the executor.
+- Added bounded navigation/action timeouts through runtime configuration.
 - Added worker setup documentation and a strict credential/session boundary: user-owned accounts and secrets stay outside GitHub and chat.
 - Added CI coverage for `worker` TypeScript compilation.
+- Bumped control-plane version to 0.8.0.
 
 ### v0.8 verification boundary
-- GitHub CI is now validating both the Vercel application and the separate worker package.
-- Platform-specific selectors, production queue/API integration, evidence capture, independent submission verification and worker hosting remain subsequent hardening/integration work.
+- The existing control-plane CI passed on the pre-worker commit.
+- A dedicated worker CI now validates the isolated worker package after the v0.8 changes; final v0.8 verification remains pending until that run passes.
+- Platform-specific selectors, production queue/API integration, independent submission verification and worker hosting remain subsequent hardening/integration work.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
