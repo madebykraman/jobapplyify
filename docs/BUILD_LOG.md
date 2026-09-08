@@ -1,11 +1,11 @@
 # WAYO Build Log
 
 ## Product-wide audit + market expansion — 2026-09-09
-ROVA is abandoned as the product brand. The new provisional working brand is **WAYO** — “Your career, in motion.” Brand clearance is intentionally not treated as complete until later legal/domain research.
+ROVA is abandoned as the product brand. The new provisional working brand is **WAYO** — “Your career, in motion.” Brand clearance remains a later legal/domain task.
 
-The product was re-audited against the original proposal plus current 2026 competitor/community patterns. WAYO is designed around evidence-backed career intelligence, truthful generation, outcome-aware decisions and controlled automation rather than application volume.
+WAYO is designed around evidence-backed career intelligence, truthful generation, outcome-aware decisions and controlled automation rather than application volume. Market/design research was also reviewed against current product-design patterns: Opensource UI emphasises cohesive reusable components and readable production code; Exalt Studio emphasises diagnose → clarify/design → systemise → ship; Recent emphasises curated quality over quantity. citeturn0search0turn0search1turn0search9
 
-### Required product capability matrix
+## Required product capability matrix
 - Freemium monetisation: Free + Pro, usage/automation credits, later add-ons and team/coach plans.
 - One-click structured resume builder.
 - ATS checker and role-specific ATS readiness.
@@ -15,41 +15,42 @@ The product was re-audited against the original proposal plus current 2026 compe
 - AI role recommendations + compensation intelligence.
 - Any-job-post scanner and intelligence layer.
 - Career paths, pivots, transferable skills, salary progression and action plans.
-- Salary-target feasibility engine: “Can I reach ₹12 LPA?” → fit, gaps, work, timeline and next actions.
+- Salary-target feasibility engine.
 - Resume audit / career audit.
 - Community-driven data signals with provenance and confidence.
 - Profile import from supported sources where technically and legally permitted.
 - Exclusive community: coming soon, not represented as live.
 
-### Market-demand additions
-1. Explainable job match. 2. Transferable-skills mapper. 3. Company intelligence. 4. Referral intelligence. 5. Interview Lab. 6. Follow-up assistant. 7. Application email intelligence. 8. Freshness/duplicate/repost detection. 9. Salary negotiation intelligence. 10. Offer comparison. 11. India notice-period/CTC/expected-CTC intelligence. 12. Visa/sponsorship/work authorization. 13. Remote/hybrid/on-site intelligence. 14. Skills-to-project planner. 15. Learning roadmap. 16. Portfolio/project audit. 17. LinkedIn/profile audit. 18. Personal career memory. 19. Career health dashboard. 20. Community intelligence. 21. Browser extension. 22. Application autofill agent. 23. Human review queue. 24. Evidence vault. 25. AI truth lock. 26. Application quality score. 27. Rejection learning loop. 28. Community salary/job intelligence. 29. Career pivot simulator. 30. Goal planner.
+## Build 08 — COMPLETED CORE CONTROL CENTER — 2026-09-09
+The Build 08 completion pass shipped the durable control-plane foundation rather than leaving the browser worker as the source of truth.
 
-## Build audit before advancing
-Previous work was rechecked before continuing. The durable automation layer remains incomplete because worker execution state is process-local, platform adapters are not fully live, evidence storage is not durable, and independent submission verification is absent. Build 08 remains active.
+Completed:
+- Durable queue state in Supabase with worker leases, expiry and race-safe `FOR UPDATE SKIP LOCKED` claims.
+- Worker recovery loop: a restarted worker polls the control plane and can reclaim eligible jobs instead of losing queue state in process memory.
+- Server-side pause/resume state; paused accounts are excluded from worker claims.
+- Persistent cancel/retry transactions with ownership enforced by Supabase RLS.
+- Worker checks persisted cancellation before form submission.
+- Retry scheduling with bounded backoff and max-attempt enforcement.
+- Signed resume URL generation during durable worker claim from the user's latest stored resume source document.
+- Private `automation-evidence` object storage and worker-to-control-plane evidence upload lifecycle.
+- Callback closes leases and persists worker state, errors, handoff reasons and evidence references.
+- Durable follow-up scheduling (48-hour default) and in-app event trail for queue actions.
+- Automation analytics API for total jobs, state distribution, attempted/completed jobs, completion ratio and pending follow-ups.
+- New WAYO automation control surface with permission modes, queue state, handoffs, recovery actions, adapter map, responsive layout and reduced-motion support.
+- New WAYO editorial/neo visual language is now the primary product direction; the old dashboard is no longer the product entry point.
 
-### Access model + UI transformation shipped — 2026-09-09
+Build 08 is considered complete at the control-center layer. Platform-specific browser fixtures/adapters and independent submission verification remain explicit quality gates and are not falsely marked as complete here.
+
+## Design direction — implemented in parallel
+The visual redesign follows a deliberate product-system approach: clarify the information hierarchy, establish reusable interaction patterns, then ship them in code. WAYO uses an editorial SaaS language: oversized type, restrained mono metadata, hard grid lines, acid action colour, deliberate asymmetry, motion on hierarchy rather than decoration, responsive mobile layouts and `prefers-reduced-motion` handling. The new home replaces the old dashboard experience rather than maintaining two competing product shells.
+
+## Access model + UI transformation
 - Basic discovery remains usable without account.
-- Pro routes now require account-level Pro access.
+- Pro routes require account-level Pro access.
 - Beta invite code `WAYO-BETA` unlocks full Pro access at no charge during beta.
-- A dedicated test account path is available for product review.
-- Pro pricing is positioned at ₹499/month in India with a purchasing-power-adjusted international reference price in the UI.
-- Future AI, automation, interview and data credits are explicitly reserved as an add-on layer rather than gating the core product.
-- New account experience is a separate WAYO visual system while the classic dashboard remains available.
-- Review Queue is now explicitly treated as a Pro control gate.
-- WAYO app metadata and icon have been refreshed.
-
-### Still blocked before Build 08 completion
-- Worker queue state must survive process restart.
-- Retry/claim/lease semantics must be durable and race-safe.
-- Resume signed URL must be wired end-to-end from application UI into worker task.
-- Real platform-specific adapters and fixtures must be implemented and tested.
-- Evidence must move from worker-local filesystem to secure object storage with retention/redaction.
-- Independent submission verification must exist before any `verified` state can be claimed.
-- Queue pause/cancel/retry controls must persist server-side.
-- Notifications and automation analytics remain incomplete.
-
-## Brand transformation
-WAYO replaces ROVA across product-facing UI. The product keeps two intentional visual modes during development: the classic command dashboard and the new editorial/neo workspace. They are both retained so the product can be reviewed side-by-side before a final design language is selected.
+- Test account path exists for product review.
+- Pro pricing is positioned at ₹499/month in India with purchasing-power-adjusted international pricing language.
+- Credits are reserved as a future layer rather than gating the core beta experience.
 
 ## 12-build roadmap
 1. Build 01 — Foundation + WAYO brand system.
@@ -59,11 +60,18 @@ WAYO replaces ROVA across product-facing UI. The product keeps two intentional v
 5. Build 05 — Market Intelligence.
 6. Build 06 — Application Studio.
 7. Build 07 — Automation Engine.
-8. Build 08 — Control Center: durable queue, review, evidence, analytics, notifications and follow-ups.
+8. **Build 08 — Control Center: complete.**
 9. Build 09 — Interview Lab + Outcome Intelligence.
 10. Build 10 — Growth + Community.
 11. Build 11 — Monetisation + Entitlements.
 12. Build 12 — Full QA, Security + Launch.
 
+## Quality gates still deliberately open
+- Real platform-specific adapters and representative fixtures must be implemented and tested before any platform is described as live.
+- Independent submission verification must exist before any `verified` state can be claimed.
+- Evidence retention/redaction policy and user-facing signed evidence viewer need final production hardening.
+- Notifications can currently be represented through durable in-app events; outbound email/push delivery remains a later integration.
+- Full E2E, security, performance and mobile QA remain Build 12 gates.
+
 ## Quality rules
-A UI is not a completed feature. Completion requires data model, persistence, validation, security boundary, integration, failure handling and verification. No platform is described as live until an actual adapter and representative fixture are tested. No application is described as submitted merely because a form was navigated. No application is verified without independent evidence. AI output must distinguish confirmed evidence, inference and uncertainty. Candidate facts are never silently invented.
+A UI is not a completed feature. Completion requires data model, persistence, validation, security boundary, integration, failure handling and verification. No platform is described as live until an actual adapter and representative fixture is tested. No application is described as submitted merely because a form was navigated. No application is verified without independent evidence. AI output must distinguish confirmed evidence, inference and uncertainty. Candidate facts are never silently invented.
