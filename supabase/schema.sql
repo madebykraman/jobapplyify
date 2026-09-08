@@ -11,16 +11,10 @@ alter table public.profiles add column if not exists automation_paused boolean n
 alter table public.automation_jobs add column if not exists lease_owner text;
 alter table public.automation_jobs add column if not exists lease_expires_at timestamptz;
 alter table public.automation_jobs add column if not exists next_attempt_at timestamptz not null default now();
-
 create index if not exists automation_jobs_queue_idx on public.automation_jobs(state, next_attempt_at, lease_expires_at, created_at);
 create index if not exists automation_events_job_idx on public.automation_events(automation_job_id, created_at desc);
 
-alter table public.profiles enable row level security;
-alter table public.documents enable row level security;
-alter table public.resumes enable row level security;
-alter table public.target_roles enable row level security;
-alter table public.automation_jobs enable row level security;
-alter table public.automation_events enable row level security;
+alter table public.profiles enable row level security; alter table public.documents enable row level security; alter table public.resumes enable row level security; alter table public.target_roles enable row level security; alter table public.automation_jobs enable row level security; alter table public.automation_events enable row level security;
 drop policy if exists "profiles own row" on public.profiles; create policy "profiles own row" on public.profiles for all using (auth.uid() = id) with check (auth.uid() = id);
 drop policy if exists "documents own rows" on public.documents; create policy "documents own rows" on public.documents for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 drop policy if exists "resumes own rows" on public.resumes; create policy "resumes own rows" on public.resumes for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
@@ -34,29 +28,12 @@ drop policy if exists "documents storage own objects" on storage.objects; create
 drop policy if exists "automation evidence own objects" on storage.objects; create policy "automation evidence own objects" on storage.objects for select using (bucket_id='automation-evidence' and (storage.foldername(name))[1]=auth.uid()::text);
 
 create or replace function public.claim_automation_job(p_worker_id text, p_lease_seconds integer default 120)
-returns setof public.automation_jobs
-language plpgsql
-security definer
-set search_path = public
-as $$
+returns setof public.automation_jobs language plpgsql security definer set search_path=public as $$
 declare claimed public.automation_jobs;
 begin
-  if p_worker_id is null or p_worker_id !~ '^[A-Za-z0-9_-]{1,128}$' then raise exception 'Invalid worker id'; end if;
-  update public.automation_jobs j
-  set state='running', lease_owner=p_worker_id, lease_expires_at=now()+make_interval(secs => greatest(30, least(p_lease_seconds, 900))), attempts=j.attempts+1, updated_at=now()
-  where j.id = (
-    select q.id from public.automation_jobs q
-    where q.state in ('queued','failed')
-      and q.attempts < q.max_attempts
-      and q.next_attempt_at <= now()
-      and (q.lease_expires_at is null or q.lease_expires_at < now())
-    order by q.created_at
-    for update skip locked
-    limit 1
-  ) returning * into claimed;
-  if claimed.id is not null then return next claimed; end if;
-  return;
-end;
-$$;
-revoke all on function public.claim_automation_job(text, integer) from public, anon, authenticated;
-grant execute on function public.claim_automation_job(text, integer) to service_role;
+ if p_worker_id is null or p_worker_id !~ '^[A-Za-z0-9_-]{1,128}$' then raise exception 'Invalid worker id'; end if;
+ update public.automation_jobs j set state='running',lease_owner=p_worker_id,lease_expires_at=now()+make_interval(secs=>greatest(30,least(p_lease_seconds,900))),attempts=j.attempts+1,updated_at=now()
+ where j.id=(select q.id from public.automation_jobs q join public.profiles p on p.id=q.user_id where q.state in ('queued','failed') and q.attempts<q.max_attempts and q.next_attempt_at<=now() and (q.lease_expires_at is null or q.lease_expires_at<now()) and p.automation_paused=false order by q.created_at for update of q skip locked limit 1) returning * into claimed;
+ if claimed.id is not null then return next claimed; end if; return;
+end; $$;
+revoke all on function public.claim_automation_job(text,integer) from public,anon,authenticated; grant execute on function public.claim_automation_job(text,integer) to service_role;
