@@ -83,8 +83,10 @@
 - Bumped product version to 0.6.0.
 
 ### v0.6 verification boundary
-- GitHub Actions runs `npm install` and `npm run build`; an initial CI failure was identified as the npm cache requiring a lockfile, so the cache dependency was removed and CI was retriggered.
-- The repaired v0.6 CI run is currently queued; build success is not claimed until it reports completed.
+- Initial GitHub CI exposed a TypeScript regression in onboarding: the generic profile updater accepted only strings while `targetRoles` and `skills` are string arrays.
+- Fixed by separating scalar-field updates from array-field updates.
+- The CSS autoprefixer message is a warning only and is not the deployment failure.
+- CI is being rerun from the fix commit; build success is not claimed until it reports completed.
 - Final production verification remains dependent on the user's Vercel deployment.
 
 ### Rule
