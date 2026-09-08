@@ -131,8 +131,23 @@
 
 ### v0.8 verification boundary
 - The existing control-plane CI passed on the pre-worker commit.
-- A dedicated worker CI now validates the isolated worker package after the v0.8 changes; final v0.8 verification remains pending until that run passes.
+- A dedicated worker CI initially exposed an isolation defect where the root Next.js TypeScript project also scanned worker sources; this was remediated by excluding the worker directory from the root compiler and keeping worker compilation in its own CI step.
+- Final v0.8 worker verification is tracked through the post-fix CI run.
 - Platform-specific selectors, production queue/API integration, independent submission verification and worker hosting remain subsequent hardening/integration work.
+
+## v0.9 — Worker Integration Boundary
+- Audited v0.8 before advancing: the worker now compiles independently and executes browser tasks, but there was no network boundary for the Vercel control plane to dispatch a prepared task to a worker runtime.
+- Added a standalone HTTP worker service with `/health` and authenticated `POST /tasks` endpoints.
+- Added request-size limits and bearer-token protection when `ROVA_WORKER_TOKEN` is configured.
+- Added control-plane `/api/automation/dispatch` bridge using `ROVA_WORKER_URL` and `ROVA_WORKER_TOKEN`; the Vercel app never receives or stores platform passwords.
+- Added explicit task validation and bounded worker dispatch timeout.
+- Added worker service scripts for local task execution and HTTP serving.
+- Preserved the separation between Vercel orchestration and persistent Playwright browser execution.
+- Bumped the control-plane and worker package versions to 0.9.0.
+
+### v0.9 verification boundary
+- Root control-plane CI passed after the worker isolation fix.
+- The new dispatch/service changes are awaiting their CI result before v0.9 is marked verified.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
