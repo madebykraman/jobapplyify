@@ -60,9 +60,9 @@
 
 ### v0.5 audit before v0.6
 - Found four gaps against the approved Job Intelligence roadmap: individual job URL scanning was incomplete, saved roles were ephemeral, duplicate detection was only advisory, and career/company/project relevance was under-specified.
-- These gaps were remediated before treating the build as complete.
+- These gaps were remediated before treating the job-intelligence stage as complete.
 
-## v0.6 — Job Intelligence completion + Application Preparation foundation
+## v0.6 — Application Preparation
 - Added public individual-job URL scanning for Greenhouse and Lever, plus Ashby board resolution and individual-job matching where exposed by the public feed.
 - Kept server-side source allowlisting and HTTPS enforcement; the scanner is not an arbitrary URL fetcher.
 - Added persistent local saved-role state with timestamps.
@@ -73,10 +73,18 @@
 - Added explicit career relevance against declared target roles.
 - Improved ATS normalization fallbacks for company, workplace type, employment and publication timestamps.
 - Added richer job-intelligence detail sections and source-provenance guardrails.
+- Added a deterministic application-preparation engine driven by the selected job, stored profile and latest resume.
+- Added role-specific resume variant metadata and ATS readiness scoring.
+- Added role-specific cover-letter drafting.
+- Added common application-answer drafting for motivation, fit and compensation.
+- Added missing-evidence warnings and an explicit no-invention guardrail.
+- Connected Job Intelligence directly to the Application Preparation workspace.
+- Added copy controls for generated application material.
 - Bumped product version to 0.6.0.
 
 ### v0.6 verification boundary
-- GitHub Actions is configured to run `npm install` and `npm run build`, but the latest v0.6 commit currently has no reported status checks in the connector, so build success is not claimed yet.
+- GitHub Actions runs `npm install` and `npm run build`; an initial CI failure was identified as the npm cache requiring a lockfile, so the cache dependency was removed and CI was retriggered.
+- The repaired v0.6 CI run is currently queued; build success is not claimed until it reports completed.
 - Final production verification remains dependent on the user's Vercel deployment.
 
 ### Rule
