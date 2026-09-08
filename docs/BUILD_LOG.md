@@ -108,9 +108,26 @@
 - Kept browser execution, credentials and persistent sessions outside the Vercel request lifecycle; the control plane does not falsely claim that a browser submission occurred.
 - Bumped product version to 0.7.0.
 
-### v0.7 verification boundary
-- GitHub CI must pass `npm install` and `npm run build` for the new automation layer before this build is treated as verified.
-- The separate browser worker/runtime is intentionally the next execution integration boundary; no fake browser submission is represented in the product.
+### v0.7 verification
+- GitHub CI passed `npm install` and `npm run build` for the automation control plane.
+- The separate browser worker/runtime is the execution integration boundary and is not represented as live until its own build and runtime checks pass.
+
+## v0.8 — Browser Worker Foundation
+- Audited v0.7 before advancing: the control-plane state machine, permission modes and handoff rules are present; the missing implementation boundary is the separate browser runtime.
+- Added an isolated `worker/` Node package so Playwright execution does not run inside Vercel request lifecycles.
+- Added typed worker task, candidate and result contracts.
+- Added persistent browser-context sessions isolated per platform adapter.
+- Added deterministic label-based candidate field filling and resume-file upload primitives.
+- Added CAPTCHA, human-verification and sensitive-question detection guards.
+- Added unknown-form detection and explicit human handoff results.
+- Added dry-run and review execution paths that never submit applications.
+- Added full-auto submission only behind the explicit full-auto mode and trusted submission-control detection; successful navigation is never treated as verification.
+- Added worker setup documentation and a strict credential/session boundary: user-owned accounts and secrets stay outside GitHub and chat.
+- Added CI coverage for `worker` TypeScript compilation.
+
+### v0.8 verification boundary
+- GitHub CI is now validating both the Vercel application and the separate worker package.
+- Platform-specific selectors, production queue/API integration, evidence capture, independent submission verification and worker hosting remain subsequent hardening/integration work.
 
 ### Rule
 Before each subsequent build, audit the previous build against the approved roadmap, remediate gaps first, then advance.
