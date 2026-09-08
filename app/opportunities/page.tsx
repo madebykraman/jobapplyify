@@ -1,7 +1,7 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { Bookmark, ExternalLink, Filter, Loader2, Search, Sparkles, Target, Upload, X } from 'lucide-react'
+import { Bookmark, ExternalLink, Filter, Loader2, Search, Target, Upload, X } from 'lucide-react'
 import { analyseJob, type JobRecord } from '@/lib/job-engine'
 import { defaultProfile, loadProfile, type RovaProfile } from '@/lib/storage'
 
@@ -13,7 +13,7 @@ const seed: JobRecord[] = [
 
 export default function Opportunities(){
  const [profile,setProfile]=useState<RovaProfile>(defaultProfile); const [jobs,setJobs]=useState(seed); const [q,setQ]=useState(''); const [source,setSource]=useState(''); const [loading,setLoading]=useState(false); const [error,setError]=useState(''); const [selected,setSelected]=useState<JobRecord|null>(null); const [saved,setSaved]=useState<string[]>([])
- useState(()=>{setProfile(loadProfile())})
+ useEffect(()=>setProfile(loadProfile()),[])
  const filtered=useMemo(()=>jobs.filter(j=>`${j.company} ${j.title} ${j.location} ${j.description}`.toLowerCase().includes(q.toLowerCase())),[jobs,q])
  async function loadSource(){setError('');if(!source.trim()){setError('Paste a Greenhouse, Lever or Ashby public jobs-board URL.');return}setLoading(true);try{const r=await fetch('/api/job-source',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:source})});const data=await r.json();if(!r.ok)throw new Error(data.error||'Source failed');setJobs(prev=>[...data.jobs,...prev.filter(x=>!data.jobs.some((n:JobRecord)=>n.id===x.id))]);setSource('')}catch(e){setError(e instanceof Error?e.message:'Unable to load source.')}finally{setLoading(false)}}
  function toggleSave(id:string){setSaved(x=>x.includes(id)?x.filter(y=>y!==id):[...x,id])}
