@@ -2,7 +2,7 @@
 
 ## Build 12 — PRODUCT RECONCILIATION + QA RESET — 2026-09-09
 
-Build 12 is no longer treated as a final-launch claim. It is the audit/reset boundary that reconciles the full product history, feature requests, pivots, implementation state, external competitive research, UI direction and release gates. The complete forward roadmap is maintained in `docs/ROADMAP.md`; the detailed product/code audit is in `docs/MASTER_AUDIT.md`; the external reference audit is in `docs/COMPETITIVE_UI_AUDIT.md`.
+Build 12 is no longer treated as a final-launch claim. It is the audit/reset boundary that reconciles the full product history, feature requests, pivots, implementation state, external competitive research, UI direction and release gates. The complete forward roadmap is maintained in `docs/ROADMAP.md`; the detailed product/code audit is in `docs/MASTER_AUDIT.md`; the external reference audit is in `docs/COMPETITIVE_UI_AUDIT.md`; the current implementation truth table is in `docs/FEATURE_TRUTH.md`.
 
 ### Historical pathway
 Build 01–05 established the product foundation, job intelligence and career intelligence. Build 06 added resume ingestion, parsing, persistent saves and job-source hardening. Build 07 introduced the automation control center and three execution modes. Build 08 created the browser-worker foundation and adapter registry. Build 09 added asynchronous worker execution, secure dispatch/callback, durable queue lifecycle, signed resume transfer and host allowlisting. Build 10 added Interview/Outcome Intelligence plus Growth/Community. Build 11 added monetisation and Supabase entitlements. Build 12 began as final QA/security/launch hardening and is now expanded into the full reconciliation and release program.
@@ -40,7 +40,7 @@ OpenSource UI reinforces a cohesive primitive library with consistent spacing/ty
 - Response analytics by source, role family and evidence quality.
 
 ### Build 12 audit findings
-- Current CI was green on the latest pre-audit commit; all remediation commits require a new green run before verification.
+- Current CI is now green on the audited implementation after fixing the errors exposed by the remediation pass; browser/device QA remains open.
 - The current product is a strong prototype/control-plane foundation, not a production-complete career operating system.
 - Authentication and product surfaces still require the shared dark system; the fix is a page-level design rebuild, not another global override.
 - Current job intelligence is heuristic rather than calibrated market intelligence.
@@ -59,24 +59,31 @@ OpenSource UI reinforces a cohesive primitive library with consistent spacing/ty
 - Updated the Pro UI gate to read the authenticated entitlement API rather than a client flag.
 - Removed the client-side demo credential/Pro bypass from authentication.
 - Removed remaining user-visible WAYO/ROVA branding found in the workspace and resume surfaces touched in this pass.
-- Added `lib/feature-status.ts` as an explicit live/partial/mock/unavailable/unsafe truth registry.
+- Added `lib/feature-status.ts` and `docs/FEATURE_TRUTH.md` as explicit live/partial/mock/unavailable/unsafe truth registries.
+- Corrected application-engine optional-field type handling discovered by CI.
+- Aligned the main CI runtime to Node 22 because the resolved Supabase dependency requires Node 22+.
 - Previously completed: Lever parsing correction, Ashby hostname restoration, KINDLEAP source user-agent, remote document cleanup, and evidence-bound application fallback hardening.
 
+### Verification
+GitHub Actions run **34319655739** for commit `c189141f66f615e806f449ccdf666624bfc57dcb` is green: `npm run typecheck` and `npm run build` both pass.
+
+The same CI install reports **3 dependency vulnerabilities (1 moderate, 2 high)**. These are now an explicit security remediation item; they are not being treated as invisible warnings. The project also requires Node 22 in CI and package metadata.
+
 ### Build 12A status
-12A is active, not complete. The next reconciliation pass must continue through every route, API, database schema, worker path and failure state. The feature truth registry is now explicit, but the product still has partial/mock surfaces and unverified integrations.
+12A is active, not complete. The typecheck/build baseline is clean, but the product-wide defect sweep is not finished. The next reconciliation pass must continue through every route, API, database schema, worker path, data lifecycle and failure state.
 
 ### Immediate remediation sequence
 1. Complete product-wide P0/P1 defect sweep.
 2. Audit every route/API/database/worker boundary and record truth status.
-3. Add representative source/automation fixtures and regression tests.
-4. Complete data deletion/orphan/RLS verification.
-5. Reconcile remaining legacy branding and stale claims.
-6. Run fresh TypeScript/build/CI verification.
+3. Resolve the 3 dependency vulnerabilities or document a justified non-upgrade path.
+4. Add representative source/automation fixtures and regression tests.
+5. Complete data deletion/orphan/RLS verification.
+6. Reconcile remaining legacy branding and stale claims.
 7. Begin Build 12B shared KINDLEAP UI system and page rebuild.
 8. Continue Builds 13–24 only after the previous build's exit criteria are actually evidenced.
 
 ## CI verification boundary
-The CI definition requires `npm run typecheck` and `npm run build`. Latest confirmed green run before the current remediation commits: GitHub Actions run `34316133299`, commit `c56e40d8b189586a5971e80008bc4d74608c1542`. The current `main` state must receive a fresh CI run before these remediation changes are marked verified.
+The CI definition requires `npm run typecheck` and `npm run build` on Node 22. Latest verified green run: **34319655739**, commit `c189141f66f615e806f449ccdf666624bfc57dcb`. The final documentation-only commits after that run do not change runtime code, but another green run will be recorded after the documentation state settles.
 
 ## Documentation rule
 README, BUILD_LOG and ROADMAP are updated as part of every build. A build is not marked complete solely because its UI exists. Completion requires the relevant data model, persistence, validation, security boundary, integration, failure handling, evidence and regression coverage.
