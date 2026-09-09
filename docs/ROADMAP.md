@@ -1,90 +1,126 @@
 # KINDLEAP Release Roadmap — 2026-09-09
 
+This roadmap is reconciled against the full project history, current repository state, the 30-feature list, and the supplied competitor/UI reference set. See `docs/MASTER_AUDIT.md` for code/product findings and `docs/COMPETITIVE_UI_AUDIT.md` for the external reference audit.
+
 ## Historical builds
-Builds 01–11 remain the historical implementation timeline. Build 12 is retained as the QA/security/UI hardening effort, but its old label "final launch" is superseded by this reconciliation roadmap.
+Builds 01–11 remain the historical implementation timeline. Build 12 is the QA/security/UI hardening boundary; it is not a launch claim.
 
-## New release sequence
+## Product thesis
+KINDLEAP is not a volume auto-apply clone. The product thesis is: **evidence-backed career decisions + controlled automation + outcome learning**.
 
-### Build 12A — Product reconciliation + defect sweep
-Goal: establish one source of truth and remove contradictions.
-- Reconcile all feature requests and pivots.
+Core loop: `Find → Understand → Prepare → Apply → Interview → Grow`
+
+Execution loop: `Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`
+
+## Build 12A — Product reconciliation + defect sweep
+- Reconcile all historical feature requests, modifications and pivots.
 - Remove user-visible ROVA/WAYO copy.
-- Fix Lever source parsing.
+- Fix source parsing and representative fixtures.
 - Remove unsafe generated-content fallbacks.
 - Fix document deletion/orphan handling.
 - Replace client-cookie entitlement checks with server entitlement reads.
 - Establish shared UI tokens/primitives.
 - Add route/feature status instrumentation.
+- Establish a feature truth table: live / partial / mock / unavailable.
 
-Exit: no known P0/P1 defects from static audit; CI green.
+Exit: no known P0/P1 static defects; CI green; documentation reconciled.
 
-### Build 12B — Complete UI system rebuild
-Goal: one KINDLEAP product, not multiple themes.
+## Build 12B — Complete UI system rebuild
+The supplied UI references are now treated as design-system inputs, not page-decoration inspiration.
+
+Influences:
+- OpenSource UI: cohesive reusable primitives without flattening every component into the same visual shape.
+- Exalt: clarify product structure and critical workflows before styling; atomic/component system; progressive disclosure; complex data made legible.
+- Swiped: visual pattern exploration where accessible; no unverified implementation claims.
+- Recent: editorial curation and visual rhythm.
+- Grainient: engineered visual atmosphere for brand moments, not dense decision surfaces.
+
+Rebuild:
 - Shared navigation/command shell.
 - Shared page header/index/section/action/input/list/drawer/empty-state primitives.
-- Rebuild Home, Auth, Onboarding, Profile, Documents, Resume, Career, Opportunities, Applications, Automation, Review, Insights, Growth, Community and Pricing against the same system.
-- Mobile/iPhone-first layouts and accessibility pass.
-- Remove the legacy light editorial CSS architecture.
+- Shared evidence, score, status and automation-state primitives.
+- Home, Auth, Onboarding, Profile, Documents, Resume, Career, Opportunities, Applications, Automation, Review, Insights, Growth, Community and Pricing.
+- Mobile/iPhone-first layouts and accessibility.
+- Remove the legacy light editorial CSS architecture rather than layering overrides indefinitely.
 
-Exit: visual regression pass shows no page-level theme drift.
+Exit: visual regression pass shows no page-level theme drift and all core flows use shared primitives.
 
-### Build 13 — Account + Career Memory
+## Build 13 — Account + Career Memory
 - Durable profile model.
 - Career memory/evidence model.
-- Work authorization, visa/sponsorship, notice period, preferred work mode, locations and compensation fields.
+- Work authorization, visa/sponsorship, notice period, preferred work mode, locations and compensation.
 - Durable resumes/documents/jobs/application records.
 - Private signed document access.
+- Explicit user-approved memory, not silent AI memory.
+- Durable Answer Library for recurring application questions.
 
-Exit: account survives browser/device changes with correct RLS.
+Exit: account survives browser/device changes with correct RLS and deletion semantics.
 
-### Build 14 — Resume + Evidence Intelligence
+## Build 14 — Resume + Evidence Intelligence
 - Structured resume parser.
 - Evidence vault.
 - Claim → evidence provenance.
 - Resume variants/versioning.
 - Evidence-bound generation / truth lock.
 - Application quality score.
-- Portfolio and LinkedIn audit.
+- Portfolio/project audit.
+- LinkedIn audit + rewrite.
+- Optional portfolio/video evidence.
+- Multilingual resume output as an internationalisation feature.
 
-Exit: generated output is traceable to evidence or explicitly marked inference.
+Exit: every generated candidate claim is traceable to evidence or explicitly labelled inference.
 
-### Build 15 — Market Intelligence
+## Build 15 — Market Intelligence
 - Explainable match score with calibrated weighting.
 - Transferable-skills mapper.
-- Company intelligence.
-- Freshness/repost/duplicate detection.
+- Company intelligence: product/team/funding/news/hiring velocity/context/risk.
+- Freshness decay, duplicate/repost detection.
 - Salary and India-specific CTC intelligence.
+- Notice-period intelligence.
 - Remote/work-mode intelligence.
 - Visa/sponsorship intelligence.
 - Referral intelligence.
+- Company exclusion lists.
+- Hard deal-breakers.
+- Source/date/confidence metadata.
 
-Exit: representative real-world sources produce normalized, sourced records with confidence.
+Exit: representative real-world sources produce normalized, sourced records with confidence and freshness.
 
-### Build 16 — Application Studio
+## Build 16 — Application Studio
 - Durable application records.
 - Tailored resume/cover letter/answer variants.
 - Application quality gate.
+- Immutable application-package snapshot.
 - Application timeline.
-- Follow-up scheduling.
-- Email/application intelligence hooks.
+- Application Review tab showing the exact artifacts intended/submitted.
+- Follow-up scheduling and delivery hooks.
+- Dynamic outreach/email drafts tied to the application.
 - Human review queue.
+- Interview-round records.
+- Response analytics by source, role family and evidence quality.
 
 Exit: a role can move from discovery to prepared application without losing provenance or state.
 
-### Build 17 — Automation Production
+## Build 17 — Automation Production
 - Production Greenhouse/Lever/Ashby adapters first.
 - Representative fixtures.
 - Deterministic form filling.
+- Answer Library integration.
 - Immutable application package snapshot.
+- Dry Run.
+- Review.
+- Hybrid mode: high-fit roles auto-submit, lower-fit roles require approval.
+- Full Auto only when policy permits.
 - CAPTCHA/sensitive/unknown-flow handoff.
 - Browser session bootstrap and human handoff.
 - Evidence capture.
 - Independent submission verification.
 - Retry/cancellation/lease recovery tests.
+- Campaign abstraction: role + geography + salary + exclusions + automation policy + follow-up policy.
 
 Exit: no platform is called live without fixture and end-to-end evidence.
 
-### Build 18 — Interview + Outcome Intelligence
+## Build 18 — Interview + Outcome Intelligence
 - Real Interview Lab.
 - Interview question generation from role + evidence.
 - Interview practice/session persistence.
@@ -92,11 +128,13 @@ Exit: no platform is called live without fixture and end-to-end evidence.
 - Outcome classifier.
 - Rejection learning loop.
 - Search health from real data.
-- Salary negotiation and offer comparison.
+- Salary negotiation intelligence.
+- Offer comparison.
+- Recruiter engagement signals where consented and technically available.
 
 Exit: application → response → interview → offer/rejection creates a durable learning loop.
 
-### Build 19 — Growth + Community
+## Build 19 — Growth + Community
 - Durable goal planner.
 - Skills-to-project planner.
 - Learning roadmap.
@@ -104,10 +142,11 @@ Exit: application → response → interview → offer/rejection creates a durab
 - Career health dashboard from real outcomes.
 - Anonymous community contribution.
 - Aggregate salary/job timing intelligence with source/date/confidence.
+- Explicit privacy/aggregation thresholds.
 
 Exit: no community claim without privacy and aggregation tests.
 
-### Build 20 — Monetisation + Entitlements
+## Build 20 — Monetisation + Entitlements
 - Final server-side Pro enforcement.
 - Payment provider.
 - Checkout.
@@ -117,19 +156,21 @@ Exit: no community claim without privacy and aggregation tests.
 - Billing history.
 - India tax/invoice handling.
 - Purchasing-power-adjusted international pricing.
-- Credit entitlement layer if still required.
+- Credit entitlement layer only if the economics and verified-application model require it.
 
 Exit: entitlement state is authoritative, auditable and independent of client cookies.
 
-### Build 21 — Extension + Integrations
+## Build 21 — Extension + Integrations
 - Chrome/browser extension.
+- Contextual job-page sidebar.
 - Supported job-board integrations beyond initial ATS sources.
 - Calendar/email integrations where explicitly consented.
 - Secure OAuth/token lifecycle.
+- Recruiter/referral workflows.
 
 Exit: integration permissions, revocation and data boundaries tested.
 
-### Build 22 — Full release QA
+## Build 22 — Full release QA
 - Unit tests.
 - API integration tests.
 - Browser E2E.
@@ -141,11 +182,12 @@ Exit: integration permissions, revocation and data boundaries tested.
 - Worker failure/recovery tests.
 - Evidence redaction tests.
 - Privacy/data deletion tests.
+- Feature truth audit: no seeded demo data presented as live intelligence.
 - Production observability.
 
 Exit: zero open P0/P1 defects and all release gates evidenced.
 
-### Build 23 — Private beta launch
+## Build 23 — Private beta launch
 - Production deployment.
 - Controlled invite cohort.
 - Real support/feedback loop.
@@ -153,11 +195,12 @@ Exit: zero open P0/P1 defects and all release gates evidenced.
 - Feature flags.
 - Rollback procedure.
 - Weekly outcome review.
+- Explicit automation safety monitoring.
 
 Exit: stable beta with no critical safety/data defects.
 
-### Build 24 — Public launch
-Only after Build 23 has demonstrated reliability, retention and safe automation behaviour.
+## Build 24 — Public launch
+Only after Build 23 demonstrates reliability, retention, evidence quality and safe automation behaviour.
 
 ## Testing phases
 
@@ -169,9 +212,9 @@ Phase 3 — Data QA: persistence, reload, logout/login, device change, RLS, dele
 
 Phase 4 — Integration QA: ATS sources, Supabase, worker, signed URLs, callbacks, queue claims, cancellation, retries and evidence capture.
 
-Phase 5 — Automation safety QA: Dry Run, Review, Full Auto entitlement, unsupported forms, CAPTCHA, sensitive questions, session expiry, cancellation races and verification failures.
+Phase 5 — Automation safety QA: Dry Run, Review, Hybrid and Full Auto, entitlement boundaries, unsupported forms, CAPTCHA, sensitive questions, session expiry, cancellation races and verification failures.
 
-Phase 6 — Visual/mobile QA: iPhone Safari/Chrome, desktop Safari/Chrome/Firefox, responsive breakpoints, keyboard/focus, contrast and reduced motion.
+Phase 6 — Visual/mobile QA: iPhone Safari/Chrome, desktop Safari/Chrome/Firefox, responsive breakpoints, keyboard/focus, contrast, reduced motion and touch targets.
 
 Phase 7 — Security/privacy QA: auth bypass, forged cookies, RLS isolation, object access, callback authentication, request-size limits, SSRF/source allowlisting, secrets, deletion and audit trails.
 
@@ -186,12 +229,15 @@ No launch until all of these are green:
 3. Authoritative server-side entitlements.
 4. Durable profile/resume/application data.
 5. Evidence-bound generation.
-6. Real ATS adapters with fixtures.
-7. Independent submission verification.
-8. Evidence viewer/redaction.
-9. Real outcome ingestion.
-10. Notifications/follow-ups.
-11. Payment/webhook lifecycle.
-12. Privacy/deletion guarantees.
-13. E2E + mobile + accessibility + performance coverage.
-14. Monitoring and rollback procedure.
+6. Durable Answer Library.
+7. Real ATS adapters with fixtures.
+8. Immutable application package snapshots.
+9. Independent submission verification.
+10. Evidence viewer/redaction.
+11. Real outcome ingestion.
+12. Notifications/follow-ups.
+13. Payment/webhook lifecycle.
+14. Privacy/deletion guarantees.
+15. No seeded data represented as live intelligence.
+16. E2E + mobile + accessibility + performance coverage.
+17. Monitoring and rollback procedure.
