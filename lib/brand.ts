@@ -1,8 +1,8 @@
 export const BRAND = {
-  name: 'KINDLEAP',
-  workingName: 'KINDLEAP',
-  tagline: 'Make the next move count.',
-  descriptor: 'Career intelligence and application execution.',
+  name: 'NAUKRI LABS',
+  workingName: 'NAUKRI LABS',
+  tagline: 'A simpler way to find and apply for work.',
+  descriptor: 'Job search, applications and career tools in one place.',
   status: 'internal',
-  principles: ['Signal over volume', 'Evidence over invention', 'Progress over noise', 'Automation with control', 'Outcomes over activity'],
+  principles: ['Clarity over noise', 'Evidence over invention', 'Control over automation', 'Progress over volume', 'Useful by default'],
 } as const
