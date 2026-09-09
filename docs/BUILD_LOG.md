@@ -1,45 +1,50 @@
 # Product Build Log
 
-## Build 12 — FULL QA + SECURITY + LAUNCH — 2026-09-09
+## Build 12 — PRODUCT RECONCILIATION + QA RESET — 2026-09-09
 
-Pathway audit before Build 12: Build 11 Monetisation + Entitlements was reviewed against its completion boundary. Supabase entitlement persistence and authenticated beta activation are connected; payment lifecycle and final route enforcement remain production launch gates. KINDLEAP remains the canonical internal product identity. The visual direction is now explicitly dark and instrument-like.
+Build 12 is no longer treated as a final-launch claim. It is the audit/reset boundary that reconciles the full product history, feature requests, pivots, implementation state, UI direction and release gates. The complete forward roadmap is maintained in `docs/ROADMAP.md`; the detailed audit is in `docs/MASTER_AUDIT.md`.
 
-Implemented in Build 12:
-- Added a dedicated TypeScript `typecheck` script to the production package.
-- CI now runs TypeScript typecheck before the production Next.js build on pushes and pull requests to `main`.
-- README and roadmap status advanced to Build 12.
-- Launch documentation now distinguishes implemented infrastructure from production evidence gates.
-- Dark visual direction is documented as the target system: near-black foundation, warm type, restrained rules, single signal accent and spatial/editorial hierarchy.
-- Supabase Build 11 entitlement migration was applied to the connected project and verified to expose the `entitlements` table and `is_pro(uuid)` function.
-- Supabase security-advisor review was performed; the Build 11 `is_pro` executable security-definer warning was removed. Remaining advisor findings concern pre-existing upload/database functions and intentionally locked RLS tables.
-- Authentication UI was reworked to use the same dark spatial system as the core product instead of the previous light-card treatment, with the shared signal accent and typography hierarchy.
+### Historical pathway
+Build 01–05 established the product foundation, job intelligence and career intelligence. Build 06 added resume ingestion, parsing, persistent saves and job-source hardening. Build 07 introduced the automation control center and three execution modes. Build 08 created the browser-worker foundation and adapter registry. Build 09 added asynchronous worker execution, secure dispatch/callback, durable queue lifecycle, signed resume transfer and host allowlisting. Build 10 added Interview/Outcome Intelligence plus Growth/Community. Build 11 added monetisation and Supabase entitlements. Build 12 began as final QA/security/launch hardening and is now expanded into the full reconciliation and release program.
 
-## Build 12 release boundary
-Build 12 is the final hardening build, not permission to claim integrations that have not been fixture-tested. Production launch requires evidence for platform-specific browser adapters, independent submission verification, evidence redaction/viewer hardening, notifications, live community aggregation/contribution, payment processor/webhook lifecycle, final server-side enforcement of every protected surface, broader integrations, and device-level E2E/performance coverage.
+### Product pivots recorded
+- Basic job helper → full career operating system.
+- Volume-first auto-apply concept → evidence-first controlled automation.
+- Local-only prototype → local-first with Supabase durable infrastructure.
+- Web-only execution → web control plane + separate Playwright worker.
+- ROVA → WAYO → KINDLEAP.
+- Generic SaaS/sidebar/cards → dark spatial career instrument.
+- Static feature surfaces → outcome/evidence-driven product architecture.
+- Simple paid concept → freemium + ₹499/month India Pro + beta invite entitlement.
+
+### Build 12 audit findings
+- Current CI is green on the latest audited commit, including TypeScript typecheck and production build.
+- The current product is a strong prototype/control-plane foundation, not a production-complete career operating system.
+- The supplied mobile screenshots correctly expose the largest UI problem: authentication and product surfaces still drift into separate visual systems. The fix is a shared design system and page rebuild, not another global override.
+- Current job intelligence is heuristic rather than calibrated market intelligence.
+- Current outcome, community and growth surfaces contain seeded/static data and cannot be presented as live intelligence.
+- Durable automation infrastructure exists, but real platform adapters, independent submission verification, evidence viewer/redaction and browser handoff are not complete.
+- Client-cookie Pro gating remains a security and product-boundary defect until replaced everywhere by authoritative server entitlement checks.
+- Document deletion/orphan handling requires correction.
+- Application generation contains fallback wording that must be made strictly evidence-bound.
+- The Lever public API URL parser contains a path-indexing defect requiring fixture coverage.
+
+### Immediate remediation sequence
+1. Product reconciliation and P0/P1 defect sweep.
+2. Full shared KINDLEAP UI rebuild across every route.
+3. Durable account/profile/evidence model.
+4. Evidence-bound resume/application intelligence.
+5. Real market intelligence integrations and calibrated scoring.
+6. Durable application studio and review queue.
+7. Production browser adapters and independent verification.
+8. Real outcome/interview intelligence.
+9. Growth/community integrations.
+10. Payment and authoritative entitlement enforcement.
+11. Extension/integrations.
+12. Full QA/security/performance and controlled beta.
 
 ## CI verification boundary
-The CI definition requires `npm run typecheck` and `npm run build`. The entitlement API fix passed CI in run `34279420960`. The subsequent UI commits also require their own fresh green runs before code verification is marked complete.
+The CI definition requires `npm run typecheck` and `npm run build`. Latest confirmed green run: GitHub Actions run `34316133299`, commit `c56e40d8b189586a5971e80008bc4d74608c1542`.
 
-## Product-wide pathway re-audit — 2026-09-09
-KINDLEAP is approved as the product identity and is the canonical internal brand. ROVA and WAYO are legacy implementation names only where compatibility prevents an immediate technical rename; new product/UI copy must use KINDLEAP.
-
-The full pathway remains: `Find → Understand → Prepare → Apply → Interview → Grow`, with the operating loop `Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`. The product continues to differentiate through evidence, decision context, controlled automation and outcomes rather than volume-first auto-apply mechanics.
-
-The UI is now treated as one system rather than independent page themes. Core product and authentication surfaces share the same dark foundation, warm type, restrained rules, signal accent and spatial/editorial hierarchy. Further page-level redesign remains part of the final QA pass where legacy components still conflict with this system.
-
-## Roadmap
-1. Build 01 — Foundation + internal product system.
-2. Build 02 — Account, onboarding, persistent career profile + secure documents.
-3. Build 03 — Resume Studio.
-4. Build 04 — Career Lab.
-5. Build 05 — Market Intelligence.
-6. Build 06 — Application Studio.
-7. Build 07 — Automation Engine.
-8. Build 08 — Control Center.
-9. Build 09 — Interview + Outcome Intelligence.
-10. Build 10 — Growth + Community.
-11. Build 11 — Monetisation + Entitlements.
-12. **Build 12 — Full QA, Security + Launch: current.**
-
-## Quality rules
-A UI is not a completed feature. Completion requires data model, persistence, validation, security boundary, integration, failure handling and verification. No platform is described as live until an actual adapter and representative fixture is tested. No application is described as submitted merely because a form was navigated. No application is verified without independent evidence. AI output must distinguish confirmed evidence, inference and uncertainty. Candidate facts are never silently invented. Community intelligence must preserve anonymity and provenance.
+## Documentation rule
+README, BUILD_LOG and ROADMAP are updated as part of every build. A build is not marked complete solely because its UI exists. Completion requires the relevant data model, persistence, validation, security boundary, integration, failure handling, evidence and regression coverage.
