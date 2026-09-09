@@ -1,40 +1,42 @@
 # Product Build Log
 
-## Phase 12R — NAUKRI LABS REBRAND + FUNCTIONAL RESET — 2026-09-09
+## Phase 12R — NAUKRI LABS rebrand + functional reset — 2026-09-09
 
-The product direction has been deliberately pivoted. The previous KINDLEAP dark/editorial UI overhaul is stopped. This phase prioritises a working product, repaired integrations and a simple minimal interface. A later branding/UI refinement is allowed only after functional validation.
+The product direction was pivoted away from the previous UI-first overhaul. NAUKRI LABS is now the canonical product identity for this phase. The interface direction is intentionally simple, minimal, light and functional.
 
-### Brand system established
-- Name: **NAUKRI LABS**.
-- Tagline: **A simpler way to find and apply for work.**
-- Descriptor: **Job search, applications and career tools in one place.**
-- Principles: clarity over noise; evidence over invention; control over automation; progress over volume; useful by default.
-- Visual direction: minimal, light-first, generous whitespace, restrained typography, simple controls and clear states.
-- Avoid decorative dashboards, gradients, complex editorial instrumentation and premature visual experimentation.
+### Completed
+- Canonical brand source is NAUKRI LABS.
+- Public homepage rebuilt around Find → Prepare → Apply.
+- Global visual foundation reduced to a minimal base.
+- Shared authenticated workspace foundation converted to a clean light UI.
+- Authentication UI simplified and legacy demo credential/Pro bypass removed.
+- Pricing UI now clearly states that checkout is not connected; no misleading purchase action.
+- Insights no longer presents seeded data as live outcome intelligence.
+- Community UI clearly labels directional/aggregated signals.
+- Growth UI reduced to durable goal editing and weekly focus.
+- Automation UI uses authenticated server access for durable queue controls and checks Pro server entitlement before Full Auto.
+- Package identity changed to `naukri-labs`.
+- README and roadmap reset to functional-first delivery.
+- Latest CI run passed installation, TypeScript typecheck and production build.
 
-### Work completed
-- Canonical brand source changed from KINDLEAP to NAUKRI LABS.
-- Public homepage replaced with a simple functional landing page focused on Find → Prepare → Apply.
-- New minimal homepage styling added.
-- Roadmap reset from UI-first redesign to functional-first delivery.
-- README reset to the same product direction.
+### Functional audit findings
+- Core authenticated profile, document, resume, opportunity, application, review and career surfaces are implemented and now use the minimal shared workspace foundation.
+- Automation has a durable API/worker foundation, but production platform-specific adapters and independent verification remain incomplete.
+- Insights and community are intentionally conservative where real durable outcome data is unavailable.
+- Pricing no longer implies that checkout is operational.
+- Remaining release gaps are implementation gaps, not reasons to restart the UI.
 
-### Audit findings carried forward
-The repository already contains substantial authentication, entitlement, document, job-source, application and automation infrastructure. The remaining work is to verify every path rather than assume implementation means completion.
+### Legacy cleanup
+The obsolete dark root layer was removed from the root layout and the old global stylesheet was reduced to a minimal reset. Technical compatibility identifiers may remain in internal storage/type names until data migration, but must not be user-facing branding.
 
-Known release gaps remain: real ATS adapters/fixtures, independent submission verification, outcome ingestion, payment lifecycle, privacy/deletion QA, dependency/security remediation, complete E2E/mobile/accessibility/performance coverage and removal of legacy visual architecture.
+### Phase 13 — Functional completion is now active
+1. Route-by-route functional audit and integration.
+2. API/auth/RLS/validation/deletion audit.
+3. Durable profile, document, resume and application completion.
+4. Real job-source persistence and ingestion hardening.
+5. Automation adapters, safety handoffs, evidence and independent verification.
+6. Replace every remaining seeded-looking surface with durable data or an explicit unavailable state.
+7. Release-grade test, security, accessibility and performance coverage.
 
-### Next work sequence
-1. Repository-wide route/API/component/worker inventory.
-2. Search for and remove user-visible legacy branding and misleading UI.
-3. Debug TypeScript/build/runtime defects introduced by prior UI migrations.
-4. Replace remaining route-specific visual systems with a lightweight functional base, not a new design overhaul.
-5. Integrate every existing function into visible usable flows.
-6. Make seeded/mock areas explicit and remove fake live-looking controls.
-7. Verify persistence, auth, RLS, document access and deletion.
-8. Verify automation queue, modes, worker callbacks, evidence and recovery.
-9. Run fresh CI and repair regressions.
-10. Only after functional QA: decide whether NAUKRI LABS branding needs a final identity pass or is ready for beta.
-
-## Documentation rule
-README, BUILD_LOG and ROADMAP are updated continuously. Before advancing to another phase, audit the previous phase and repair incomplete work. Functionality outranks aesthetics until release readiness.
+### Build discipline
+Before every next build, audit the previous roadmap item, repair incomplete work, update README and BUILD_LOG, run verification, then advance. Functionality outranks aesthetics until release readiness.
