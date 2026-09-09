@@ -28,14 +28,14 @@ Advanced intelligence is never represented as live unless backed by real data. C
 
 ## Current implementation status
 
-The core control plane, authentication, durable saved roles/applications, application preparation, public ATS ingestion, automation queue/worker foundation, evidence redaction and representative ATS fixtures are implemented. Worker leases now have a durable recovery path and a heartbeat mechanism so long browser runs do not silently lose ownership.
+The core control plane, authentication, durable saved roles/applications, application preparation, public ATS ingestion, automation queue/worker foundation, evidence redaction and representative ATS fixtures are implemented. Worker leases now have a durable recovery migration and a heartbeat mechanism so long browser runs do not silently lose ownership. The worker control-plane authentication path is covered by the worker implementation and CI.
 
 Production validation still depends on the actual deployed worker, external providers and browser/device QA. Provider-dependent features are not represented as live without those dependencies.
 
 ## Known release work
 
+- Apply the recovery migration to the deployment's actual Supabase project and run deployment-level crash/recovery tests.
 - Live Greenhouse/Lever/Ashby validation and broader ATS coverage.
-- Deployment-level worker crash/recovery testing.
 - Profile/document/resume edge cases and legacy local-storage migration.
 - Payment checkout and subscription lifecycle.
 - Live inbox/interview integrations, community contribution pipeline and browser extension.
@@ -48,7 +48,7 @@ Next.js 15 / React 19 / TypeScript. Supabase provides authentication, persistenc
 
 ## Verification
 
-GitHub Actions runs TypeScript typecheck and production build on pushes. Worker CI installs Chromium and runs worker build plus browser fixture tests. A green verification run is required before advancing a build.
+Latest control-plane CI: install, TypeScript typecheck and production build passed. Latest Browser Worker CI: Chromium installation, worker TypeScript build and browser fixture tests passed.
 
 ## Documentation
 
