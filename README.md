@@ -58,6 +58,8 @@ AI is a semantic layer, not the source of truth. Deterministic extraction, valid
 
 KINDLEAP is being rebuilt as one dark, spatial career instrument rather than a collection of dashboard themes. The system uses near-black surfaces, warm off-white typography, restrained rules, one signal accent, asymmetric/editorial hierarchy, compact machine-readable metadata and motion only when it communicates state.
 
+The shared workspace shell is now mounted across product routes, with a persistent desktop rail, sticky command bar, active-route state and an iPhone-first bottom navigation pattern. Authentication, onboarding and the public landing remain outside the workspace shell. The shell is a structural foundation; individual route redesigns are still in progress.
+
 Authentication, onboarding, profile, documents, resume, career, opportunities, applications, automation, review, insights, growth, community and pricing must share the same primitives. No legacy light-card theme remains part of the target system. Mobile is a first-class linear flow with accessible controls and reduced-motion support.
 
 ## Access and monetisation
@@ -86,13 +88,17 @@ Build 12 — product reconciliation, defect audit, security/QA reset and UI-syst
 
 ## Current status
 
-**Build 12A — active defect sweep and foundation hardening.**
+**Build 12B — active UI system rebuild.**
 
-Completed in this pass: cookie-backed Supabase SSR auth, server entitlement route gating, removal of client-side entitlement authority, removal of the client-side demo Pro bypass, explicit feature-truth registry, legacy branding cleanup on touched surfaces, safer application answer typing, and Node 22 CI alignment.
+Build 12A remediation is substantially complete but remains open until dependency/security, RLS/deletion, fixtures, browser/device QA and route/API truth sweep are evidenced.
 
-GitHub Actions run **34319655739** is green for the current audited state at commit `c189141f66f615e806f449ccdf666624bfc57dcb`: typecheck and production build both pass. CI also reports 3 dependency vulnerabilities (1 moderate, 2 high); these remain tracked for dependency/security remediation and do not get silently ignored.
+Completed in the current 12B UI pass: dark-first KINDLEAP foundation and a shared workspace shell with responsive desktop navigation, mobile navigation, active-route states, sticky command surface and consistent workspace framing. This does not yet mean every route has been redesigned.
 
-Immediate work is Build 12A defect sweep → Build 12B complete UI rebuild → Builds 13–21 production feature/integration completion → Build 22 full release QA → Build 23 private beta → Build 24 public launch.
+The latest UI commits are under GitHub Actions verification. The last previously verified green baseline remains recorded in `docs/BUILD_LOG.md`; do not treat the current UI commits as green until their runs finish.
+
+CI still reports 3 dependency vulnerabilities (1 moderate, 2 high); these remain tracked for dependency/security remediation.
+
+Immediate work is Build 12B complete route rebuild → P0/P1 defect sweep → dependency/security → fixtures → RLS/deletion verification → fresh CI → Build 13 Account + Career Memory.
 
 ## Quality rule
 
