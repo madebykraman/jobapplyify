@@ -48,11 +48,6 @@ export const ADAPTERS: PlatformAdapter[] = [
   { id: 'greenhouse', label: 'Greenhouse', kind: 'ats', capabilities: ['resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /greenhouse\.io/i.test(u) },
   { id: 'lever', label: 'Lever', kind: 'ats', capabilities: ['resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /lever\.co/i.test(u) },
   { id: 'ashby', label: 'Ashby', kind: 'ats', capabilities: ['resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /ashbyhq\.com/i.test(u) },
-  { id: 'linkedin', label: 'LinkedIn', kind: 'job-board', capabilities: ['login', 'resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /linkedin\.com/i.test(u) },
-  { id: 'indeed', label: 'Indeed', kind: 'job-board', capabilities: ['login', 'resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /indeed\.com/i.test(u) },
-  { id: 'naukri', label: 'Naukri', kind: 'job-board', capabilities: ['login', 'resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /naukri\.com/i.test(u) },
-  { id: 'internshala', label: 'Internshala', kind: 'job-board', capabilities: ['login', 'resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /internshala\.com/i.test(u) },
-  { id: 'instahyre', label: 'Instahyre', kind: 'job-board', capabilities: ['login', 'resume-upload', 'form-fill', 'answers', 'submit', 'verify'], supports: u => /instahyre\.com/i.test(u) },
 ]
 
 export function adapterFor(url: string) { return ADAPTERS.find(a => a.supports(url)) || null }
