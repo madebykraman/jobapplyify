@@ -22,7 +22,7 @@ The previous KINDLEAP dark/editorial UI overhaul is stopped. Existing functional
 1. Canonical NAUKRI LABS identity established.
 2. Legacy user-facing branding removed from completed surfaces.
 3. Minimal light functional UI foundation established.
-4. Public homepage rebuilt.
+4. Public homepage rebuilt and polished as a product landing page.
 5. Auth, persistence, entitlement and automation foundations preserved.
 
 ## Phase 13 — Repository-wide functional audit — COMPLETE FOR CORE FLOWS
@@ -32,25 +32,38 @@ The previous KINDLEAP dark/editorial UI overhaul is stopped. Existing functional
 4. Core auth, profile, documents, resume, opportunities, applications, review, career and automation flows repaired or explicitly bounded.
 5. Server authorization and RLS boundaries reviewed in existing schema and new durable application tables.
 
-## Phase 14 — Core product completion — ACTIVE
+## Phase 14 — Core product completion — HARD GATE / ACTIVE
 Core loop: Find → inspect → assess fit → save → prepare → review → track.
 
-Completed in current build:
+Completed in code:
 - Public ATS source ingestion for Greenhouse, Lever and Ashby.
 - Deterministic fit analysis and evidence-bound application generation.
 - Durable saved-role API and per-user RLS.
-- Durable application records with job/package snapshots and status lifecycle.
+- Durable application records with immutable job/package snapshots and controlled status transitions.
 - Outcome reporting from durable application records.
 - Automation queue, dispatch, worker control, safety handoffs and evidence foundation.
+- Independent submission verification that requires strong confirmation signals rather than a click alone.
+- Redacted browser evidence upload plus authenticated, user-scoped signed evidence viewing.
+- Durable expired-lease recovery and worker lease heartbeat code.
+- Unique worker task identities bound to durable claims to prevent stale-worker callback races.
+- Profile, document and resume cloud loading so authenticated sessions do not depend on local browser state for the current source of truth.
+- Representative ATS browser fixtures and direct tests for adapter behavior, independent verification and evidence redaction.
+- Polished NAUKRI LABS public landing page.
 
-Remaining before Phase 14 exit:
-- Validate the three ATS adapters against representative live/fixture pages.
-- Add independent submission verification that never infers success from a click alone.
-- Add durable automation evidence redaction/viewing and recovery tests.
-- Finish profile/document/resume persistence edge-case audit.
-- Remove remaining internal legacy storage/type identifiers where migration is safe.
+Phase 14 exit gate — do not start Phase 15 until every item below is verified:
+1. The application's actual deployed Supabase project is identified and contains schema.sql, build11_entitlements.sql, build12_functional_completion.sql and build13_recovery.sql, including RLS, private storage and recovery functions.
+2. Deployment-level crash/recovery testing proves an expired running lease is reclaimed and a replacement worker can safely continue it.
+3. Live Greenhouse, Lever and Ashby validation is completed against real public provider pages; fixtures remain regression coverage.
+4. Profile, document and resume persistence is browser-tested across refresh, sign-out/sign-in and a second session, with safe handling of legacy local records.
+5. Automation cancellation, retry, heartbeat, handoff, evidence upload/viewing and stale-worker rejection are browser-tested against the deployed control plane.
+6. No remaining user-visible legacy branding or misleading live/verified claims remain.
+7. Main CI and Browser Worker CI are green on the final Phase 14 commit.
+8. README and BUILD_LOG accurately describe the verified state and remaining external prerequisites.
 
-## Phase 15 — Intelligence hardening
+Current external blocker: the Supabase connection available to this build is project `minimical-drop`, whose public schema contains unrelated `projects`, `drive_accounts`, `folders`, `uploads` and `audit_events` tables and does not contain the NAUKRI LABS application tables. Therefore the recovery migration must not be applied to that project. The correct deployment Supabase project must be connected before Phase 14 can be declared complete.
+
+## Phase 15 — Intelligence hardening — LOCKED
+Do not begin until the Phase 14 exit gate is fully green.
 - Structured resume parsing.
 - Evidence provenance.
 - Durable Answer Library.
