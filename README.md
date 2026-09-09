@@ -1,119 +1,66 @@
-# KINDLEAP
+# NAUKRI LABS
 
-**Make the next move count.**
+**A simpler way to find and apply for work.**
 
-KINDLEAP is a career intelligence and application execution workspace built around one idea: make the next career move clearer, then remove repetitive work without removing the candidate from the loop.
+NAUKRI LABS is a practical job-search workspace for finding relevant roles, preparing applications, tracking progress and using automation without losing control.
 
-> KINDLEAP is the approved internal product identity. Public/domain clearance remains a separate release gate.
+## Current direction
+
+The previous KINDLEAP dark/editorial UI overhaul has been stopped. The product is now being rebuilt functional-first with a simple, minimal interface: clean typography, generous whitespace, restrained controls and clear states.
+
+Brand: **NAUKRI LABS**
+
+Descriptor: **Job search, applications and career tools in one place.**
+
+The current brand is intentionally simple and may receive one final identity pass after functional beta testing.
 
 ## Product loop
 
-`Find → Understand → Prepare → Apply → Interview → Grow`
+`Find → Prepare → Apply → Track → Learn`
 
-Operating loop:
+## Functional priorities
 
-`Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`
-
-## Product scope
-
-The planned product covers resume/evidence intelligence, explainable job matching, transferable skills, company/referral intelligence, career planning, India-specific compensation context, application preparation, controlled browser automation, interview/outcome intelligence, growth planning, anonymous community intelligence, monetisation and integrations.
-
-The detailed feature audit and implementation status live in [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md). The human-readable current truth table is [`docs/FEATURE_TRUTH.md`](docs/FEATURE_TRUTH.md). The forward release plan lives in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+1. Working job discovery and source parsing.
+2. Profile, documents and resume workflows.
+3. Application preparation and review.
+4. Controlled automation with explicit safety boundaries.
+5. Durable application tracking and outcomes.
+6. Career planning and supporting tools.
+7. Real data before decorative intelligence.
 
 ## Automation
 
-Automation has three operating levels in the current control plane:
+- **Dry Run:** prepare and inspect without submission.
+- **Review:** fill verified information and stop for human approval.
+- **Hybrid:** automate only within explicit policy boundaries; otherwise request approval.
+- **Full Auto:** reserved for supported flows when all safety and entitlement conditions pass.
 
-- **Dry Run — Free:** inspect and prepare without submission.
-- **Review — Default:** prepare and fill verified information, then stop before submission.
-- **Full Auto — Pro:** submit supported applications automatically when all safety conditions pass.
-
-Full Auto is not blind mass applying. CAPTCHA, unknown forms, sensitive questions, unsupported flows and other safety boundaries return control to the user. No silent submission. No verified state without independent evidence.
-
-## Product principles
-
-**Clarity over noise.** Surface the next useful decision instead of another dashboard.
-
-**Evidence over invention.** Candidate claims must trace to confirmed information.
-
-**Progress over volume.** Optimise for quality and outcomes, not application counts.
-
-**Automation with control.** Deterministic fields first; ambiguous or sensitive decisions go to human review.
-
-**Career decisions with context.** Explain why a role, skill, company or path matters.
-
-**Privacy with control.** Community intelligence is aggregated, sourced and confidence-labelled; individual identity is not the product.
+CAPTCHA, sensitive questions, unknown forms, unsupported flows, verification failures and session problems return control to the user. No silent submission. No verified state without evidence.
 
 ## Architecture
 
-The Next.js web application is the product/control plane. It owns profile data, documents, resumes, jobs, applications, permissions, review queues and analytics.
+Next.js 15 / React 19 / TypeScript powers the web application. Supabase provides authentication, persistence, RLS and private storage. A separate Playwright worker handles long-running browser execution.
 
-A separate Playwright browser worker owns long-running browser sessions and site execution. Platform-specific adapters are not described as live until representative fixtures pass.
+AI is not the source of truth. Candidate claims must be grounded in known evidence or explicitly labelled inference.
 
-Supabase provides production persistence, authentication, RLS and private document/evidence storage. Authentication uses cookie-backed SSR sessions so server routes and middleware can use the same authoritative identity as the browser.
+## Roadmap
 
-AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
+The active roadmap is in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
-## UI system
+Current phase: **Phase 12R — Rebrand + functional reset.**
 
-KINDLEAP is being rebuilt as one dark, spatial career instrument rather than a collection of dashboard themes. The system uses near-black surfaces, warm off-white typography, restrained rules, one signal accent, asymmetric/editorial hierarchy, compact machine-readable metadata and motion only when it communicates state.
+Next: **Phase 13 — repository-wide functional audit**, followed by core product completion, intelligence hardening, production automation, outcomes, monetisation/integrations and release QA.
 
-The canonical workspace shell is now the target for product routes. Command, Career, Resume and Opportunities have been migrated to the shared shell and primitives. Other product routes remain in the migration queue. Authentication, onboarding and the public landing remain outside the workspace shell.
+## Status
 
-The shell provides persistent desktop navigation, sticky command surface, active-route state, mobile drawer/bottom navigation and accessible interaction states. Individual routes must use the same primitives rather than reintroducing route-specific visual systems.
+The repository contains substantial implemented infrastructure, including authenticated sessions, server-side entitlement checks, document persistence, job-source parsing, application preparation and a browser-worker foundation. Several advanced areas remain partial or mocked and must not be presented as live until verified.
 
-Authentication, onboarding, profile, documents, resume, career, opportunities, applications, automation, review, insights, growth, community and pricing must share the same target system. No legacy light-card theme remains part of the target system. Mobile is a first-class linear flow with accessible controls and reduced-motion support.
+Known release work includes real ATS fixtures/adapters, independent submission verification, outcome ingestion, payment lifecycle, privacy/deletion QA, dependency/security remediation, E2E/mobile/accessibility/performance testing and removal of remaining legacy UI architecture.
 
-## Access and monetisation
+## Build discipline
 
-The intended beta model is freemium: basic tools where implemented, Pro account access, beta invite unlock and ₹499/month India positioning. International pricing is intended to use purchasing-power-adjusted equivalents. Credits are reserved for a later entitlement layer.
+Every build begins by auditing the previous roadmap item. Incomplete work is repaired before advancing. README and `docs/BUILD_LOG.md` are updated continuously. Code, data, security, integration and failure handling take priority over visual polish.
 
-Supabase entitlement infrastructure and authenticated invite activation exist. Build 12A uses cookie-backed Supabase SSR sessions and server-side entitlement checks for protected routes. Payment processor/webhook lifecycle, billing/tax handling and full server-side enforcement of every feature API remain release gates.
-
-## Build history
-
-Build 01–05 — foundation, job intelligence and career intelligence.
-
-Build 06 — resume ingestion/parsing, persistent saves and job-source hardening.
-
-Build 07 — automation control center and execution modes.
-
-Build 08 — browser-worker foundation, adapter registry and worker CI/safety boundary.
-
-Build 09 — async worker, secure dispatch/callback, durable queue lifecycle, signed resume transfer and host allowlisting.
-
-Build 10 — Interview/Outcome Intelligence, Growth and Community.
-
-Build 11 — monetisation and Supabase entitlements.
-
-Build 12 — product reconciliation, defect audit, security/QA reset and UI-system reset.
-
-## Current status
-
-**Build 12B — active UI system rebuild.**
-
-Build 12A remediation is substantially complete but remains open until dependency/security, RLS/deletion, fixtures, browser/device QA and route/API truth sweep are evidenced.
-
-Current 12B migration: Command, Career, Resume and Opportunities use the canonical shell. Resume and Opportunities now use shared evidence, input, action, job, drawer and responsive primitives rather than their former route-specific visual architecture.
-
-The shell sign-out action now uses the authenticated Supabase browser session rather than navigating to an auth page. The command surface currently emits a command event for future palette integration; it is not presented as a completed search feature.
-
-Current UI commits are under GitHub Actions verification. Do not treat the current UI commits as green until their runs finish.
-
-CI still reports 3 dependency vulnerabilities (1 moderate, 2 high); these remain tracked for dependency/security remediation.
-
-Immediate work is remaining route migration → interaction-state sweep → legacy CSS removal → mobile/accessibility QA → dependency/security → fixtures → RLS/deletion verification → fresh CI → Build 13 Account + Career Memory.
-
-## Quality rule
-
-A UI is not a completed feature. Completion requires the relevant data model, persistence, validation, security boundary, integration, failure handling, audit trail, mobile/accessibility QA and regression coverage. No platform is live until its adapter and representative fixture pass. No application is submitted merely because a form was navigated. No application is verified without independent evidence. Candidate facts are never silently invented.
-
-## Development
-
-Copy `.env.example` and configure environment-specific Supabase and worker variables. Never expose service-role, worker or callback secrets to the client.
-
-Primary deployment target: Vercel.
-
-Browser execution: separate worker/runtime.
+Primary deployment target: Vercel. Browser execution uses the separate worker/runtime.
 
 See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md), [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md), [`docs/FEATURE_TRUTH.md`](docs/FEATURE_TRUTH.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md).
