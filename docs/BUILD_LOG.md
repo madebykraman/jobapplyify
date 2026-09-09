@@ -22,33 +22,29 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 - Confirmed core profile, documents, resume, opportunities, applications, review, career and automation surfaces have real implementations or explicit limits.
 - Removed obsolete dark root styling.
 
-## Phase 14 — Core product completion — ACTIVE — 2026-09-09
+## Phase 14 — Core product completion — IN PROGRESS — 2026-09-09
 
 ### Completed
-- Added `saved_roles` with per-user RLS and durable job snapshots.
-- Added `applications` with per-user RLS, durable job snapshots, package snapshots and status lifecycle.
-- Added authenticated `/api/saved-roles` CRUD flow.
-- Added authenticated `/api/applications` read/create/status-update flow.
-- Updated Opportunities to persist saved roles across authenticated sessions while retaining local fallback.
-- Updated Application Studio to persist generated packages and track status.
-- Updated Insights to calculate personal outcome counts from durable application records.
-- Added independent post-submission verification in the Playwright worker. A submission click alone cannot produce `verified` state.
-- Removed the non-functional manual Verify control from the automation UI.
-- Updated feature truth so unavailable/partial systems are explicit.
-- Example job records are explicitly labelled non-live.
-
-### Functional completion status
-Core Find → Inspect → Assess → Save → Prepare → Review → Track flow is now backed by durable application/saved-role data when authenticated. Automation has durable queue control, safety handoffs, evidence and conservative independent verification.
+- Durable saved roles and per-user RLS.
+- Durable applications with immutable job/package snapshots and status lifecycle.
+- Authenticated saved-role and application APIs.
+- Personal outcome counts from durable application records.
+- Independent post-submission verification. A click alone cannot produce verified state.
+- Removed non-functional manual Verify control.
+- Added representative Greenhouse, Lever and Ashby browser fixtures and worker test coverage.
+- Added candidate-data redaction before browser evidence is persisted/uploaded.
+- Added worker test command to the browser-worker package.
+- Added database indexes for foreign-key performance and hardened mutable function search paths.
 
 ### Remaining production blockers
-- Live validation and fixtures for each supported ATS/browser flow.
-- Evidence redaction/viewer hardening and worker recovery tests.
-- Profile/document/resume persistence edge cases and legacy local-storage migration.
+- Real provider-backed ATS validation against live job pages remains environment-dependent; fixtures now cover deterministic adapter/form contracts.
+- Worker crash/lease recovery requires repeated live worker execution and deployment-level testing.
+- Profile/document/resume edge cases and legacy local-storage migration require browser-level validation.
 - External billing, inbox/interview, community and browser-extension integrations require provider setup and consent flows.
-- Release QA: unit/API tests, browser/mobile E2E, accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation.
+- Full release QA remains: browser/mobile E2E, accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation.
 
 ### Verification
-Current CI runs are being monitored after the functional changes. The latest observed run has passed install and TypeScript typecheck and is completing the production build. Phase 14 is not marked fully complete until the current run is green and the remaining safety/release blockers are resolved or explicitly bounded.
+The latest main CI run for the functional changes completed successfully: npm install, TypeScript typecheck and production build. Worker CI will now additionally execute its browser fixture tests.
 
 ### Build discipline
 Before every next build, audit the previous roadmap item, repair incomplete work, update README and BUILD_LOG, run verification, then advance. Functionality outranks aesthetics until release readiness.
