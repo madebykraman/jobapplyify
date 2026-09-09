@@ -6,7 +6,7 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 
 ### Completed
 - Canonical NAUKRI LABS identity and package name.
-- Public homepage rebuilt around Find → Prepare → Apply.
+- Public homepage rebuilt around the product rather than a standalone marketing hero.
 - Minimal shared UI foundation.
 - Authentication UI simplified; legacy demo Pro bypass removed.
 - Pricing and outcome surfaces no longer imply unavailable infrastructure is live.
@@ -21,6 +21,7 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 - Reviewed server authorization and existing RLS boundaries.
 - Confirmed core profile, documents, resume, opportunities, applications, review, career and automation surfaces have real implementations or explicit limits.
 - Removed obsolete dark root styling.
+- Reconciled historical audit findings against the current branch. The previously reported Lever API path bug is not present in the current route implementation.
 
 ## Phase 14 — Core product completion — IN PROGRESS — 2026-09-09
 
@@ -34,17 +35,23 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 - Added representative Greenhouse, Lever and Ashby browser fixtures and worker test coverage.
 - Added candidate-data redaction before browser evidence is persisted/uploaded.
 - Added worker test command to the browser-worker package.
-- Added database indexes for foreign-key performance and hardened mutable function search paths.
+- Added database indexes for foreign-key performance and hardened mutable function search paths where touched by the product migrations.
+- Added durable expired-lease recovery migration for abandoned running jobs.
+- Added worker lease heartbeat so long-running browser tasks renew their ownership.
+- Fixed a worker control-plane authentication defect: job-state and heartbeat requests now use the worker token, while callback/evidence requests continue using the callback token.
+- Reframed the homepage to explain the complete product loop and capability set.
+
+### Verification
+- Main CI completed successfully for the recovery commit: npm install, TypeScript typecheck and production build.
+- Worker CI is running against the latest worker commit with Chromium installation, worker build and browser fixture tests.
 
 ### Remaining production blockers
-- Real provider-backed ATS validation against live job pages remains environment-dependent; fixtures now cover deterministic adapter/form contracts.
-- Worker crash/lease recovery requires repeated live worker execution and deployment-level testing.
+- The recovery SQL must be applied to the same Supabase project used by the deployed application. The connected Supabase project available during this build does not contain the application's `profiles`/`automation_jobs` schema, so deployment database application could not be truthfully verified here.
+- Real provider-backed ATS validation remains environment-dependent; fixtures cover deterministic adapter/form contracts.
+- Broader platform-specific ATS selectors, account/session flows and human browser handoff need production fixtures.
 - Profile/document/resume edge cases and legacy local-storage migration require browser-level validation.
 - External billing, inbox/interview, community and browser-extension integrations require provider setup and consent flows.
 - Full release QA remains: browser/mobile E2E, accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation.
 
-### Verification
-The latest main CI run for the functional changes completed successfully: npm install, TypeScript typecheck and production build. Worker CI will now additionally execute its browser fixture tests.
-
 ### Build discipline
-Before every next build, audit the previous roadmap item, repair incomplete work, update README and BUILD_LOG, run verification, then advance. Functionality outranks aesthetics until release readiness.
+Before every next build, audit the previous roadmap item, repair incomplete work, update README and `docs/BUILD_LOG.md`, run verification, then advance. Functionality outranks aesthetics until release readiness.
