@@ -50,7 +50,7 @@ The Next.js web application is the product/control plane. It owns profile data, 
 
 A separate Playwright browser worker owns long-running browser sessions and site execution. Platform-specific adapters are not described as live until representative fixtures pass.
 
-Supabase provides production persistence, authentication, RLS and private document/evidence storage. Authentication now uses cookie-backed SSR sessions so server routes and middleware can use the same authoritative identity as the browser.
+Supabase provides production persistence, authentication, RLS and private document/evidence storage. Authentication uses cookie-backed SSR sessions so server routes and middleware can use the same authoritative identity as the browser.
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
@@ -58,15 +58,17 @@ AI is a semantic layer, not the source of truth. Deterministic extraction, valid
 
 KINDLEAP is being rebuilt as one dark, spatial career instrument rather than a collection of dashboard themes. The system uses near-black surfaces, warm off-white typography, restrained rules, one signal accent, asymmetric/editorial hierarchy, compact machine-readable metadata and motion only when it communicates state.
 
-The shared workspace shell is now mounted across product routes, with a persistent desktop rail, sticky command bar, active-route state and an iPhone-first bottom navigation pattern. Authentication, onboarding and the public landing remain outside the workspace shell. The shell is a structural foundation; individual route redesigns are still in progress.
+The canonical workspace shell is now the target for product routes. Command, Career, Resume and Opportunities have been migrated to the shared shell and primitives. Other product routes remain in the migration queue. Authentication, onboarding and the public landing remain outside the workspace shell.
 
-Authentication, onboarding, profile, documents, resume, career, opportunities, applications, automation, review, insights, growth, community and pricing must share the same primitives. No legacy light-card theme remains part of the target system. Mobile is a first-class linear flow with accessible controls and reduced-motion support.
+The shell provides persistent desktop navigation, sticky command surface, active-route state, mobile drawer/bottom navigation and accessible interaction states. Individual routes must use the same primitives rather than reintroducing route-specific visual systems.
+
+Authentication, onboarding, profile, documents, resume, career, opportunities, applications, automation, review, insights, growth, community and pricing must share the same target system. No legacy light-card theme remains part of the target system. Mobile is a first-class linear flow with accessible controls and reduced-motion support.
 
 ## Access and monetisation
 
 The intended beta model is freemium: basic tools where implemented, Pro account access, beta invite unlock and ₹499/month India positioning. International pricing is intended to use purchasing-power-adjusted equivalents. Credits are reserved for a later entitlement layer.
 
-Supabase entitlement infrastructure and authenticated invite activation exist. Build 12A now uses cookie-backed Supabase SSR sessions and server-side entitlement checks for protected routes. Payment processor/webhook lifecycle, billing/tax handling and full server-side enforcement of every feature API remain release gates.
+Supabase entitlement infrastructure and authenticated invite activation exist. Build 12A uses cookie-backed Supabase SSR sessions and server-side entitlement checks for protected routes. Payment processor/webhook lifecycle, billing/tax handling and full server-side enforcement of every feature API remain release gates.
 
 ## Build history
 
@@ -92,13 +94,15 @@ Build 12 — product reconciliation, defect audit, security/QA reset and UI-syst
 
 Build 12A remediation is substantially complete but remains open until dependency/security, RLS/deletion, fixtures, browser/device QA and route/API truth sweep are evidenced.
 
-Completed in the current 12B UI pass: dark-first KINDLEAP foundation and a shared workspace shell with responsive desktop navigation, mobile navigation, active-route states, sticky command surface and consistent workspace framing. This does not yet mean every route has been redesigned.
+Current 12B migration: Command, Career, Resume and Opportunities use the canonical shell. Resume and Opportunities now use shared evidence, input, action, job, drawer and responsive primitives rather than their former route-specific visual architecture.
 
-The latest UI commits are under GitHub Actions verification. The last previously verified green baseline remains recorded in `docs/BUILD_LOG.md`; do not treat the current UI commits as green until their runs finish.
+The shell sign-out action now uses the authenticated Supabase browser session rather than navigating to an auth page. The command surface currently emits a command event for future palette integration; it is not presented as a completed search feature.
+
+Current UI commits are under GitHub Actions verification. Do not treat the current UI commits as green until their runs finish.
 
 CI still reports 3 dependency vulnerabilities (1 moderate, 2 high); these remain tracked for dependency/security remediation.
 
-Immediate work is Build 12B complete route rebuild → P0/P1 defect sweep → dependency/security → fixtures → RLS/deletion verification → fresh CI → Build 13 Account + Career Memory.
+Immediate work is remaining route migration → interaction-state sweep → legacy CSS removal → mobile/accessibility QA → dependency/security → fixtures → RLS/deletion verification → fresh CI → Build 13 Account + Career Memory.
 
 ## Quality rule
 
