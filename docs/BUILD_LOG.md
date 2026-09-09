@@ -40,18 +40,19 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 - Fixed a worker control-plane authentication defect: job-state and heartbeat requests now use the worker token, while callback/evidence requests continue using the callback token.
 - Reframed the homepage to explain the complete product loop and capability set.
 - Corrected outcome UI copy so missing verification is not presented as a system outage.
+- Hardened local-storage parsing and removed the fabricated default personal profile; authenticated product persistence remains the source of truth.
 
 ### Verification
 - Main CI for the latest worker/control-plane commit passed install, TypeScript typecheck and production build.
 - Browser Worker CI passed Chromium installation, worker build and browser fixture tests.
 
-### Remaining production blockers
+### Current blockers / next work
 - The recovery SQL must be applied to the same Supabase project used by the deployed application. The connected Supabase project available during this build does not contain the application's `profiles`/`automation_jobs` schema, so deployment database application could not be truthfully verified here.
 - Real provider-backed ATS validation remains environment-dependent; fixtures cover deterministic adapter/form contracts.
 - Broader platform-specific ATS selectors, account/session flows and human browser handoff need production fixtures.
-- Profile/document/resume edge cases and legacy local-storage migration require browser-level validation.
+- Profile/document/resume browser edge cases and authenticated migration of legacy local data need browser validation.
 - External billing, inbox/interview, community and browser-extension integrations require provider setup and consent flows.
-- Full release QA remains: browser/mobile E2E, accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation.
+- Unified evidence viewer, stronger provenance enforcement, accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation remain release work.
 
 ### Build discipline
 Before every next build, audit the previous roadmap item, repair incomplete work, update README and `docs/BUILD_LOG.md`, run verification, then advance. Functionality outranks aesthetics until release readiness.
