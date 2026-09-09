@@ -35,15 +35,15 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 - Added representative Greenhouse, Lever and Ashby browser fixtures and worker test coverage.
 - Added candidate-data redaction before browser evidence is persisted/uploaded.
 - Added worker test command to the browser-worker package.
-- Added database indexes for foreign-key performance and hardened mutable function search paths where touched by the product migrations.
 - Added durable expired-lease recovery migration for abandoned running jobs.
 - Added worker lease heartbeat so long-running browser tasks renew their ownership.
 - Fixed a worker control-plane authentication defect: job-state and heartbeat requests now use the worker token, while callback/evidence requests continue using the callback token.
 - Reframed the homepage to explain the complete product loop and capability set.
+- Corrected outcome UI copy so missing verification is not presented as a system outage.
 
 ### Verification
-- Main CI completed successfully for the recovery commit: npm install, TypeScript typecheck and production build.
-- Worker CI is running against the latest worker commit with Chromium installation, worker build and browser fixture tests.
+- Main CI for the latest worker/control-plane commit passed install, TypeScript typecheck and production build.
+- Browser Worker CI passed Chromium installation, worker build and browser fixture tests.
 
 ### Remaining production blockers
 - The recovery SQL must be applied to the same Supabase project used by the deployed application. The connected Supabase project available during this build does not contain the application's `profiles`/`automation_jobs` schema, so deployment database application could not be truthfully verified here.
