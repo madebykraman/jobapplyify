@@ -20,10 +20,10 @@ create table if not exists public.applications (
   verified_at timestamptz,
   notes text not null default '',
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  unique(user_id, job_key)
 );
 create index if not exists applications_user_updated_idx on public.applications(user_id,updated_at desc);
-create unique index if not exists applications_user_job_active_idx on public.applications(user_id,job_key) where status not in ('rejected','withdrawn');
 
 alter table public.saved_roles enable row level security;
 alter table public.applications enable row level security;
