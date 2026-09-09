@@ -1,5 +1,4 @@
 import './globals.css'
-import './kindleap-dark.css'
 import '@/components/kindleap-ui.css'
 import type { Metadata } from 'next'
 import { BRAND } from '@/lib/brand'
