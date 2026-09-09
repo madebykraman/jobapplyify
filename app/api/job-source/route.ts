@@ -43,8 +43,8 @@ export async function POST(req: Request) {
 
     if (source === 'lever') {
       if (url.hostname === 'api.lever.co') {
-        boardSlug = p[3] || null
-        jobId = p[4] || null
+        boardSlug = p[2] || null
+        jobId = p[3] || null
         single = Boolean(jobId)
       } else {
         boardSlug = p[0] || null
@@ -58,11 +58,11 @@ export async function POST(req: Request) {
     if (source === 'ashby') {
       boardSlug = p[0] || null
       if (!boardSlug) throw new Error('Ashby job-board name is missing.')
-      endpoint = `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(boardSlug)}?includeCompensation=true`
+      endpoint = `https://api.ashby.com/posting-api/job-board/${encodeURIComponent(boardSlug)}?includeCompensation=true`
       single = url.hostname === 'jobs.ashbyhq.com' && p.length > 1
     }
 
-    const response = await fetch(endpoint, { headers: { accept: 'application/json', 'user-agent': 'ROVA Job Intelligence/0.6' }, cache: 'no-store' })
+    const response = await fetch(endpoint, { headers: { accept: 'application/json', 'user-agent': 'KINDLEAP Job Intelligence/1.0' }, cache: 'no-store' })
     if (!response.ok) return NextResponse.json({ error: `Source returned HTTP ${response.status}.` }, { status: 502 })
     const data = await response.json()
     let jobs = source === 'greenhouse' ? normalizeGreenhouse(single ? { jobs: [data] } : data, endpoint) : source === 'lever' ? normalizeLever(single ? [data] : data, endpoint) : normalizeAshby(data, endpoint)
