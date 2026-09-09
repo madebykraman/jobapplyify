@@ -12,49 +12,47 @@ Descriptor: **Job search, applications and career tools in one place.**
 
 Brand principles: clarity over noise; evidence over invention; control over automation; progress over volume; useful by default.
 
-Visual direction for this phase: clean, minimal, light-first, generous whitespace, restrained typography, simple controls, clear hierarchy, functional states. No elaborate editorial system, gradients, decorative instrumentation or visual experimentation until the product works end to end.
+Visual direction: clean, minimal, light-first, generous whitespace, restrained typography, simple controls, clear hierarchy and explicit functional states.
 
 ## Reset rule
 
 The previous KINDLEAP dark/editorial UI overhaul is stopped. Existing functionality is retained and repaired. Do not spend build time inventing a new visual language. Prefer native/simple components and shared functional primitives.
 
-## Phase 12R — Rebrand + functional reset
-1. Rebrand all user-visible product surfaces to NAUKRI LABS.
-2. Remove ROVA/KINDLEAP/WAYO legacy user-facing copy while retaining only technically required compatibility identifiers until safely migrated.
-3. Replace the previous dark/editorial UI direction with a simple minimal functional system.
-4. Establish one lightweight global UI foundation for typography, spacing, buttons, forms, lists, panels, status and responsive behaviour.
-5. Keep public homepage simple and conversion-focused.
-6. Preserve existing authentication, persistence, entitlement and automation logic.
+## Phase 12R — Rebrand + functional reset — COMPLETE
+1. Canonical NAUKRI LABS identity established.
+2. Legacy user-facing branding removed from completed surfaces.
+3. Minimal light functional UI foundation established.
+4. Public homepage rebuilt.
+5. Auth, persistence, entitlement and automation foundations preserved.
 
-## Phase 13 — Repository-wide functional audit
-1. Inventory every route, API route, component, utility, worker and data path.
-2. Trace each visible feature to its actual implementation.
-3. Classify every feature as working, partial, mock/seeded or unavailable.
-4. Remove dead UI and fake controls.
-5. Repair broken TypeScript, imports, state transitions and API contracts.
-6. Verify loading, empty, error, success and destructive states.
-7. Verify persistence across refresh and authentication boundaries.
-8. Verify server-side authorization and RLS boundaries.
+## Phase 13 — Repository-wide functional audit — COMPLETE FOR CORE FLOWS
+1. Route/API/component inventory completed.
+2. Core visible features traced to implementation.
+3. Misleading seeded/live claims corrected.
+4. Core auth, profile, documents, resume, opportunities, applications, review, career and automation flows repaired or explicitly bounded.
+5. Server authorization and RLS boundaries reviewed in existing schema and new durable application tables.
 
-Exit: no known broken core route or misleading completed-looking control.
+## Phase 14 — Core product completion — ACTIVE
+Core loop: Find → inspect → assess fit → save → prepare → review → track.
 
-## Phase 14 — Core product completion
-Prioritise working product flows over visual polish:
+Completed in current build:
+- Public ATS source ingestion for Greenhouse, Lever and Ashby.
+- Deterministic fit analysis and evidence-bound application generation.
+- Durable saved-role API and per-user RLS.
+- Durable application records with job/package snapshots and status lifecycle.
+- Outcome reporting from durable application records.
+- Automation queue, dispatch, worker control, safety handoffs and evidence foundation.
 
-Find jobs → inspect job → assess fit → save role → prepare application → review artifacts → track application.
-
-Profile → documents → resume → evidence → tailored application.
-
-Automation → mode selection → queue → worker execution → evidence → verification → cancellation/recovery.
-
-Career → goals/planning → actionable next steps.
-
-Interview/review/insights/growth/community should either work from durable data or clearly identify unavailable functionality; seeded data must never masquerade as live intelligence.
+Remaining before Phase 14 exit:
+- Validate the three ATS adapters against representative live/fixture pages.
+- Add independent submission verification that never infers success from a click alone.
+- Add durable automation evidence redaction/viewing and recovery tests.
+- Finish profile/document/resume persistence edge-case audit.
+- Remove remaining internal legacy storage/type identifiers where migration is safe.
 
 ## Phase 15 — Intelligence hardening
 - Structured resume parsing.
 - Evidence provenance.
-- Evidence-bound generation.
 - Durable Answer Library.
 - Explainable job matching.
 - Freshness and duplicate detection.
@@ -63,7 +61,6 @@ Interview/review/insights/growth/community should either work from durable data 
 - Application quality scoring.
 
 ## Phase 16 — Application + automation production
-- Durable application records.
 - Immutable application package snapshots.
 - Exact submitted-artifact review.
 - Greenhouse/Lever/Ashby adapters with representative fixtures.
@@ -112,4 +109,4 @@ Interview/review/insights/growth/community should either work from durable data 
 Private beta first. Measure reliability, task completion, application quality, automation safety and user outcomes. Only then decide whether the current NAUKRI LABS identity is final or requires another branding pass.
 
 ## Build discipline
-Before every next build: audit the previous roadmap item, repair incomplete work, update README and BUILD_LOG, run verification, then advance. Functionality outranks aesthetics until release readiness.
+Before every build: audit the previous roadmap item, repair incomplete work, update README and BUILD_LOG, run verification, then advance. Never mark a feature complete when its external dependency or safety validation is missing. Functionality outranks aesthetics.
