@@ -35,7 +35,7 @@ export function buildApplicationPack(job:JobRecord, profile:RovaProfile, resume:
   const compensation=formatSalaryTarget(profile.targetSalary)
   const answers=[
     {question:'Why are you interested in this role?',answer:`I am interested in the ${targetRole} opportunity because its focus on ${roleFocus} overlaps with the strongest evidence currently available in my application: ${evidenceOr(matched.slice(0,4).join(', '),evidenceOr(verifiedSkills,'the experience represented in my materials'))}.`},
-    {question:'Why should we consider you?',answer:verifiedSkills||matched.length?`The strongest evidence currently available is ${evidenceFocus}. I would prefer to discuss the specific work and outcomes represented in that evidence rather than make unsupported claims.`:'My application currently contains limited verified evidence for this question. I would rather provide the missing evidence than invent qualifications or experience.'},
+    {question:'Why should we consider you?',answer:(verifiedSkills || matched.length > 0)?`The strongest evidence currently available is ${evidenceFocus}. I would prefer to discuss the specific work and outcomes represented in that evidence rather than make unsupported claims.`:'My application currently contains limited verified evidence for this question. I would rather provide the missing evidence than invent qualifications or experience.'},
     {question:'What is your expected compensation?',answer:compensation ? `My current target is around ${compensation}, with flexibility depending on the scope, location and total compensation of the role.` : 'I am open to discussing compensation based on the scope of the role and the overall package.'},
   ]
   const warnings=[...analysis.warnings]
