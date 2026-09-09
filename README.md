@@ -25,6 +25,8 @@ The previous UI overhaul is stopped. The product is being built functional-first
 - Outcome reporting from the user's durable application records.
 - Durable automation queue, dispatch, callbacks, evidence and recovery foundation.
 - Dry Run / Review / Full Auto policy model with safety handoffs.
+- Representative ATS browser fixtures and worker tests.
+- Candidate-data redaction before browser evidence is stored/uploaded.
 - Minimal NAUKRI LABS homepage and shared authenticated UI.
 
 ## Truth rules
@@ -33,7 +35,7 @@ Advanced intelligence is never represented as live unless backed by real data. C
 
 ## Current release blockers
 
-Production browser submission verification still requires live validation of each ATS adapter and representative fixtures. Payment checkout/lifecycle, live inbox/interview integrations, anonymous community aggregation and browser extension integrations require their external providers and consent flows. Accessibility, mobile E2E, performance, rate limiting, privacy/deletion hardening and dependency remediation remain release QA work.
+Live provider validation, deployment-level worker recovery, and complete browser/mobile QA still require an actual deployed worker/provider environment. Payment checkout/lifecycle, live inbox/interview integrations, anonymous community aggregation and browser extension integrations require their external providers and consent flows. Accessibility, performance, rate limiting, privacy/deletion hardening and dependency remediation remain release QA work.
 
 ## Roadmap
 
@@ -41,7 +43,7 @@ The active roadmap is [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 Current phase: **Phase 14 — Core product completion / functional hardening**.
 
-The current build sequence is durable job saving → durable application snapshots/status → outcome reporting → automation verification → release QA. No new visual overhaul is planned before functional validation.
+No new visual overhaul is planned before functional validation and release QA.
 
 ## Architecture
 
@@ -49,7 +51,7 @@ Next.js 15 / React 19 / TypeScript. Supabase provides authentication, persistenc
 
 ## Verification
 
-GitHub Actions runs install, TypeScript typecheck and production build on pushes. Verification is recorded in `docs/BUILD_LOG.md`; a green run is required before advancing a build.
+GitHub Actions runs install, TypeScript typecheck and production build on pushes. Worker CI now includes browser fixture tests. Verification is recorded in `docs/BUILD_LOG.md`; a green run is required before advancing a build.
 
 ## Build discipline
 
