@@ -74,7 +74,7 @@ AI is a semantic layer, not the source of truth. Deterministic extraction, valid
 
 KINDLEAP is no longer being designed as a generic sidebar → cards → metrics dashboard. The target visual language is a dark, spatial career instrument: editorial hierarchy, decision surfaces, evidence-first layouts, contextual navigation and automation represented as a control instrument.
 
-The current visual system uses a near-black foundation, warm off-white type, restrained rules, a single signal accent, asymmetric composition, oversized typography, compact machine-readable metadata and motion only where it communicates state. Mobile collapses the spatial system into a deliberate linear flow; reduced-motion behaviour remains required.
+The visual system is shared across the product: near-black foundation, warm off-white type, restrained rules, one signal accent, asymmetric composition, oversized typography, compact machine-readable metadata and motion only where it communicates state. Authentication and product surfaces use the same dark system rather than separate light-card styling. Mobile collapses the spatial system into a deliberate linear flow; reduced-motion behaviour remains required.
 
 ## Access and monetisation
 
@@ -112,6 +112,8 @@ Every build is audited against the previous build before advancing. A feature is
 **Build 12 — QA, security and launch hardening in progress.**
 
 Build 12 carries forward the full product pathway and performs the final release audit rather than adding another feature-heavy surface. CI now runs both TypeScript typecheck and the production Next.js build on every main push and pull request. Supabase entitlement infrastructure is connected and verified. The application remains deliberately conservative around browser automation: unsupported or ambiguous flows hand control back to the user.
+
+The UI is being treated as one product system, not page-by-page themes. The latest hardening pass aligns authentication with the same dark spatial language used by the core workspace.
 
 Launch gates still requiring production evidence are: representative platform browser fixtures/adapters, independent submission verification, evidence viewer/redaction hardening, outbound notifications, live community aggregation/contribution infrastructure, payment processor/webhook lifecycle, final server-side entitlement enforcement for all protected surfaces, broader integrations, and full device-level E2E/performance testing.
 
