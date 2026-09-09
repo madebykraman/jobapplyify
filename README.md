@@ -1,68 +1,73 @@
 # NAUKRI LABS
 
-**A simpler way to find and apply for work.**
+**Your job assistant.**
 
-NAUKRI LABS is a practical job-search workspace for finding relevant roles, understanding your fit, preparing applications, applying with controlled automation and learning from outcomes.
+**Give it the job. Let it handle the work.**
+
+NAUKRI LABS is a job assistant, not a job board. The user brings a job, application, recruiter message, document or career problem. NAUKRI LABS helps understand it, assess the user's position, create useful application material and handle repetitive application work with human control.
 
 ## Product
 
 The core loop is:
 
-`Find → Understand → Prepare → Review → Apply → Track → Learn`
+`Give context → Understand → Assess → Improve → Create → Review → Act`
 
-Instead of sending users between job boards, resume tools and spreadsheets, NAUKRI LABS connects the work into one place.
+The product does not compete with LinkedIn, Naukri or other platforms on job discovery. Job URLs and job descriptions are inputs to the assistant, not a marketplace to browse.
 
 ### What you can use it for
 
-- **Find better roles** — search supported public job sources, inspect roles, compare fit and save opportunities.
-- **Understand your fit** — compare a role with your experience, skills, preferences and career direction.
-- **Manage evidence** — keep resumes and source documents together so generated application material can stay grounded in what you have actually provided.
-- **Prepare applications** — create role-specific application packages, review them and preserve the job/package context.
-- **Apply with control** — Dry Run, Review and Full Auto modes with safety handoffs for CAPTCHA, sensitive questions, ambiguity and unsupported forms.
-- **Track applications** — maintain durable application records, status and outcome history instead of losing the trail after submission.
-- **Plan the next move** — use career goals, growth planning and available outcome signals to improve the next application cycle.
+- **Understand a job** — turn a supplied job link or description into clear responsibilities, requirements, constraints and application needs.
+- **Check your chances** — compare the opportunity with your career information and surface strengths, gaps and unknowns. Fit is guidance, not an invented certainty score.
+- **Improve your position** — identify useful skills, certifications, courses, projects, portfolio evidence or positioning changes using candidate context and clearly labelled public/community signals.
+- **Build applications** — create role-specific resumes, CVs, cover letters, introductions, application answers and supporting material from reusable candidate information.
+- **Convert existing information** — use a LinkedIn PDF, resume and career documents as reusable source material. One basic resume template is always free; additional template selection/customisation is a Pro boundary.
+- **Do repetitive work** — prepare and execute supported browser application flows instead of making the user manually repeat the same steps.
+- **Keep control** — Dry Run, Review, Hybrid and eligible Full Auto modes, with human handoff for CAPTCHA, sensitive information, ambiguity and unsupported flows.
+- **Know what happened** — preserve useful application history and redacted execution evidence without forcing the product into a heavyweight ATS.
+
+## Product surfaces
+
+- **Assistant** — the primary front door for jobs, applications, documents and career problems.
+- **Career workspace** — reusable profile, experience, skills, projects, preferences, goals and evidence.
+- **Resume / Documents** — LinkedIn PDF conversion, resume creation and reusable career material.
+- **Applications** — job-specific application packages and review.
+- **Automation** — controlled browser execution for supported ATS flows.
+- **Review** — human approval and handoff for consequential actions.
+- **History** — lightweight record of what NAUKRI LABS prepared and actually did.
+
+There is no job marketplace in the product strategy. Existing supported ATS ingestion is retained only so the assistant can understand a user-provided opportunity.
 
 ## Truth rules
 
-Advanced intelligence is never represented as live unless backed by real data. Candidate claims must be grounded in saved evidence. CAPTCHA, sensitive questions, unknown forms and unsupported flows require human control. An application is not considered verified without evidence.
+Candidate claims must be grounded in information the candidate provides. Public and community information may be used for directional guidance, but approximate signals are never presented as certainty. Automation is visible, controllable and interruptible. CAPTCHA, sensitive questions, unknown forms and unsupported flows require human control. An application is not considered verified without evidence.
 
-## Current implementation status
+## Current implementation
 
-The codebase now has the Phase 14 core foundations: authenticated persistence for profile/documents/resumes, durable saved roles and applications, immutable application snapshots with controlled status transitions, public Greenhouse/Lever/Ashby ingestion, deterministic application preparation, a durable automation queue and worker, unique leased worker tasks, heartbeat/recovery logic, independent submission verification, redacted private evidence and user-scoped evidence viewing.
+The repository already contains substantial reusable infrastructure: authentication, cloud profile/document/resume persistence, durable applications, application preparation, supported public ATS ingestion, automation queue/worker execution, Greenhouse/Lever/Ashby representative adapters, human safety handoffs, lease/heartbeat/recovery logic, independent submission verification and redacted user-scoped evidence.
 
-The public landing page is the NAUKRI LABS product surface. Only implemented ATS adapters are presented as supported automation platforms. Legacy names remain only where technically required by environment/configuration compatibility; user-visible legacy branding has been removed.
+The current pivot adds the assistant-first product surface and changes the public product language away from job discovery. Existing infrastructure is being retained where it supports the assistant and demoted or removed where it exists only to make NAUKRI LABS look like a job marketplace.
 
-## Phase 14 hard gate
+## Monetisation direction
 
-Phase 15 is intentionally locked. Phase 14 cannot be declared complete until the application's actual deployment Supabase project is identified and verified against the application schema, the recovery migration is applied there, deployment-level crash/recovery tests pass, live Greenhouse/Lever/Ashby validation passes, authenticated browser persistence is verified across sessions, automation cancellation/retry/heartbeat/handoff/evidence/stale-worker behavior is verified, final CI is green, and the documentation matches the verified state.
-
-The Supabase project currently available through the connected integration is `minimical-drop`. Its public schema contains unrelated project/file-delivery tables and does not contain the NAUKRI LABS `profiles`, `automation_jobs`, `applications`, `saved_roles` and related application schema. The recovery migration must therefore **not** be applied to that project. This is an environment identity blocker, not a reason to weaken the application schema or safety model.
-
-## Known external validation
-
-- Correct deployment Supabase project/schema mapping and migration application.
-- Deployment-level automation crash/recovery tests.
-- Live ATS provider validation beyond deterministic fixtures.
-- Browser/mobile persistence and authenticated migration of legacy local data.
-- Real payment, inbox/interview, community and browser-extension providers.
-
-Release QA items such as accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation remain post-Phase-14 release work unless they expose a core correctness or safety defect.
+Free should remain genuinely useful. The baseline LinkedIn PDF → resume workflow and one usable resume template remain free forever. Pro is intended for meaningful convenience and customisation, including additional resume template selection/customisation and higher-value automation capabilities where actually implemented. Payment lifecycle remains a later integration step.
 
 ## Architecture
 
-Next.js 15 / React 19 / TypeScript. Supabase provides authentication, persistence, RLS and private storage. A separate Playwright worker handles long-running browser execution.
+Next.js / React / TypeScript. Supabase is intended for authentication, persistence, RLS and private storage. A separate Playwright worker handles long-running browser execution.
 
-## Verification
+## Verification status
 
-Recent main CI failures caused by syntax errors in the persistence hardening pass were diagnosed from the GitHub Actions logs and fixed. The subsequent main CI run for the corrected resume and document changes passed typecheck and production build. A fresh CI run is required on the final Phase 14 gate commit after the remaining audit documentation/code changes settle. Browser Worker CI covers Chromium installation, worker build and browser fixture tests, with direct tests now covering independent verification and evidence redaction.
+The pivot code has been committed to `main`, including the assistant-first homepage, `/assistant` intake surface and revised product roadmap. Final CI must be run on the settled pivot head before the pivot is considered implementation-complete.
+
+Supabase deployment setup remains intentionally paused until the new product architecture is stable. Do not apply NAUKRI LABS migrations to the unrelated `minimical-drop` Supabase project.
 
 ## Documentation
 
-- [`docs/ROADMAP.md`](docs/ROADMAP.md) — delivery roadmap and Phase 14 hard gate.
-- [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) — chronological build record and audit status.
-- [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md) — historical product audit and findings.
-- [`docs/RECONCILIATION_2026-09-09.md`](docs/RECONCILIATION_2026-09-09.md) — current reconciliation after the rebrand/reset.
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — current Job Assistant roadmap.
+- [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) — chronological build and audit record.
+- [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md) — historical product audit.
+- [`docs/RECONCILIATION_2026-09-09.md`](docs/RECONCILIATION_2026-09-09.md) — previous rebrand/reset reconciliation.
 
 ## Build discipline
 
-Before every next build, audit the previous roadmap item, repair incomplete work, update README and `docs/BUILD_LOG.md`, run verification, then advance. Functionality outranks aesthetics until release readiness.
+Before every build, audit the previous roadmap item, repair incomplete work, update README and `docs/BUILD_LOG.md`, run verification, then advance. Functionality outranks aesthetics. Never mark an external dependency or safety validation complete without actually verifying it.
