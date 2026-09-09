@@ -26,10 +26,14 @@ Implemented in this pass:
 - Mobile navigation drawer and iPhone bottom navigation.
 - Shared SectionHeader, Surface, Signal, Status and Row primitives.
 - Workspace/Command page rebuilt against the shared system.
-- Accessible focus states and reduced-motion handling.
-- Dark-first near-black surfaces, warm typography, restrained rules and one signal accent.
+- Career Lab migrated to the shared shell and signal/card/path system.
+- Resume Intelligence migrated to shared shell, tabs, evidence blocks, inputs, actions and responsive split layouts.
+- Opportunities migrated to shared shell, source scanner, dense job surfaces and right-side intelligence drawer.
+- Shell sign-out corrected to use the authenticated Supabase browser session.
+- Accessible focus states and reduced-motion handling extended to new controls.
+- README reconciled with actual migration state.
 
-The shell is intentionally separate from public landing/auth/onboarding. Product routes will be migrated to it systematically; no claim is made that every route is complete yet.
+The shell is intentionally separate from public landing/auth/onboarding. Remaining product routes still require systematic migration; no claim is made that every route is complete yet.
 
 ### UI audit rules now enforced
 - No route-specific visual language where a shared primitive is appropriate.
@@ -40,6 +44,7 @@ The shell is intentionally separate from public landing/auth/onboarding. Product
 - Mobile is a first-class linear flow, not a desktop layout squeezed into a phone.
 - Loading, empty, error, disabled and success states are explicit.
 - Focus, keyboard access, reduced motion and touch targets are release requirements.
+- Placeholder controls must not imply completed functionality.
 
 ### Verification
 Current UI commits have active GitHub Actions runs. They must finish green before this build is marked verified. The previous verified green baseline remains historical only.
@@ -47,7 +52,7 @@ Current UI commits have active GitHub Actions runs. They must finish green befor
 CI has reported 3 dependency vulnerabilities (1 moderate, 2 high); these remain tracked security work.
 
 ### Next 12B sequence
-1. Migrate every product route to the canonical shell.
+1. Migrate remaining product routes to the canonical shell.
 2. Replace route-specific component styling with shared primitives where possible.
 3. Audit every interaction state: loading, empty, error, success, disabled, destructive and confirmation.
 4. Remove legacy light-theme dependencies from the target workspace system.
