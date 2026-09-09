@@ -28,21 +28,25 @@ Advanced intelligence is never represented as live unless backed by real data. C
 
 ## Current implementation status
 
-The core control plane, authentication, durable saved roles/applications, application preparation, public ATS ingestion, automation queue/worker foundation, evidence redaction and representative ATS fixtures are implemented. Worker leases have durable recovery and heartbeat support.
+The codebase now has the Phase 14 core foundations: authenticated persistence for profile/documents/resumes, durable saved roles and applications, immutable application snapshots with controlled status transitions, public Greenhouse/Lever/Ashby ingestion, deterministic application preparation, a durable automation queue and worker, unique leased worker tasks, heartbeat/recovery logic, independent submission verification, redacted private evidence and user-scoped evidence viewing.
 
-Local browser storage is treated as a compatibility fallback, not the source of truth for authenticated product records. New sessions no longer receive a fabricated default personal profile.
+The public landing page is the NAUKRI LABS product surface. Only implemented ATS adapters are presented as supported automation platforms. Legacy names remain only where technically required by environment/configuration compatibility; user-visible legacy branding has been removed.
 
-Production validation still depends on the actual deployed worker, external providers and browser/device QA. Provider-dependent features are not represented as live without those dependencies.
+## Phase 14 hard gate
 
-## Known release work
+Phase 15 is intentionally locked. Phase 14 cannot be declared complete until the application's actual deployment Supabase project is identified and verified against the application schema, the recovery migration is applied there, deployment-level crash/recovery tests pass, live Greenhouse/Lever/Ashby validation passes, authenticated browser persistence is verified across sessions, automation cancellation/retry/heartbeat/handoff/evidence/stale-worker behavior is verified, final CI is green, and the documentation matches the verified state.
 
-- Apply the recovery migration to the deployment's actual Supabase project and run deployment-level crash/recovery tests.
-- Live Greenhouse/Lever/Ashby validation and broader ATS coverage.
-- Profile/document/resume browser edge cases and authenticated migration of legacy local data where appropriate.
-- Payment checkout and subscription lifecycle.
-- Live inbox/interview integrations, community contribution pipeline and browser extension.
-- Unified evidence viewer and stronger claim/provenance enforcement.
-- Accessibility, performance, rate limiting, privacy/deletion hardening, observability and dependency remediation.
+The Supabase project currently available through the connected integration is `minimical-drop`. Its public schema contains unrelated project/file-delivery tables and does not contain the NAUKRI LABS `profiles`, `automation_jobs`, `applications`, `saved_roles` and related application schema. The recovery migration must therefore **not** be applied to that project. This is an environment identity blocker, not a reason to weaken the application schema or safety model.
+
+## Known external validation
+
+- Correct deployment Supabase project/schema mapping and migration application.
+- Deployment-level automation crash/recovery tests.
+- Live ATS provider validation beyond deterministic fixtures.
+- Browser/mobile persistence and authenticated migration of legacy local data.
+- Real payment, inbox/interview, community and browser-extension providers.
+
+Release QA items such as accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation remain post-Phase-14 release work unless they expose a core correctness or safety defect.
 
 ## Architecture
 
@@ -50,12 +54,12 @@ Next.js 15 / React 19 / TypeScript. Supabase provides authentication, persistenc
 
 ## Verification
 
-Latest control-plane CI: install, TypeScript typecheck and production build passed. Latest Browser Worker CI: Chromium installation, worker TypeScript build and browser fixture tests passed.
+Recent main CI failures caused by syntax errors in the persistence hardening pass were diagnosed from the GitHub Actions logs and fixed. The subsequent main CI run for the corrected resume and document changes passed typecheck and production build. A fresh CI run is required on the final Phase 14 gate commit after the remaining audit documentation/code changes settle. Browser Worker CI covers Chromium installation, worker build and browser fixture tests, with direct tests now covering independent verification and evidence redaction.
 
 ## Documentation
 
-- [`docs/ROADMAP.md`](docs/ROADMAP.md) — delivery roadmap.
-- [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) — chronological build record.
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — delivery roadmap and Phase 14 hard gate.
+- [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) — chronological build record and audit status.
 - [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md) — historical product audit and findings.
 - [`docs/RECONCILIATION_2026-09-09.md`](docs/RECONCILIATION_2026-09-09.md) — current reconciliation after the rebrand/reset.
 
