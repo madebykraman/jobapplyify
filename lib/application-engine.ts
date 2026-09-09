@@ -28,7 +28,7 @@ export function buildApplicationPack(job:JobRecord, profile:RovaProfile, resume:
   const missing=analysis.missingSkills.slice(0,8)
   const verifiedSkills=profile.skills.slice(0,5).join(', ')
   const matchedEvidence=matched.slice(0,5).join(', ')
-  const roleFocus=evidenceOr(job.department,'the responsibilities described in the posting')
+  const roleFocus=evidenceOr(job.department ?? '','the responsibilities described in the posting')
   const evidenceFocus=evidenceOr(matchedEvidence,evidenceOr(verifiedSkills,'the evidence represented in my application materials'))
   const summary=sentence(profile.headline || (verifiedSkills ? `${targetRole} with experience in ${verifiedSkills}.` : `Application preparation for ${targetRole}, based only on the evidence currently available.`))
   const coverLetter=`Dear Hiring Team,\n\nI am applying for the ${targetRole} opportunity at ${job.company}. The role's focus on ${roleFocus} is relevant to the evidence currently represented in my application.\n\nThe strongest directly matched signals are ${evidenceFocus}. I would welcome the opportunity to discuss the work and the evidence behind my application with ${job.company}.\n\nRegards,\n${firstName(profile.name)}`
