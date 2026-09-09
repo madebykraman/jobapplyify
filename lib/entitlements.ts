@@ -1,23 +1,15 @@
-export const INVITE_CODE = process.env.NEXT_PUBLIC_BETA_INVITE || 'WAYO-BETA'
-export const PRO_STORAGE_KEY = 'kindleap.proAccess'
+export const INVITE_CODE = process.env.KINDLEAP_BETA_INVITE || 'WAYO-BETA'
 export const DEMO_EMAIL = 'test@kindleap.app'
 export const DEMO_PASSWORD = 'KINDLEAPtest2026!'
 
-export function hasProAccess() {
-  if (typeof window === 'undefined') return false
-  return localStorage.getItem(PRO_STORAGE_KEY) === 'true'
+export type Entitlement = {
+  plan: 'free' | 'pro'
+  status: 'active' | 'paused' | 'cancelled'
+  source: string | null
+  currentPeriodEnd: string | null
 }
 
-export function redeemInviteCode(code: string) {
-  const valid = code.trim().toUpperCase() === INVITE_CODE.toUpperCase()
-  if (valid && typeof window !== 'undefined') localStorage.setItem(PRO_STORAGE_KEY, 'true')
-  return valid
-}
-
-export function activatePaidPro() {
-  if (typeof window !== 'undefined') localStorage.setItem(PRO_STORAGE_KEY, 'true')
-}
-
-export function clearProAccess() {
-  if (typeof window !== 'undefined') localStorage.removeItem(PRO_STORAGE_KEY)
+export function isActivePro(entitlement: Entitlement | null | undefined) {
+  if (!entitlement || entitlement.plan !== 'pro' || entitlement.status !== 'active') return false
+  return !entitlement.currentPeriodEnd || new Date(entitlement.currentPeriodEnd).getTime() > Date.now()
 }
