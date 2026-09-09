@@ -18,28 +18,30 @@ The previous UI overhaul is stopped. The product is being built functional-first
 - Server-side entitlement reads and Pro gating.
 - Profile persistence with local fallback.
 - Private document upload/delete flow.
-- Resume preparation and application package generation.
-- Job-source parsing for supported sources.
-- Application records and review workflow.
+- Resume preparation and evidence-bound application package generation.
+- Public Greenhouse, Lever and Ashby source parsing.
+- Durable saved-role records with per-user RLS.
+- Durable application records with immutable job/package snapshots and status tracking.
+- Outcome reporting from the user's durable application records.
 - Durable automation queue, dispatch, callbacks, evidence and recovery foundation.
-- Dry Run / Review / Hybrid / Full Auto policy model.
+- Dry Run / Review / Full Auto policy model with safety handoffs.
 - Minimal NAUKRI LABS homepage and shared authenticated UI.
 
 ## Truth rules
 
 Advanced intelligence is never represented as live unless backed by real data. Candidate claims must be grounded in saved evidence. CAPTCHA, sensitive questions, unknown forms and unsupported flows require human control. An application is not considered verified without evidence.
 
-## Current limitations
+## Current release blockers
 
-Production ATS adapters and fixtures, independent submission verification, real outcome/inbox ingestion, payment lifecycle, browser extension, full community aggregation, privacy/deletion hardening and complete browser/mobile/accessibility/performance coverage remain open release work. Dependency vulnerabilities also require remediation.
+Production browser submission verification still requires live validation of each ATS adapter and representative fixtures. Payment checkout/lifecycle, live inbox/interview integrations, anonymous community aggregation and browser extension integrations require their external providers and consent flows. Accessibility, mobile E2E, performance, rate limiting, privacy/deletion hardening and dependency remediation remain release QA work.
 
 ## Roadmap
 
 The active roadmap is [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
-Current phase: **Phase 13 — Functional completion**.
+Current phase: **Phase 14 — Core product completion / functional hardening**.
 
-The immediate sequence is repository-wide route/API audit, legacy cleanup, integration of existing functions, durable data verification, automation hardening, seeded-data removal, then release QA. Another branding pass happens only after functional validation.
+The current build sequence is durable job saving → durable application snapshots/status → outcome reporting → automation verification → release QA. No new visual overhaul is planned before functional validation.
 
 ## Architecture
 
@@ -47,7 +49,7 @@ Next.js 15 / React 19 / TypeScript. Supabase provides authentication, persistenc
 
 ## Verification
 
-GitHub Actions runs install, TypeScript typecheck and production build on pushes. The latest verified run before documentation-only changes passed all three stages.
+GitHub Actions runs install, TypeScript typecheck and production build on pushes. Verification is recorded in `docs/BUILD_LOG.md`; a green run is required before advancing a build.
 
 ## Build discipline
 
