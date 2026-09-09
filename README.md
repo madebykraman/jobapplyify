@@ -14,37 +14,21 @@ Operating loop:
 
 `Discover → Qualify → Prepare → Review → Apply → Verify → Track → Learn`
 
-## What it is building
+## Product scope
 
-- Resume ingestion, structured resume building and versioning.
-- ATS/readiness analysis and role-specific resume intelligence.
-- Resume and career audits.
-- Resume → best-fit role recommendations.
-- Explainable job-fit scoring and transferable-skills mapping.
-- Job-post URL scanning and normalized job intelligence.
-- Salary, seniority, work-mode and career-relevance analysis.
-- Career paths, pivots, skill gaps and target-salary planning.
-- India-specific CTC, notice-period and expected-CTC intelligence.
-- Role-specific resumes, cover letters and application answers.
-- Evidence-backed generation with an AI truth lock.
-- Application tracking and durable automation orchestration.
-- Controlled browser automation with human handoff.
-- Interview Lab, follow-up intelligence and outcome learning.
-- Company, referral, salary and community intelligence with provenance.
-- Goal planning that converts a target role, compensation and horizon into weekly actions.
-- Privacy-first community intelligence using aggregate signals rather than public candidate profiles.
+The planned product covers resume/evidence intelligence, explainable job matching, transferable skills, company/referral intelligence, career planning, India-specific compensation context, application preparation, controlled browser automation, interview/outcome intelligence, growth planning, anonymous community intelligence, monetisation and integrations.
+
+The detailed 30-feature audit and implementation status live in [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md). The forward release plan lives in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Automation
 
 Automation has three operating levels:
 
-- **Dry Run — Free:** inspect and prepare the flow without submission.
+- **Dry Run — Free:** inspect and prepare without submission.
 - **Review — Default:** prepare and fill verified information, then stop before submission.
 - **Full Auto — Pro:** submit supported applications automatically when all safety conditions pass.
 
-Full Auto is the chosen primary automation direction. It is not blind mass applying. CAPTCHA, unknown forms, sensitive questions, unsupported flows and other safety boundaries return control to the user.
-
-No silent submission. No verified state without independent evidence.
+Full Auto is not blind mass applying. CAPTCHA, unknown forms, sensitive questions, unsupported flows and other safety boundaries return control to the user. No silent submission. No verified state without independent evidence.
 
 ## Product principles
 
@@ -64,65 +48,60 @@ No silent submission. No verified state without independent evidence.
 
 The Next.js web application is the product/control plane. It owns profile data, documents, resumes, jobs, applications, permissions, review queues and analytics.
 
-A separate Playwright browser worker owns long-running browser sessions and site execution. Platform-specific adapters remain a quality gate and are not described as live until tested with representative fixtures.
+A separate Playwright browser worker owns long-running browser sessions and site execution. Platform-specific adapters are not described as live until representative fixtures pass.
 
-Supabase provides production persistence, authentication, RLS and private document/evidence storage. Local-first storage remains available for development.
+Supabase provides production persistence, authentication, RLS and private document/evidence storage. Local-first storage remains available for development and prototype fallback.
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
-## UI direction
+## UI system
 
-KINDLEAP is no longer being designed as a generic sidebar → cards → metrics dashboard. The target visual language is a dark, spatial career instrument: editorial hierarchy, decision surfaces, evidence-first layouts, contextual navigation and automation represented as a control instrument.
+KINDLEAP is being rebuilt as one dark, spatial career instrument rather than a collection of dashboard themes. The system uses near-black surfaces, warm off-white typography, restrained rules, one signal accent, asymmetric/editorial hierarchy, compact machine-readable metadata and motion only when it communicates state.
 
-The visual system is shared across the product: near-black foundation, warm off-white type, restrained rules, one signal accent, asymmetric composition, oversized typography, compact machine-readable metadata and motion only where it communicates state. Authentication and product surfaces use the same dark system rather than separate light-card styling. Mobile collapses the spatial system into a deliberate linear flow; reduced-motion behaviour remains required.
+Authentication, onboarding, profile, documents, resume, career, opportunities, applications, automation, review, insights, growth, community and pricing must share the same primitives. No legacy light-card theme remains part of the target system. Mobile is a first-class linear flow with accessible controls and reduced-motion support.
 
 ## Access and monetisation
 
-The current beta model is freemium:
+The intended beta model is freemium: basic tools where implemented, Pro account access, beta invite unlock and ₹499/month India positioning. International pricing is intended to use purchasing-power-adjusted equivalents. Credits are reserved for a later entitlement layer.
 
-- Basic tools remain usable without an account where implemented.
-- Pro routes require account-level Pro access.
-- Beta invite activation is now persisted through Supabase entitlements.
-- During beta, an accepted invite unlocks the complete Pro workspace.
-- India Pro positioning: **₹499/month**.
-- International pricing is intended to use purchasing-power-adjusted equivalents.
-- Credits are reserved as a later entitlement layer rather than gating the beta core.
+Supabase entitlement infrastructure and authenticated invite activation exist. Payment processor/webhook lifecycle, billing/tax handling and authoritative server-side enforcement across every protected route remain release gates.
 
-The entitlement data model and authenticated activation API are implemented. Production payment processor/webhook lifecycle, tax/invoice handling and final enforcement across every legacy client page remain launch gates.
+## Build history
 
-## Build roadmap
+Build 01–05 — foundation, job intelligence and career intelligence.
 
-1. Build 01 — Foundation + internal product system.
-2. Build 02 — Account, onboarding, persistent career profile + secure documents.
-3. Build 03 — Resume Studio.
-4. Build 04 — Career Lab.
-5. Build 05 — Market Intelligence.
-6. Build 06 — Application Studio.
-7. Build 07 — Automation Engine.
-8. Build 08 — Control Center.
-9. Build 09 — Interview + Outcome Intelligence.
-10. Build 10 — Growth + Community.
-11. Build 11 — Monetisation + Entitlements.
-12. **Build 12 — Full QA, Security + Launch — current.**
+Build 06 — resume ingestion/parsing, persistent saves and job-source hardening.
 
-Every build is audited against the previous build before advancing. A feature is not complete merely because its UI exists; completion requires the relevant data model, persistence, validation, security, integration, failure handling and verification gates.
+Build 07 — automation control center and execution modes.
+
+Build 08 — browser-worker foundation, adapter registry and worker CI/safety boundary.
+
+Build 09 — async worker, secure dispatch/callback, durable queue lifecycle, signed resume transfer and host allowlisting.
+
+Build 10 — Interview/Outcome Intelligence, Growth and Community.
+
+Build 11 — monetisation and Supabase entitlements.
+
+Build 12 — product reconciliation, defect audit, security/QA reset and UI-system reset.
 
 ## Current status
 
-**Build 12 — QA, security and launch hardening in progress.**
+**Build 12 — reconciliation complete; production build-out follows the audited roadmap.**
 
-Build 12 carries forward the full product pathway and performs the final release audit rather than adding another feature-heavy surface. CI now runs both TypeScript typecheck and the production Next.js build on every main push and pull request. Supabase entitlement infrastructure is connected and verified. The application remains deliberately conservative around browser automation: unsupported or ambiguous flows hand control back to the user.
+Fresh GitHub Actions CI is green for the current codebase with TypeScript typecheck and production build. This does not equal launch readiness. The current implementation is a strong prototype/control-plane foundation with several partial features and known release gates.
 
-The UI is being treated as one product system, not page-by-page themes. The latest hardening pass aligns authentication with the same dark spatial language used by the core workspace.
+Immediate work is Build 12A defect sweep → Build 12B complete UI rebuild → Builds 13–21 production feature/integration completion → Build 22 full release QA → Build 23 private beta → Build 24 public launch.
 
-Launch gates still requiring production evidence are: representative platform browser fixtures/adapters, independent submission verification, evidence viewer/redaction hardening, outbound notifications, live community aggregation/contribution infrastructure, payment processor/webhook lifecycle, final server-side entitlement enforcement for all protected surfaces, broader integrations, and full device-level E2E/performance testing.
+## Quality rule
+
+A UI is not a completed feature. Completion requires the relevant data model, persistence, validation, security boundary, integration, failure handling, audit trail, mobile/accessibility QA and regression coverage. No platform is live until its adapter and representative fixture pass. No application is submitted merely because a form was navigated. No application is verified without independent evidence. Candidate facts are never silently invented.
 
 ## Development
 
-Copy `.env.example` and configure the environment-specific Supabase and worker variables. Never expose service-role, worker or callback secrets to the client.
+Copy `.env.example` and configure environment-specific Supabase and worker variables. Never expose service-role, worker or callback secrets to the client.
 
 Primary deployment target: Vercel.
 
 Browser execution: separate worker/runtime.
 
-See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) for the audited implementation history and roadmap log.
+See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md), [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md).
