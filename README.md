@@ -18,7 +18,7 @@ Operating loop:
 
 The planned product covers resume/evidence intelligence, explainable job matching, transferable skills, company/referral intelligence, career planning, India-specific compensation context, application preparation, controlled browser automation, interview/outcome intelligence, growth planning, anonymous community intelligence, monetisation and integrations.
 
-The detailed feature audit and implementation status live in [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md). The forward release plan lives in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+The detailed feature audit and implementation status live in [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md). The human-readable current truth table is [`docs/FEATURE_TRUTH.md`](docs/FEATURE_TRUTH.md). The forward release plan lives in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Automation
 
@@ -50,7 +50,7 @@ The Next.js web application is the product/control plane. It owns profile data, 
 
 A separate Playwright browser worker owns long-running browser sessions and site execution. Platform-specific adapters are not described as live until representative fixtures pass.
 
-Supabase provides production persistence, authentication, RLS and private document/evidence storage. Authentication is being moved to cookie-backed SSR sessions so server routes and middleware can use the same authoritative identity as the browser.
+Supabase provides production persistence, authentication, RLS and private document/evidence storage. Authentication now uses cookie-backed SSR sessions so server routes and middleware can use the same authoritative identity as the browser.
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
@@ -88,9 +88,9 @@ Build 12 — product reconciliation, defect audit, security/QA reset and UI-syst
 
 **Build 12A — active defect sweep and foundation hardening.**
 
-The repository has moved from client-set Pro cookies to cookie-backed Supabase SSR authentication and server entitlement checks. Legacy user-visible WAYO/ROVA branding is still being swept from remaining surfaces. Feature truth is now explicitly tracked; several product surfaces remain partial/mock and are not presented as launch-ready.
+Completed in this pass: cookie-backed Supabase SSR auth, server entitlement route gating, removal of client-side entitlement authority, removal of the client-side demo Pro bypass, explicit feature-truth registry, legacy branding cleanup on touched surfaces, safer application answer typing, and Node 22 CI alignment.
 
-A fresh CI run is required after the current remediation commits. No green result is claimed until GitHub Actions verifies the current `main` state.
+GitHub Actions run **34319655739** is green for the current audited state at commit `c189141f66f615e806f449ccdf666624bfc57dcb`: typecheck and production build both pass. CI also reports 3 dependency vulnerabilities (1 moderate, 2 high); these remain tracked for dependency/security remediation and do not get silently ignored.
 
 Immediate work is Build 12A defect sweep → Build 12B complete UI rebuild → Builds 13–21 production feature/integration completion → Build 22 full release QA → Build 23 private beta → Build 24 public launch.
 
@@ -106,4 +106,4 @@ Primary deployment target: Vercel.
 
 Browser execution: separate worker/runtime.
 
-See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md), [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md).
+See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md), [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md), [`docs/FEATURE_TRUTH.md`](docs/FEATURE_TRUTH.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md).
