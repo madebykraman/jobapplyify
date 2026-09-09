@@ -18,7 +18,10 @@ export async function POST(req: Request) {
       admin.from('profiles').select('name,email,phone,location,headline,linkedin,portfolio').eq('id',job.user_id).single(),
       admin.from('resumes').select('id,source_document_id').eq('user_id',job.user_id).order('updated_at',{ascending:false}).limit(1).maybeSingle(),
     ])
-    if (!profile?.name || !profile?.email) return NextResponse.json({ error:'Candidate profile is incomplete.', jobId:job.id }, { status:422 })
+    if (!profile?.name || !profile?.email) {
+      await admin.from('automation_jobs').update({state:'queued',lease_owner:null,lease_expires_at:null,worker_task_id:null,last_error:'Candidate profile became incomplete before worker execution.',next_attempt_at:new Date().toISOString(),updated_at:new Date().toISOString()}).eq('id',job.id).eq('lease_owner',workerId)
+      return NextResponse.json({ error:'Candidate profile is incomplete.', jobId:job.id }, { status:422 })
+    }
     let resumeUrl: string | undefined
     if (resume?.source_document_id) {
       const { data: doc } = await admin.from('documents').select('storage_path').eq('id',resume.source_document_id).eq('user_id',job.user_id).maybeSingle()
