@@ -3,24 +3,27 @@
 import Link from 'next/link'
 import { ArrowUpRight, BriefcaseBusiness, FileText, Gauge, MessageSquareText, Sparkles, Target, Zap } from 'lucide-react'
 import { BRAND } from '@/lib/brand'
-import './workspace.css'
+import { KindleapShell, SectionHeader, Signal, Status, Surface } from '@/components/kindleap-ui'
 
 const modules = [
-  ['Resume Studio','Turn your experience into a structured, role-ready resume.','/resume',FileText],
-  ['Career Lab','See where your profile can move and what closes the gap.','/career',Target],
-  ['Find work','Search opportunities with fit, context and source evidence.','/opportunities',BriefcaseBusiness],
-  ['Application Studio','Build the resume, letter and answers for one role.','/applications',Sparkles],
-  ['Automation','Run repetitive application work with explicit controls.','/automation',Zap],
-  ['Interview Lab','Prepare against the actual role, not generic questions.','/insights',MessageSquareText],
-]
+  ['Resume Studio','Turn experience into structured, evidence-ready material.','/resume',FileText],
+  ['Career Lab','Model where your profile can move and what closes the gap.','/career',Target],
+  ['Opportunities','Inspect roles with fit, context and source provenance.','/opportunities',BriefcaseBusiness],
+  ['Applications','Prepare one role with the exact evidence you intend to use.','/applications',Sparkles],
+  ['Automation','Run repetitive work with explicit review and safety boundaries.','/automation',Zap],
+  ['Interview Lab','Practice against the role, your evidence and the gaps.','/insights',MessageSquareText],
+] as const
 
 export default function WorkspacePage() {
-  return <main className="neo">
-    <header className="neoHeader"><Link href="/" className="neoLogo"><span>K</span> {BRAND.name}</Link><div className="neoHeaderRight"><span className="neoStatus"><i/> Pro beta open</span><Link href="/profile" className="neoAvatar">KA</Link></div></header>
-    <section className="neoHero"><div className="neoKicker">CAREER INTELLIGENCE / 01</div><h1>Make the next<br/><em>move.</em></h1><p>One workspace for the decisions behind a better job search, and the repetitive work after them.</p><div className="neoActions"><Link href="/opportunities" className="neoPrimary">Find roles <ArrowUpRight size={17}/></Link><Link href="/resume" className="neoSecondary">Audit my resume</Link></div></section>
-    <section className="neoSignal"><div><span>CAREER SIGNAL</span><strong>Everything is open.</strong><p>During the beta, accounts with an active Pro entitlement can use the complete workspace. Access is verified server-side.</p></div><div className="neoMeter"><Gauge size={19}/><b>PRO / BETA</b><small>Entitlement controlled</small></div></section>
-    <section className="neoGrid">{modules.map(([title,desc,href,Icon])=>{const I=Icon as typeof FileText;return <Link href={href as string} className="neoModule" key={title as string}><div className="neoModuleTop"><I size={19}/><ArrowUpRight size={16}/></div><h2>{title as string}</h2><p>{desc as string}</p><span>Open module</span></Link>})}</section>
-    <section className="neoBottom"><div><span className="neoKicker">THE KINDLEAP LOOP</span><h2>Find. Understand. Prepare. Apply. Grow.</h2></div><Link href="/" className="neoSecondary">Command home</Link></section>
-    <footer>{BRAND.name} · {BRAND.tagline} <span>Pro features require an active server entitlement.</span></footer>
-  </main>
+  return <KindleapShell><div className="kl-page">
+    <SectionHeader eyebrow="Command / Career intelligence" title={<>Make the next <em>move</em> count.</>} description="KINDLEAP turns your career evidence into clearer decisions, stronger applications and controlled execution." action={<Status tone="accent">BETA · CONTROLLED ACCESS</Status>} />
+
+    <Surface className="kl-command-hero"><div><div className="kl-eyebrow">Your operating loop</div><h2>Find → Understand → Prepare → Apply → Learn.</h2><p>Every action should produce a useful signal. Every generated claim should have evidence behind it. Automation stops when judgment is required.</p><div className="kl-action-row"><Link href="/opportunities" className="kl-button kl-button-primary">Find opportunities <ArrowUpRight size={15}/></Link><Link href="/resume" className="kl-button">Audit resume</Link></div></div><div className="kl-command-grid"><Signal label="Evidence" value="Grounded" detail="Claims trace to known material"/><Signal label="Execution" value="Review" detail="Human boundary before submit"/><Signal label="Priority" value="Signal" detail="Quality over application volume"/></div></Surface>
+
+    <div className="kl-module-grid">{modules.map(([title,desc,href,Icon]) => <Link href={href} className="kl-module" key={title}><div className="kl-module-top"><Icon size={18}/><ArrowUpRight size={15}/></div><h2>{title}</h2><p>{desc}</p><span>Open module</span></Link>)}</div>
+
+    <div className="kl-dashboard-grid"><Surface><div className="kl-eyebrow">Today</div><h3>What needs attention?</h3><div className="kl-attention"><div><b>Profile evidence</b><span>Add missing proof before tailoring roles.</span></div><div><b>Opportunity signal</b><span>Review roles before committing application effort.</span></div><div><b>Application control</b><span>Nothing submits without the configured safety boundary.</span></div></div></Surface><Surface><div className="kl-eyebrow">System state</div><h3>Controlled by design.</h3><div className="kl-state"><span><i/> Source provenance</span><span><i/> Server-side access</span><span><i/> Human review boundary</span></div></Surface></div>
+
+    <footer className="kl-page-footer"><span>{BRAND.name} · {BRAND.tagline}</span><span>{BRAND.principles[1]} · {BRAND.principles[3]}</span></footer>
+  </div></KindleapShell>
 }
