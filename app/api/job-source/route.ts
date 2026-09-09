@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     if (source === 'ashby') {
       boardSlug = p[0] || null
       if (!boardSlug) throw new Error('Ashby job-board name is missing.')
-      endpoint = `https://api.ashby.com/posting-api/job-board/${encodeURIComponent(boardSlug)}?includeCompensation=true`
+      endpoint = `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(boardSlug)}?includeCompensation=true`
       single = url.hostname === 'jobs.ashbyhq.com' && p.length > 1
     }
 
