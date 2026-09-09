@@ -41,13 +41,15 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 - Reframed the homepage to explain the complete product loop and capability set.
 - Corrected outcome UI copy so missing verification is not presented as a system outage.
 - Hardened local-storage parsing and removed the fabricated default personal profile; authenticated product persistence remains the source of truth.
+- Polished the public homepage into a fuller product landing page: problem framing, capability overview, product modules, connected workflow, trust rules and final conversion path.
 
 ### Verification
 - Main CI for the latest worker/control-plane commit passed install, TypeScript typecheck and production build.
 - Browser Worker CI passed Chromium installation, worker build and browser fixture tests.
+- Homepage styling was updated with responsive mobile layouts and interaction polish; the page remains CSS-only apart from existing icon components.
 
 ### Current blockers / next work
-- The recovery SQL must be applied to the same Supabase project used by the deployed application. The connected Supabase project available during this build does not contain the application's `profiles`/`automation_jobs` schema, so deployment database application could not be truthfully verified here.
+- The recovery SQL must be applied to the deployment's actual Supabase project and deployment-level crash/recovery tests must be run.
 - Real provider-backed ATS validation remains environment-dependent; fixtures cover deterministic adapter/form contracts.
 - Broader platform-specific ATS selectors, account/session flows and human browser handoff need production fixtures.
 - Profile/document/resume browser edge cases and authenticated migration of legacy local data need browser validation.
