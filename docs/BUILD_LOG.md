@@ -24,26 +24,31 @@ The product direction was pivoted away from the UI-first overhaul. NAUKRI LABS i
 
 ## Phase 14 — Core product completion — ACTIVE — 2026-09-09
 
-### Completed this build
+### Completed
 - Added `saved_roles` with per-user RLS and durable job snapshots.
 - Added `applications` with per-user RLS, durable job snapshots, package snapshots and status lifecycle.
 - Added authenticated `/api/saved-roles` CRUD flow.
 - Added authenticated `/api/applications` read/create/status-update flow.
 - Updated Opportunities to persist saved roles across authenticated sessions while retaining local fallback.
 - Updated Application Studio to persist generated packages and track status.
-- Updated Insights to calculate personal outcome counts from durable application records instead of placeholder intelligence.
-- Updated feature truth and documentation to distinguish live, partial and unavailable capabilities.
+- Updated Insights to calculate personal outcome counts from durable application records.
+- Added independent post-submission verification in the Playwright worker. A submission click alone cannot produce `verified` state.
+- Removed the non-functional manual Verify control from the automation UI.
+- Updated feature truth so unavailable/partial systems are explicit.
 - Example job records are explicitly labelled non-live.
 
-### Remaining functional completion blockers
-- Live validation/fixtures for Greenhouse, Lever and Ashby browser adapters.
-- Independent post-submission verification; a click must never be treated as proof of submission.
+### Functional completion status
+Core Find → Inspect → Assess → Save → Prepare → Review → Track flow is now backed by durable application/saved-role data when authenticated. Automation has durable queue control, safety handoffs, evidence and conservative independent verification.
+
+### Remaining production blockers
+- Live validation and fixtures for each supported ATS/browser flow.
 - Evidence redaction/viewer hardening and worker recovery tests.
-- Profile/document/resume persistence edge cases and migration cleanup.
+- Profile/document/resume persistence edge cases and legacy local-storage migration.
 - External billing, inbox/interview, community and browser-extension integrations require provider setup and consent flows.
+- Release QA: unit/API tests, browser/mobile E2E, accessibility, performance, rate limiting, privacy/deletion, observability and dependency remediation.
 
 ### Verification
-CI is running against the current main commits. Do not mark this phase complete until the current code and worker workflows have green install/typecheck/build checks and the remaining safety blockers are explicitly resolved or bounded.
+Current CI runs are being monitored after the functional changes. The latest observed run has passed install and TypeScript typecheck and is completing the production build. Phase 14 is not marked fully complete until the current run is green and the remaining safety/release blockers are resolved or explicitly bounded.
 
 ### Build discipline
 Before every next build, audit the previous roadmap item, repair incomplete work, update README and BUILD_LOG, run verification, then advance. Functionality outranks aesthetics until release readiness.
