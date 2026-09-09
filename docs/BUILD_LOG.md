@@ -1,64 +1,40 @@
 # Product Build Log
 
-## Build 12 — PRODUCT RECONCILIATION + QA RESET — 2026-09-09
+## Phase 12R — NAUKRI LABS REBRAND + FUNCTIONAL RESET — 2026-09-09
 
-Build 12 is the audit/reset boundary that reconciles product history, implementation state, competitive research, UI direction and release gates.
+The product direction has been deliberately pivoted. The previous KINDLEAP dark/editorial UI overhaul is stopped. This phase prioritises a working product, repaired integrations and a simple minimal interface. A later branding/UI refinement is allowed only after functional validation.
 
-### Build 12A
-- Cookie-backed Supabase SSR authentication.
-- Server entitlement checks replacing forgeable client gating.
-- Removed local entitlement authority and client-side demo Pro bypass.
-- Explicit feature-truth registry and human-readable truth table.
-- Legacy user-visible branding sweep on touched surfaces.
-- Lever parsing correction, Ashby hostname restoration, KINDLEAP source identity, remote document cleanup and evidence-bound application fallback hardening retained.
-- Node 22 runtime/CI alignment.
+### Brand system established
+- Name: **NAUKRI LABS**.
+- Tagline: **A simpler way to find and apply for work.**
+- Descriptor: **Job search, applications and career tools in one place.**
+- Principles: clarity over noise; evidence over invention; control over automation; progress over volume; useful by default.
+- Visual direction: minimal, light-first, generous whitespace, restrained typography, simple controls and clear states.
+- Avoid decorative dashboards, gradients, complex editorial instrumentation and premature visual experimentation.
 
-12A remains open for dependency/security, RLS/deletion, fixtures, browser/device QA and route/API truth verification.
+### Work completed
+- Canonical brand source changed from KINDLEAP to NAUKRI LABS.
+- Public homepage replaced with a simple functional landing page focused on Find → Prepare → Apply.
+- New minimal homepage styling added.
+- Roadmap reset from UI-first redesign to functional-first delivery.
+- README reset to the same product direction.
 
-### Build 12B — UI SYSTEM REBUILD — ACTIVE
-The UI audit found the previous product architecture too dependent on route-specific styling, legacy light-theme primitives and inconsistent interaction surfaces. The redesign is therefore a system replacement, not a cosmetic reskin.
+### Audit findings carried forward
+The repository already contains substantial authentication, entitlement, document, job-source, application and automation infrastructure. The remaining work is to verify every path rather than assume implementation means completion.
 
-Implemented in this pass:
-- Canonical KINDLEAP design tokens and primitives.
-- Shared responsive workspace shell.
-- Desktop navigation rail with active-route state.
-- Sticky command/search surface.
-- Mobile navigation drawer and iPhone bottom navigation.
-- Shared SectionHeader, Surface, Signal, Status and Row primitives.
-- Workspace/Command page rebuilt against the shared system.
-- Career Lab migrated to the shared shell and signal/card/path system.
-- Resume Intelligence migrated to shared shell, tabs, evidence blocks, inputs, actions and responsive split layouts.
-- Opportunities migrated to shared shell, source scanner, dense job surfaces and right-side intelligence drawer.
-- Shell sign-out corrected to use the authenticated Supabase browser session.
-- Accessible focus states and reduced-motion handling extended to new controls.
-- README reconciled with actual migration state.
+Known release gaps remain: real ATS adapters/fixtures, independent submission verification, outcome ingestion, payment lifecycle, privacy/deletion QA, dependency/security remediation, complete E2E/mobile/accessibility/performance coverage and removal of legacy visual architecture.
 
-The shell is intentionally separate from public landing/auth/onboarding. Remaining product routes still require systematic migration; no claim is made that every route is complete yet.
-
-### UI audit rules now enforced
-- No route-specific visual language where a shared primitive is appropriate.
-- No decorative cards for information that should read as a list, table or state.
-- Evidence, inference, status and automation state must remain visually distinguishable.
-- One dominant action per decision context.
-- Dense comparison surfaces for jobs/applications; drawers for deep inspection.
-- Mobile is a first-class linear flow, not a desktop layout squeezed into a phone.
-- Loading, empty, error, disabled and success states are explicit.
-- Focus, keyboard access, reduced motion and touch targets are release requirements.
-- Placeholder controls must not imply completed functionality.
-
-### Verification
-Current UI commits have active GitHub Actions runs. They must finish green before this build is marked verified. The previous verified green baseline remains historical only.
-
-CI has reported 3 dependency vulnerabilities (1 moderate, 2 high); these remain tracked security work.
-
-### Next 12B sequence
-1. Migrate remaining product routes to the canonical shell.
-2. Replace route-specific component styling with shared primitives where possible.
-3. Audit every interaction state: loading, empty, error, success, disabled, destructive and confirmation.
-4. Remove legacy light-theme dependencies from the target workspace system.
-5. Perform mobile/iPhone and accessibility pass.
-6. Run fresh CI and repair all regressions.
-7. Re-audit route/API/data truth before Build 13.
+### Next work sequence
+1. Repository-wide route/API/component/worker inventory.
+2. Search for and remove user-visible legacy branding and misleading UI.
+3. Debug TypeScript/build/runtime defects introduced by prior UI migrations.
+4. Replace remaining route-specific visual systems with a lightweight functional base, not a new design overhaul.
+5. Integrate every existing function into visible usable flows.
+6. Make seeded/mock areas explicit and remove fake live-looking controls.
+7. Verify persistence, auth, RLS, document access and deletion.
+8. Verify automation queue, modes, worker callbacks, evidence and recovery.
+9. Run fresh CI and repair regressions.
+10. Only after functional QA: decide whether NAUKRI LABS branding needs a final identity pass or is ready for beta.
 
 ## Documentation rule
-README, BUILD_LOG and ROADMAP are updated as part of every build. A build is not complete merely because its UI exists; completion requires data, persistence, validation, security, integration, failure handling, evidence and regression coverage.
+README, BUILD_LOG and ROADMAP are updated continuously. Before advancing to another phase, audit the previous phase and repair incomplete work. Functionality outranks aesthetics until release readiness.
