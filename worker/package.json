@@ -1,12 +1,13 @@
 {
-  "name": "rova-browser-worker",
-  "version": "0.9.0",
+  "name": "naukri-labs-browser-worker",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
     "start": "node dist/server.js",
     "build": "tsc -p tsconfig.json",
+    "test": "tsx --test src/**/*.test.ts",
     "task": "tsx src/index.ts",
     "serve": "tsx src/server.ts"
   },
