@@ -28,7 +28,9 @@ Advanced intelligence is never represented as live unless backed by real data. C
 
 ## Current implementation status
 
-The core control plane, authentication, durable saved roles/applications, application preparation, public ATS ingestion, automation queue/worker foundation, evidence redaction and representative ATS fixtures are implemented. Worker leases now have a durable recovery migration and a heartbeat mechanism so long browser runs do not silently lose ownership. The worker control-plane authentication path is covered by the worker implementation and CI.
+The core control plane, authentication, durable saved roles/applications, application preparation, public ATS ingestion, automation queue/worker foundation, evidence redaction and representative ATS fixtures are implemented. Worker leases have durable recovery and heartbeat support.
+
+Local browser storage is treated as a compatibility fallback, not the source of truth for authenticated product records. New sessions no longer receive a fabricated default personal profile.
 
 Production validation still depends on the actual deployed worker, external providers and browser/device QA. Provider-dependent features are not represented as live without those dependencies.
 
@@ -36,7 +38,7 @@ Production validation still depends on the actual deployed worker, external prov
 
 - Apply the recovery migration to the deployment's actual Supabase project and run deployment-level crash/recovery tests.
 - Live Greenhouse/Lever/Ashby validation and broader ATS coverage.
-- Profile/document/resume edge cases and legacy local-storage migration.
+- Profile/document/resume browser edge cases and authenticated migration of legacy local data where appropriate.
 - Payment checkout and subscription lifecycle.
 - Live inbox/interview integrations, community contribution pipeline and browser extension.
 - Unified evidence viewer and stronger claim/provenance enforcement.
