@@ -40,43 +40,43 @@ OpenSource UI reinforces a cohesive primitive library with consistent spacing/ty
 - Response analytics by source, role family and evidence quality.
 
 ### Build 12 audit findings
-- Current CI was green on the latest pre-audit commit; audit code changes require a new green run before the implementation is marked verified.
+- Current CI was green on the latest pre-audit commit; all remediation commits require a new green run before verification.
 - The current product is a strong prototype/control-plane foundation, not a production-complete career operating system.
-- The supplied mobile screenshots correctly expose the largest UI problem: authentication and product surfaces still drift into separate visual systems. The fix is a shared design system and page rebuild, not another global override.
+- Authentication and product surfaces still require the shared dark system; the fix is a page-level design rebuild, not another global override.
 - Current job intelligence is heuristic rather than calibrated market intelligence.
 - Current outcome, community and growth surfaces contain seeded/static data and cannot be presented as live intelligence.
 - Durable automation infrastructure exists, but real platform adapters, independent submission verification, evidence viewer/redaction and browser handoff are not complete.
-- Client-cookie Pro gating remains a security and product-boundary defect until replaced everywhere by authoritative server entitlement checks.
-- Document deletion/orphan handling required correction and is now addressed at the client/storage-path layer; final RLS/data-deletion testing remains open.
+- Client-set Pro authorization was a security/product-boundary defect. Build 12A replaces it with cookie-backed Supabase SSR sessions and server entitlement checks for protected routes.
+- Document deletion/orphan handling required correction and is addressed at the client/storage-path layer; final RLS/data-deletion testing remains open.
 - Application generation contained unsupported fallback claims; generation is now stricter and explicitly evidence-bound.
-- The Lever public API URL parser contained a path-indexing defect; the parser is now corrected and requires representative fixture tests.
+- The Lever public API URL parser contained a path-indexing defect; the parser is corrected and still requires representative fixture tests.
 
 ### Code remediation completed in this audit pass
-- Corrected Lever `api.lever.co` path parsing.
-- Restored the Ashby API hostname while fixing the Lever parser.
-- Changed the job-source user-agent to KINDLEAP.
-- Added remote storage-path tracking and safe remote document deletion/cleanup.
-- Removed legacy ROVA branding from Documents, Opportunities, Applications, Career and Review surfaces touched in this pass.
-- Tightened application-generation fallbacks so missing evidence cannot silently become candidate experience claims.
-- Reconciled competitive/UI research with the roadmap and feature matrix.
-- Added master product audit, competitive/UI audit and replacement release roadmap.
+- Added `@supabase/ssr` and moved browser authentication to cookie-backed sessions.
+- Added a cookie-aware server Supabase client for Server Components/Route Handlers.
+- Replaced the forgeable `wayo_pro` middleware cookie gate with authenticated server entitlement lookup.
+- Removed localStorage as an entitlement authority from `lib/entitlements.ts`.
+- Updated the Pro UI gate to read the authenticated entitlement API rather than a client flag.
+- Removed the client-side demo credential/Pro bypass from authentication.
+- Removed remaining user-visible WAYO/ROVA branding found in the workspace and resume surfaces touched in this pass.
+- Added `lib/feature-status.ts` as an explicit live/partial/mock/unavailable/unsafe truth registry.
+- Previously completed: Lever parsing correction, Ashby hostname restoration, KINDLEAP source user-agent, remote document cleanup, and evidence-bound application fallback hardening.
+
+### Build 12A status
+12A is active, not complete. The next reconciliation pass must continue through every route, API, database schema, worker path and failure state. The feature truth registry is now explicit, but the product still has partial/mock surfaces and unverified integrations.
 
 ### Immediate remediation sequence
-1. Product reconciliation and P0/P1 defect sweep — in progress.
-2. Full shared KINDLEAP UI rebuild across every route.
-3. Durable account/profile/evidence model + Answer Library.
-4. Evidence-bound resume/application intelligence.
-5. Real market intelligence integrations and calibrated scoring.
-6. Durable application studio, package snapshots and review queue.
-7. Production browser adapters, hybrid automation and independent verification.
-8. Real outcome/interview intelligence.
-9. Growth/community integrations.
-10. Payment and authoritative entitlement enforcement.
-11. Extension/integrations.
-12. Full QA/security/performance and controlled beta.
+1. Complete product-wide P0/P1 defect sweep.
+2. Audit every route/API/database/worker boundary and record truth status.
+3. Add representative source/automation fixtures and regression tests.
+4. Complete data deletion/orphan/RLS verification.
+5. Reconcile remaining legacy branding and stale claims.
+6. Run fresh TypeScript/build/CI verification.
+7. Begin Build 12B shared KINDLEAP UI system and page rebuild.
+8. Continue Builds 13–24 only after the previous build's exit criteria are actually evidenced.
 
 ## CI verification boundary
-The CI definition requires `npm run typecheck` and `npm run build`. Latest confirmed green run before the audit code fixes: GitHub Actions run `34316133299`, commit `c56e40d8b189586a5971e80008bc4d74608c1542`. Audit remediation commits require a fresh green run.
+The CI definition requires `npm run typecheck` and `npm run build`. Latest confirmed green run before the current remediation commits: GitHub Actions run `34316133299`, commit `c56e40d8b189586a5971e80008bc4d74608c1542`. The current `main` state must receive a fresh CI run before these remediation changes are marked verified.
 
 ## Documentation rule
 README, BUILD_LOG and ROADMAP are updated as part of every build. A build is not marked complete solely because its UI exists. Completion requires the relevant data model, persistence, validation, security boundary, integration, failure handling, evidence and regression coverage.
