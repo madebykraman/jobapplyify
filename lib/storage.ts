@@ -11,7 +11,7 @@ export type RovaProfile = {
   linkedin: string
   portfolio: string
 }
-export type RovaDocument = { id:string; name:string; type:string; size:number; uploadedAt:string; extractedText:string }
+export type RovaDocument = { id:string; name:string; type:string; size:number; uploadedAt:string; extractedText:string; storagePath?:string }
 export type RovaResume = { id:string; name:string; content:string; targetRole:string; atsScore:number; updatedAt:string }
 export type RovaSavedRole = { id:string; savedAt:string }
 export type RovaAutomationRecord = { id:string; company:string; role:string; source:string; applicationUrl:string; state:string; attempts:number; maxAttempts:number; createdAt:string; updatedAt:string; handoff?:string; lastError?:string }
