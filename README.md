@@ -2,48 +2,45 @@
 
 **A simpler way to find and apply for work.**
 
-NAUKRI LABS is a practical job-search workspace for finding relevant roles, preparing applications, tracking progress and using automation without losing control.
+NAUKRI LABS is a practical job-search workspace for finding relevant roles, understanding your fit, preparing applications, applying with controlled automation and learning from outcomes.
 
-## Direction
+## Product
 
-The previous UI overhaul is stopped. The product is being built functional-first with a simple, minimal, light interface: clean typography, whitespace, restrained controls and explicit states.
+The core loop is:
 
-## Product loop
+`Find → Understand → Prepare → Review → Apply → Track → Learn`
 
-`Find → Prepare → Apply → Track → Learn`
+Instead of sending users between job boards, resume tools and spreadsheets, NAUKRI LABS connects the work into one place.
 
-## What is implemented
+### What you can use it for
 
-- Authenticated Supabase sessions.
-- Server-side entitlement reads and Pro gating.
-- Profile persistence with local fallback.
-- Private document upload/delete flow.
-- Resume preparation and evidence-bound application package generation.
-- Public Greenhouse, Lever and Ashby source parsing.
-- Durable saved-role records with per-user RLS.
-- Durable application records with immutable job/package snapshots and status tracking.
-- Outcome reporting from the user's durable application records.
-- Durable automation queue, dispatch, callbacks, evidence and recovery foundation.
-- Dry Run / Review / Full Auto policy model with safety handoffs.
-- Representative ATS browser fixtures and worker tests.
-- Candidate-data redaction before browser evidence is stored/uploaded.
-- Minimal NAUKRI LABS homepage and shared authenticated UI.
+- **Find better roles** — search supported public job sources, inspect roles, compare fit and save opportunities.
+- **Understand your fit** — compare a role with your experience, skills, preferences and career direction.
+- **Manage evidence** — keep resumes and source documents together so generated application material can stay grounded in what you have actually provided.
+- **Prepare applications** — create role-specific application packages, review them and preserve the job/package context.
+- **Apply with control** — Dry Run, Review and Full Auto modes with safety handoffs for CAPTCHA, sensitive questions, ambiguity and unsupported forms.
+- **Track applications** — maintain durable application records, status and outcome history instead of losing the trail after submission.
+- **Plan the next move** — use career goals, growth planning and available outcome signals to improve the next application cycle.
 
 ## Truth rules
 
 Advanced intelligence is never represented as live unless backed by real data. Candidate claims must be grounded in saved evidence. CAPTCHA, sensitive questions, unknown forms and unsupported flows require human control. An application is not considered verified without evidence.
 
-## Current release blockers
+## Current implementation status
 
-Live provider validation, deployment-level worker recovery, and complete browser/mobile QA still require an actual deployed worker/provider environment. Payment checkout/lifecycle, live inbox/interview integrations, anonymous community aggregation and browser extension integrations require their external providers and consent flows. Accessibility, performance, rate limiting, privacy/deletion hardening and dependency remediation remain release QA work.
+The core control plane, authentication, durable saved roles/applications, application preparation, public ATS ingestion, automation queue/worker foundation, evidence redaction and representative ATS fixtures are implemented. Worker leases now have a durable recovery path and a heartbeat mechanism so long browser runs do not silently lose ownership.
 
-## Roadmap
+Production validation still depends on the actual deployed worker, external providers and browser/device QA. Provider-dependent features are not represented as live without those dependencies.
 
-The active roadmap is [`docs/ROADMAP.md`](docs/ROADMAP.md).
+## Known release work
 
-Current phase: **Phase 14 — Core product completion / functional hardening**.
-
-No new visual overhaul is planned before functional validation and release QA.
+- Live Greenhouse/Lever/Ashby validation and broader ATS coverage.
+- Deployment-level worker crash/recovery testing.
+- Profile/document/resume edge cases and legacy local-storage migration.
+- Payment checkout and subscription lifecycle.
+- Live inbox/interview integrations, community contribution pipeline and browser extension.
+- Unified evidence viewer and stronger claim/provenance enforcement.
+- Accessibility, performance, rate limiting, privacy/deletion hardening, observability and dependency remediation.
 
 ## Architecture
 
@@ -51,10 +48,15 @@ Next.js 15 / React 19 / TypeScript. Supabase provides authentication, persistenc
 
 ## Verification
 
-GitHub Actions runs install, TypeScript typecheck and production build on pushes. Worker CI now includes browser fixture tests. Verification is recorded in `docs/BUILD_LOG.md`; a green run is required before advancing a build.
+GitHub Actions runs TypeScript typecheck and production build on pushes. Worker CI installs Chromium and runs worker build plus browser fixture tests. A green verification run is required before advancing a build.
+
+## Documentation
+
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — delivery roadmap.
+- [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md) — chronological build record.
+- [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md) — historical product audit and findings.
+- [`docs/RECONCILIATION_2026-09-09.md`](docs/RECONCILIATION_2026-09-09.md) — current reconciliation after the rebrand/reset.
 
 ## Build discipline
 
 Before every next build, audit the previous roadmap item, repair incomplete work, update README and `docs/BUILD_LOG.md`, run verification, then advance. Functionality outranks aesthetics until release readiness.
-
-See [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md), [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md), [`docs/FEATURE_TRUTH.md`](docs/FEATURE_TRUTH.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md).
