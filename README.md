@@ -18,11 +18,11 @@ Operating loop:
 
 The planned product covers resume/evidence intelligence, explainable job matching, transferable skills, company/referral intelligence, career planning, India-specific compensation context, application preparation, controlled browser automation, interview/outcome intelligence, growth planning, anonymous community intelligence, monetisation and integrations.
 
-The detailed 30-feature audit and implementation status live in [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md). The forward release plan lives in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+The detailed feature audit and implementation status live in [`docs/MASTER_AUDIT.md`](docs/MASTER_AUDIT.md). The forward release plan lives in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Automation
 
-Automation has three operating levels:
+Automation has three operating levels in the current control plane:
 
 - **Dry Run — Free:** inspect and prepare without submission.
 - **Review — Default:** prepare and fill verified information, then stop before submission.
@@ -50,7 +50,7 @@ The Next.js web application is the product/control plane. It owns profile data, 
 
 A separate Playwright browser worker owns long-running browser sessions and site execution. Platform-specific adapters are not described as live until representative fixtures pass.
 
-Supabase provides production persistence, authentication, RLS and private document/evidence storage. Local-first storage remains available for development and prototype fallback.
+Supabase provides production persistence, authentication, RLS and private document/evidence storage. Authentication is being moved to cookie-backed SSR sessions so server routes and middleware can use the same authoritative identity as the browser.
 
 AI is a semantic layer, not the source of truth. Deterministic extraction, validation and safety rules run before model-assisted interpretation.
 
@@ -64,7 +64,7 @@ Authentication, onboarding, profile, documents, resume, career, opportunities, a
 
 The intended beta model is freemium: basic tools where implemented, Pro account access, beta invite unlock and ₹499/month India positioning. International pricing is intended to use purchasing-power-adjusted equivalents. Credits are reserved for a later entitlement layer.
 
-Supabase entitlement infrastructure and authenticated invite activation exist. Payment processor/webhook lifecycle, billing/tax handling and authoritative server-side enforcement across every protected route remain release gates.
+Supabase entitlement infrastructure and authenticated invite activation exist. Build 12A now uses cookie-backed Supabase SSR sessions and server-side entitlement checks for protected routes. Payment processor/webhook lifecycle, billing/tax handling and full server-side enforcement of every feature API remain release gates.
 
 ## Build history
 
@@ -86,9 +86,11 @@ Build 12 — product reconciliation, defect audit, security/QA reset and UI-syst
 
 ## Current status
 
-**Build 12 — reconciliation complete; production build-out follows the audited roadmap.**
+**Build 12A — active defect sweep and foundation hardening.**
 
-Fresh GitHub Actions CI is green for the current codebase with TypeScript typecheck and production build. This does not equal launch readiness. The current implementation is a strong prototype/control-plane foundation with several partial features and known release gates.
+The repository has moved from client-set Pro cookies to cookie-backed Supabase SSR authentication and server entitlement checks. Legacy user-visible WAYO/ROVA branding is still being swept from remaining surfaces. Feature truth is now explicitly tracked; several product surfaces remain partial/mock and are not presented as launch-ready.
+
+A fresh CI run is required after the current remediation commits. No green result is claimed until GitHub Actions verifies the current `main` state.
 
 Immediate work is Build 12A defect sweep → Build 12B complete UI rebuild → Builds 13–21 production feature/integration completion → Build 22 full release QA → Build 23 private beta → Build 24 public launch.
 
