@@ -34,7 +34,7 @@ export default function AssistantPage() {
   e.preventDefault(); setError('')
   const value=input.trim()
   if(!value)return setError('Paste a job link or job description first.')
-  const isUrl=/^https:\\/\\//i.test(value)
+  const isUrl=value.startsWith('https://')
   if(!isUrl){setJob(pastedJob(value));return}
   setLoading(true)
   try{
