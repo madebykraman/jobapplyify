@@ -43,17 +43,55 @@ The product must be simple, fast to understand, low-friction, visually restraine
 - Higher-value automation/convenience: Pro where actually implemented.
 - Do not paywall basic candidate dignity.
 
-### Repository work completed
+### Repository changes completed
 
 - Added research baseline.
 - Rewrote roadmap around the research-backed Job Assistant model.
 - Updated README with research, design and conversion requirements.
 - Preserved existing automation/application infrastructure.
 - Existing assistant-first homepage and /assistant intake remain the product front door.
+- Demoted /opportunities from a discovery surface to a provided-opportunity input utility.
+- Removed job-discovery language from pricing and changed the Free/Pro boundary to match the product direction.
+
+### Route audit status
+
+KEEP:
+- Assistant.
+- Workspace.
+- Profile.
+- Documents.
+- Resume.
+- Applications.
+- Automation.
+- Review.
+
+ADAPT:
+- Career → career improvement/intelligence.
+- Opportunities → provided-input utility only.
+- Insights → lightweight history.
+- Growth → secondary planning.
+
+DEMOTE:
+- Community.
+- Growth.
+- Insights/history.
+
+REMOVE FROM PRIMARY POSITIONING:
+- Job search.
+- Job marketplace.
+- Live vacancy inventory.
+- Application-volume optimisation.
 
 ### Remaining implementation gate
 
-The next build must audit every route/component/copy surface against the new roadmap and research. Specifically: remove/demote job-search-first navigation and pages; make assistant intake create durable application context; implement structured job understanding and assessment output; verify LinkedIn PDF → free resume and Pro customisation boundary; verify assistant UX on mobile; run main and worker CI on the settled head; keep Supabase/Vercel deployment setup paused until the product architecture is stable.
+Still required:
+- Make assistant intake create durable application context rather than only route.
+- Implement structured job understanding and assessment output.
+- Verify LinkedIn PDF → free resume and Pro customisation boundary.
+- Complete route/copy audit for any remaining job-search-first language.
+- Verify assistant UX on mobile.
+- Run main and worker CI on the settled head.
+- Keep Supabase/Vercel deployment setup paused until the product architecture is stable.
 
 ## Build discipline
 
