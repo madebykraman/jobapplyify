@@ -1,156 +1,94 @@
-# NAUKRI LABS Product Roadmap — Job Assistant Pivot — 2026-09-10
+# NAUKRI LABS Product Roadmap — Job Assistant Pivot — 2026-09-24
 
 ## Product definition
 
 **NAUKRI LABS is a job assistant.**
 
-It is not a job board and does not compete with LinkedIn, Naukri or other platforms on job discovery. The user brings the opportunity or career problem. NAUKRI LABS handles the work around it: understanding the opportunity, assessing fit, creating application material, preparing or executing repetitive application tasks, and helping the user improve.
-
 Working product line: **Naukri Copilot**.
 
 Core promise: **Give it the job. Let it handle the work.**
 
-Tagline: **Your job assistant.**
+The user brings the opportunity or career problem. NAUKRI LABS handles the work around it: understanding, assessment, improvement, creation, review and controlled execution.
 
-Descriptor: **Give it the job. Let it handle the work.**
+NAUKRI LABS is **not** a job board and does not compete with LinkedIn, Naukri, Indeed or similar platforms on discovery.
 
-## Product principles
+## Product jobs
+
+1. **Understand** — turn a job, application, recruiter message or career problem into useful structured context.
+2. **Assess** — compare the opportunity with the candidate's actual evidence and explain strengths, gaps and unknowns.
+3. **Improve** — identify practical skills, certifications, courses, projects, positioning or document improvements using candidate evidence plus clearly labelled public/community signals.
+4. **Create** — produce resumes, CVs, cover letters, answers and application material from reusable candidate context.
+5. **Review** — make consequential output visible before action.
+6. **Act** — perform repetitive supported application work with human control and safe handoff.
+7. **Learn** — retain lightweight history and useful outcome signals without becoming a heavyweight ATS.
+
+## Non-negotiable principles
 
 - No job marketplace or job-search-first experience.
+- The assistant must perform useful work, not merely explain how the user could do it.
 - Candidate claims are grounded in information the candidate provides.
-- Public/community information can provide useful directional guidance, but approximate signals must never be presented as certainty.
-- The assistant should perform work, not merely explain how the user could perform it.
-- Automation remains visible, controllable and interruptible.
-- CAPTCHA, sensitive information, ambiguity and unsupported flows require human control.
-- Never claim a submission is verified without evidence.
-- Free functionality should be genuinely useful; Pro should unlock meaningful convenience and customisation rather than basic dignity.
+- Public/community information is directional unless independently verified.
+- Never turn approximate fit guidance into a false precise score.
+- Automation is visible, controllable and interruptible.
+- CAPTCHA, sensitive data, ambiguity and unsupported flows require human control.
+- Never claim verified submission without evidence.
+- Basic usefulness remains free; Pro monetises meaningful customisation, leverage and convenience.
+- Design is part of the product. Simplicity must come from excellent information architecture and interaction design, not from removing useful capability.
 
-## Step 1 — Freeze and preserve
+## Research gate — COMPLETE / LIVING
 
-The old job-search-first implementation is frozen. Existing authentication, profile, document, resume, application, automation, worker, evidence and persistence infrastructure is retained where it supports the new assistant direction. Job discovery surfaces are no longer product-defining and must not receive new investment.
+Research baseline: `docs/PRODUCT_RESEARCH_2026-09-24.md`
 
-## Step 2 — Repository audit and migration
+Research inputs now include:
+- Competitor/product teardowns.
+- Open-source operating implementations.
+- Community demand and failure reports.
+- UX and conversion patterns.
+- Privacy/local-first architecture patterns.
+- Automation and ATS implementation patterns.
 
-Audit every route, component, API, data path and copy surface against the new definition.
+Key adopted lessons:
+- Persistent candidate context should power every downstream action.
+- Browser-context assistance is valuable because repetitive work happens inside application forms.
+- Deterministic field filling should be used before AI interpretation.
+- ATS-specific adapters should be separated from generic form handling.
+- Unknown fields should be learned/reviewed rather than guessed.
+- AI generation must be evidence-bound.
+- Human review is a product feature, not an error state.
+- First value should be useful work completed, not merely account creation.
+- The product should optimise for work removed and quality, not application volume.
+- Community stories and observed failures should feed product decisions.
+- Competitor marketing claims remain claims until independently verified.
 
-Classify each item as:
-- Keep: directly supports the assistant.
-- Adapt: useful infrastructure but wrong product framing.
-- Demote: useful secondary tool, not core navigation.
-- Remove: job-board/search-first or misleading functionality.
-- Future: valuable but not required for the assistant core.
+## Phase 1 — Product reset — COMPLETE
 
-No feature is marked complete merely because a route exists.
+- Job Assistant positioning established.
+- Job discovery removed from the product thesis.
+- Assistant-first information architecture established.
+- Existing auth/profile/document/resume/application/automation infrastructure retained where useful.
+- Old job-search-first surfaces classified for migration.
 
-## Step 3 — New information architecture
+## Phase 2 — Assistant-first experience — IN PROGRESS
 
-Primary product surfaces:
+Required first-session path:
 
-1. **Assistant** — the front door. User gives a job link, job description, recruiter message, document or career problem.
-2. **Career workspace** — reusable candidate context: profile, experience, skills, projects, preferences, goals and evidence.
-3. **Documents / Resume** — LinkedIn PDF to resume, source documents and reusable career material. One basic resume template remains free forever; template selection/customisation is Pro.
-4. **Application workspace** — job-specific resumes, cover letters, answers and application packages.
-5. **Automation** — controlled execution of supported application flows.
-6. **Review** — human approval and handoff surface for consequential or uncertain actions.
-7. **Lightweight history/outcomes** — useful records of work already done, without turning NAUKRI LABS into a heavyweight ATS.
+**Land → understand promise → bring context → receive useful work → continue**
 
-Removed from primary product navigation:
-- Job search
-- Job marketplace
-- Generic opportunities discovery
-
-If a user provides a job from outside NAUKRI LABS, supported ingestion can still understand it. That is an input capability, not a discovery product.
-
-## Step 4 — Assistant-first homepage
-
-The homepage must communicate the assistant immediately.
-
-Required message:
-- User already found the job.
-- NAUKRI LABS handles the difficult/repetitive work around it.
-- The user can bring a job, application, document or career problem.
-- No claim that NAUKRI LABS is a job marketplace.
-
-Primary CTA: **Open the assistant**.
-
-## Step 5 — Core assistant build
-
-### A. Give context
-Accept:
-- Supported job URL.
-- Pasted job description.
+Accepted context:
+- Job URL.
+- Job description.
 - Application questions.
 - Recruiter/company message.
-- Existing resume or LinkedIn PDF.
-- Career problem or question.
+- Existing resume.
+- LinkedIn PDF.
+- Career problem/question.
 
-### B. Understand
-Produce structured, useful interpretation:
-- Responsibilities.
-- Required qualifications.
-- Preferred qualifications.
-- Skills.
-- Experience expectations.
-- Location/work mode.
-- Salary/CTC when available.
-- Notice/sponsorship constraints when available.
-- Application requirements.
+The assistant must eventually produce real structured work rather than only route to other pages.
 
-### C. Assess
-Compare opportunity against candidate context:
-- Strengths.
-- Gaps.
-- Unknowns.
-- Relevant evidence.
-- Approximate public/community signals where available.
-- Practical next steps.
+## Phase 3 — Career context
 
-Never reduce fit to an unexplained score.
-
-### D. Improve
-When the candidate is underqualified or uncertain, suggest useful ways to strengthen their position:
-- Skills.
-- Certifications.
-- Courses.
-- Projects.
-- Portfolio evidence.
-- Positioning changes.
-- Resume improvements.
-
-Recommendations must distinguish candidate-specific evidence from public/community guidance.
-
-### E. Create
-Generate from reusable candidate context:
-- Resume/CV.
-- Cover letters.
-- Short and long introductions.
-- Application answers.
-- Why this company/role answers.
-- Skills/experience answers.
-- Supporting statements.
-- Other role-specific application material.
-
-### F. Review
-Show exactly what is prepared before consequential action.
-
-### G. Act
-For supported flows:
-- Dry Run.
-- Review.
-- Hybrid.
-- Full Auto for eligible Pro usage.
-
-Automation must stop for CAPTCHA, sensitive data, unknown structures, unsupported flows or other unsafe ambiguity.
-
-### H. Evidence
-Persist appropriately redacted evidence for consequential automation and distinguish prepared, submitted, verified and handoff states.
-
-## Step 6 — Career workspace
-
-The profile becomes the reusable source of candidate context.
-
-The user can maintain:
-- Identity/contact information.
+Reusable candidate source of truth:
+- Identity/contact.
 - Education.
 - Experience.
 - Skills.
@@ -160,42 +98,64 @@ The user can maintain:
 - Links.
 - Preferences.
 - Goals.
-- Source documents.
+- Documents.
+- Writing samples.
 
-The system must not fabricate a candidate profile for new sessions.
+New sessions must never receive fabricated candidate data.
 
-## Step 7 — Resume/document tools
+## Phase 4 — Resume/document product
 
-Always-free baseline:
-- LinkedIn PDF to one usable resume template.
-- Basic resume editing/output.
+Free forever:
+- LinkedIn PDF → one usable resume template.
+- Basic editing and export.
 
 Pro:
 - Multiple templates.
+- Template selection.
 - Template customisation.
-- Advanced formatting/customisation where implemented.
+- Advanced formatting/customisation.
 
-Source information remains reusable across jobs.
+The career source data remains reusable across applications.
 
-## Step 8 — Application workspace
+## Phase 5 — Application creation
 
-An application is created around a user-provided opportunity, not discovered inside a marketplace.
+For a user-provided opportunity:
+- Parse the role.
+- Select relevant candidate evidence.
+- Create tailored resume/CV.
+- Create cover letter.
+- Create application answers.
+- Create supporting statements.
+- Preserve the job/application context.
+- Show the evidence behind consequential claims.
 
-Application packages can contain:
-- Selected resume.
-- Cover letter.
-- Answers.
-- Candidate information.
-- Relevant experience/projects/skills.
-- Supporting information.
+## Phase 6 — Fit + improvement intelligence
 
-Packages preserve job context and candidate evidence.
+Provide:
+- Strengths.
+- Gaps.
+- Unknowns.
+- Evidence.
+- Requirements.
+- Practical next steps.
+- Public/community directional signals.
 
-## Step 9 — Automation
+Do not expose a simplistic unexplained score as the primary answer.
 
-Keep and harden the existing queue/worker architecture.
+## Phase 7 — Controlled execution
 
-Supported representative ATS adapters currently include Greenhouse, Lever and Ashby. They remain execution integrations, not discovery products.
+Existing queue/worker architecture remains.
+
+Current representative adapters:
+- Greenhouse.
+- Lever.
+- Ashby.
+
+Required execution states:
+- Dry Run.
+- Review.
+- Hybrid.
+- Full Auto for eligible Pro usage.
 
 Required controls:
 - Queue.
@@ -210,46 +170,60 @@ Required controls:
 - Independent verification.
 - Redacted evidence.
 
-## Step 10 — Lightweight history
+## Phase 8 — Lightweight history
 
-Do not build a complex ATS unless real usage proves it necessary.
-
-Keep enough history to answer:
-- What did I ask NAUKRI LABS to do?
+Keep only enough history to answer:
+- What did I give NAUKRI LABS?
 - What did it prepare?
 - What did I approve?
-- What did it actually do?
+- What did it do?
 - What evidence exists?
 
-Outcome tracking is secondary and should remain lightweight until sustained product usage justifies expansion.
+Do not build a heavyweight ATS unless usage demonstrates that users need it.
 
-## Step 11 — Intelligence hardening
+## Phase 9 — Browser extension / external context
 
-After the assistant core is stable:
+Later:
+- Send a job to NAUKRI LABS from the browser.
+- Detect application pages.
+- Bring assistant context into the current browser page.
+- Preserve the current page while the assistant works.
+- Email/recruiter-message ingestion with explicit consent.
+
+## Phase 10 — Intelligence hardening
+
 - Structured parsing.
 - Evidence provenance.
 - Answer Library.
 - Explainable matching.
-- Freshness/duplicate detection for provided job inputs.
 - Salary/CTC interpretation.
-- Notice, remote and sponsorship context.
+- Notice/remote/sponsorship context.
 - Exclusions/dealbreakers.
-- Application quality scoring.
-- Public/community directional intelligence.
+- Freshness/duplicate handling for supplied inputs.
+- Application quality checks.
+- Community intelligence with source/uncertainty labels.
 
-## Step 12 — Integrations and advanced execution
+## Phase 11 — Outcome loop
 
-Later:
-- Broader ATS coverage.
-- Browser extension for “send this job to NAUKRI LABS”.
-- Email/recruiter message ingestion with consent.
-- Calendar/interview support with consent.
-- Notifications.
-- Follow-ups.
-- More robust application campaigns.
-- Payment and subscription lifecycle.
+Only after the assistant core proves useful:
+- Interview preparation.
+- Interview/rejection learning.
+- Offer comparison.
+- Negotiation support.
+- Outcome-based improvement.
+- Optional lightweight follow-ups.
 
-## Step 13 — Release QA
+## Phase 12 — Monetisation
+
+- Authoritative Pro entitlement.
+- Payment provider.
+- Checkout.
+- Subscription lifecycle.
+- Billing/invoices.
+- India tax handling.
+- International pricing.
+
+## Phase 13 — Release quality
 
 Before beta:
 - Main CI.
@@ -258,7 +232,7 @@ Before beta:
 - Mobile/iPhone E2E.
 - Auth/persistence.
 - RLS/security.
-- Automation safety/recovery.
+- Automation recovery/safety.
 - Evidence redaction.
 - Accessibility.
 - Performance.
@@ -266,39 +240,67 @@ Before beta:
 - Privacy/deletion.
 - Observability.
 
-## Step 14 — Beta
+## Phase 14 — Private beta
 
-Private beta focused on one question:
+Primary question:
 
-**Does NAUKRI LABS reliably remove meaningful work from a person's job application process?**
+**Does NAUKRI LABS reliably remove meaningful work from a person's application process?**
 
 Measure:
 - Time saved.
+- First-value completion.
 - Task completion.
 - Application quality.
-- Human handoff quality.
+- Handoff quality.
 - Automation reliability.
-- User trust.
+- Trust.
 - Repeat usage.
+- Pro conversion from real leverage, not artificial restriction.
 
-## Current build state after pivot
+## Design quality gate
 
-Completed in this pivot:
-- Product definition reset to Job Assistant.
-- Homepage repositioned away from job discovery.
-- Assistant-first route added with supported job-link ingestion and pasted-job intake.
-- Primary navigation repositioned around Assistant, Workspace, Resume, Applications and Pricing.
-- Brand descriptor/tagline reset to assistant positioning.
-- Existing automation and career infrastructure preserved.
+Every primary screen must satisfy:
+- One clear purpose.
+- Immediate comprehension.
+- Minimal interaction cost.
+- Strong hierarchy.
+- Excellent empty/loading/error/success states.
+- No decorative metrics without utility.
+- No dashboard clutter.
+- Mobile-first interaction integrity.
+- Subtle motion only where it improves understanding.
+- Premium visual detail without visual noise.
 
-Still required before calling the pivot complete:
-- Audit and demote/remove remaining job-search-first surfaces and copy.
-- Connect assistant intake to durable application preparation rather than only routing to existing pages.
-- Verify profile/document/resume flows under the new assistant information architecture.
-- Verify Pro boundaries, especially resume customisation.
-- Run main and worker CI on the pivot commit.
-- Keep Supabase deployment work paused until the product architecture is stable.
+The target is **simple product + exceptional UX + top-tier visual execution**.
+
+## Current status
+
+Completed:
+- Product definition reset.
+- Assistant-first homepage.
+- Assistant intake route.
+- Job URL/pasted-description intake.
+- Career/application/automation foundations retained.
+- Research baseline added.
+- Research-driven roadmap rewritten.
+
+Still required:
+- Complete repository-wide migration against this roadmap.
+- Make assistant intake create durable application context rather than only route.
+- Implement/verify actual structured understanding and assessment outputs.
+- Complete LinkedIn PDF → free resume flow and Pro customisation boundary.
+- Audit remaining job-search-first routes/copy and demote/remove them.
+- Complete final CI and browser verification.
+- Only then reconnect the deployment Supabase project and proceed toward beta.
 
 ## Build discipline
 
-Before every build, audit the previous roadmap item, repair incomplete work, update README and BUILD_LOG, run verification, then advance. Never mark a feature complete when its external dependency or safety validation is missing. Functionality outranks aesthetics.
+Before every build:
+1. Audit the previous roadmap item.
+2. Audit research/competitor/community findings relevant to that item.
+3. Repair incomplete work.
+4. Update README and BUILD_LOG.
+5. Run verification.
+6. Only then advance.
+
+Never mark a feature complete because a route exists. Functionality, evidence and user value outrank implementation count.
