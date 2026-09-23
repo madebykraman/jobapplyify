@@ -85,7 +85,7 @@ REMOVE FROM PRIMARY POSITIONING:
 ### Remaining implementation gate
 
 Still required:
-- Make assistant intake create durable application context rather than only route.
+- Make assistant intake create durable application context rather than only route. The first structured assessment is now implemented; remaining work is durable context wiring and deeper intelligence.
 - Implement structured job understanding and assessment output.
 - Verify LinkedIn PDF → free resume and Pro customisation boundary.
 - Complete route/copy audit for any remaining job-search-first language.
