@@ -1,20 +1,41 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { Bookmark, ExternalLink, Filter, Loader2, Search, Upload, X, WandSparkles } from 'lucide-react'
-import { analyseJob, canonicalJobKey, type JobRecord } from '@/lib/job-engine'
-import { defaultProfile, loadProfile, loadSavedRoles, savePreparationJob, saveSavedRoles, type RovaProfile } from '@/lib/storage'
-import { supabase } from '@/lib/supabase'
+import { ArrowRight, ExternalLink, Upload } from 'lucide-react'
 import { BRAND } from '@/lib/brand'
-import { KindleapShell, SectionHeader, Signal, Surface } from '@/components/kindleap-ui'
-const seed:JobRecord[]=[{id:'demo-linear',company:'Linear',title:'Product Designer',location:'Remote',workMode:'Remote',employment:'Full-time',source:'Example data',url:'https://linear.app/careers',applyUrl:'https://linear.app/careers',description:'Example role for testing the workspace. Build product experiences, design systems and workflows. This record is not a live vacancy.',salary:'',department:'Design'},{id:'demo-vercel',company:'Vercel',title:'Senior Product Designer',location:'Remote',workMode:'Remote',employment:'Full-time',source:'Example data',url:'https://vercel.com/careers',applyUrl:'https://vercel.com/careers',description:'Example role for testing the workspace. Lead product design for developer tools. This record is not a live vacancy.',salary:'',department:'Design'}]
-function mergeUnique(current:JobRecord[],incoming:JobRecord[]){const seen=new Set<string>();const result:JobRecord[]=[];for(const job of [...incoming,...current]){const key=canonicalJobKey(job);if(!seen.has(key)){seen.add(key);result.push(job)}}return result}
-export default function Opportunities(){const[profile,setProfile]=useState<RovaProfile>(defaultProfile);const[jobs,setJobs]=useState(seed);const[q,setQ]=useState('');const[source,setSource]=useState('');const[loading,setLoading]=useState(false);const[error,setError]=useState('');const[selected,setSelected]=useState<JobRecord|null>(null);const[saved,setSaved]=useState<string[]>([])
-useEffect(()=>{setProfile(loadProfile());const local=loadSavedRoles().map(x=>x.id);setSaved(local);(async()=>{if(!supabase)return;const{data}=await supabase.auth.getSession();const access=data.session?.access_token;if(!access)return;const r=await fetch('/api/saved-roles',{headers:{authorization:`Bearer ${access}`}});if(r.ok){const d=await r.json();setSaved((d.roles||[]).map((x:any)=>x.job_key))}})()},[])
-const analyses=useMemo(()=>new Map(jobs.map(j=>[j.id,analyseJob(j,profile)])),[jobs,profile]);const filtered=useMemo(()=>jobs.filter(j=>`${j.company} ${j.title} ${j.location} ${j.description}`.toLowerCase().includes(q.toLowerCase())),[jobs,q])
-async function loadSource(){setError('');if(!source.trim()){setError('Paste a public Greenhouse, Lever or Ashby board or individual job URL.');return}setLoading(true);try{const r=await fetch('/api/job-source',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:source})});const data=await r.json();if(!r.ok)throw new Error(data.error||'Source failed');setJobs(prev=>mergeUnique(prev,data.jobs||[]));setSource('')}catch(e){setError(e instanceof Error?e.message:'Unable to load source.')}finally{setLoading(false)}}
-async function toggleSave(job:JobRecord){const key=canonicalJobKey(job);const next=saved.includes(key)?saved.filter(x=>x!==key):[...saved,key];setSaved(next);saveSavedRoles(next.map(x=>({id:x,savedAt:new Date().toISOString()})));if(!supabase)return;const{data}=await supabase.auth.getSession();const access=data.session?.access_token;if(!access)return;if(next.includes(key))await fetch('/api/saved-roles',{method:'POST',headers:{'content-type':'application/json',authorization:`Bearer ${access}`},body:JSON.stringify({job})});else await fetch(`/api/saved-roles?jobKey=${encodeURIComponent(key)}`,{method:'DELETE',headers:{authorization:`Bearer ${access}`}})}
-function prepare(job:JobRecord){savePreparationJob(job);window.location.href='/applications'}
-return <KindleapShell><div className="kl-page"><SectionHeader eyebrow={`${BRAND.name} / Opportunities`} title="Search and assess roles." description="Load public ATS sources, inspect role signals, save roles and prepare an application." action={<Signal label="Sources" value="Greenhouse · Lever · Ashby" detail="Public source adapters"/>}/><Surface className="kl-source"><div><div className="kl-eyebrow">SCAN A PUBLIC JOB SOURCE</div><p>Board URLs load published roles. Example records are clearly marked and are not live vacancies.</p></div><div className="kl-source-row"><input value={source} onChange={e=>setSource(e.target.value)} placeholder="Board URL or individual job URL"/><button className="kl-button kl-button-primary" onClick={loadSource} disabled={loading}>{loading?<Loader2 className="spin" size={15}/>:<Upload size={15}/>} {loading?'Scanning…':'Scan'}</button></div>{error&&<div className="kl-warning">{error}</div>}</Surface><div className="kl-toolbar"><label><Search size={15}/><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search roles, companies, skills…"/></label><span><Filter size={13}/> {filtered.length} roles · {saved.length} saved</span></div><div className="kl-job-list">{filtered.map(j=>{const a=analyses.get(j.id)!;const key=canonicalJobKey(j);const duplicateCount=jobs.filter(x=>analyses.get(x.id)?.duplicateKey===a.duplicateKey).length;return <Surface className="kl-job" key={j.id}><div className="kl-job-head"><div><div className="kl-eyebrow">{j.company} · {j.source}</div><h2>{j.title}</h2><p>{j.location||'Location unspecified'} · {j.workMode||'Work mode unspecified'} · {j.employment||'Employment unspecified'}</p></div><strong className="kl-score">{a.fit}</strong></div><div className="kl-chips">{j.salary&&<span>{j.salary}</span>}{j.department&&<span>{j.department}</span>}<span>{a.seniority}</span>{duplicateCount>1&&<span>Duplicate source</span>}</div><p>{a.summary}</p><div className="kl-job-actions"><button className="kl-button" onClick={()=>setSelected(j)}>Inspect intelligence</button><button className="kl-button" onClick={()=>prepare(j)}><WandSparkles size={14}/>Prepare</button><button className="kl-button" onClick={()=>toggleSave(j)}><Bookmark size={14} fill={saved.includes(key)?'currentColor':'none'}/>{saved.includes(key)?'Saved':'Save'}</button><a className="kl-button" href={j.applyUrl||j.url} target="_blank" rel="noreferrer">Source <ExternalLink size={13}/></a></div></Surface>})}</div><footer className="kl-page-footer">Live data is only shown when a public source is scanned. Example data is explicitly non-live.</footer>{selected&&<div className="kl-overlay" onClick={()=>setSelected(null)}><div className="kl-drawer" onClick={e=>e.stopPropagation()}><div className="kl-drawer-head"><div><div className="kl-eyebrow">{selected.company} · {selected.source}</div><h2>{selected.title}</h2></div><button className="kl-icon-button" onClick={()=>setSelected(null)} aria-label="Close"><X size={18}/></button></div><JobDetail job={selected} profile={profile} prepare={prepare}/></div></div>}</div></KindleapShell>}
-function JobDetail({job,profile,prepare}:{job:JobRecord,profile:RovaProfile,prepare:(job:JobRecord)=>void}){const a=analyseJob(job,profile);return <div className="kl-detail"><div className="kl-signal-grid"><Signal label="Fit" value={<>{a.fit}<small>/100</small></>} detail="Heuristic fit signal"/>{a.signals.map(s=><Signal key={s.label} label={s.label} value={s.value}/>)}</div><Detail title="Career relevance">{a.careerRelevance}</Detail><Detail title="Company / team context">{a.companyContext}</Detail><Detail title="Project signals"><Chips items={a.projectSignals}/></Detail><Detail title="Why it fits">{a.summary}</Detail><Detail title="Matched evidence"><Chips items={a.matched}/></Detail><Detail title="Missing signal"><Chips items={a.gaps} muted/></Detail><Detail title="Role description">{job.description||'No description supplied by the source.'}</Detail><div className="kl-job-actions"><button className="kl-button kl-button-primary" onClick={()=>prepare(job)}>Prepare application <WandSparkles size={14}/></button><a className="kl-button" href={job.applyUrl||job.url} target="_blank" rel="noreferrer">Open source <ExternalLink size={14}/></a></div></div>}
-function Detail({title,children}:{title:string;children:React.ReactNode}){return <section className="kl-detail-block"><b>{title}</b><div>{children}</div></section>}function Chips({items,muted=false}:{items:string[];muted?:boolean}){return <div className={`kl-chips${muted?' is-muted':''}`}>{items.length?items.map(x=><span key={x}>{x}</span>):<small>None detected.</small>}</div>}
+import { KindleapShell, SectionHeader, Surface } from '@/components/kindleap-ui'
+
+export default function Opportunities(){
+ const [source,setSource]=useState('')
+ const [loading,setLoading]=useState(false)
+ const [error,setError]=useState('')
+ const [result,setResult]=useState<any>(null)
+ async function read(){
+  setError(''); setResult(null)
+  if(!source.trim()){setError('Paste the job link you want NAUKRI LABS to work on.');return}
+  setLoading(true)
+  try{
+   const r=await fetch('/api/job-source',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:source.trim()})})
+   const d=await r.json().catch(()=>({}))
+   if(!r.ok) throw new Error(d.error||'This source could not be read.')
+   setResult(d.jobs?.[0]||null)
+  }catch(e){setError(e instanceof Error?e.message:'Unable to read this opportunity.')}
+  finally{setLoading(false)}
+ }
+ return <KindleapShell><div className="kl-page">
+  <SectionHeader eyebrow={BRAND.name+' / Provided opportunity'} title="Bring the opportunity. Don't search for it." description="This is an input utility, not a job board. Give NAUKRI LABS a public supported job URL and continue into the assistant workflow."/>
+  <Surface>
+   <div className="kl-eyebrow">JOB URL</div>
+   <p>Supported public ATS sources currently include Greenhouse, Lever and Ashby.</p>
+   <div className="kl-source-row"><input value={source} onChange={e=>setSource(e.target.value)} placeholder="Paste the job URL you already found"/><button className="kl-button kl-button-primary" onClick={read} disabled={loading}><Upload size={15}/>{loading?'Reading…':'Read job'}</button></div>
+   {error&&<div className="kl-warning">{error}</div>}
+  </Surface>
+  {result&&<Surface>
+   <div className="kl-row-head"><div><div className="kl-eyebrow">{result.company||'Company'} · {result.source||'Provided'}</div><h2>{result.title||'Job opportunity'}</h2><p>{result.location||'Location not specified'}</p></div></div>
+   <p>{result.description||'The source did not provide a full description.'}</p>
+   <div className="kl-job-actions"><Link className="kl-button kl-button-primary" href="/assistant">Continue in assistant <ArrowRight size={14}/></Link><a className="kl-button" href={result.applyUrl||result.url||source} target="_blank" rel="noreferrer">Open source <ExternalLink size={13}/></a></div>
+  </Surface>}
+  <Surface><h2>Already have the job?</h2><p>Go straight to the assistant. It is the main product surface for understanding, assessing, preparing and acting on an opportunity.</p><Link className="kl-button kl-button-primary" href="/assistant">Open assistant <ArrowRight size={14}/></Link></Surface>
+  <footer className="kl-page-footer">NAUKRI LABS does not provide a job marketplace or live vacancy inventory.</footer>
+ </div></KindleapShell>
+}
