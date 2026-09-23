@@ -49,7 +49,7 @@ The product must be simple, fast to understand, low-friction, visually restraine
 - Rewrote roadmap around the research-backed Job Assistant model.
 - Updated README with research, design and conversion requirements.
 - Preserved existing automation/application infrastructure.
-- Existing assistant-first homepage and /assistant intake remain the product front door.
+- Existing assistant-first homepage and /assistant intake remain the product front door. The assistant now produces an immediate structured heuristic assessment for supplied jobs, with explicit fit/gap uncertainty language and direct next actions.
 - Demoted /opportunities from a discovery surface to a provided-opportunity input utility.
 - Removed job-discovery language from pricing and changed the Free/Pro boundary to match the product direction.
 
