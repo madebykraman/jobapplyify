@@ -63,7 +63,7 @@ Free should remain genuinely useful. The baseline LinkedIn PDF → resume workfl
 
 The repository contains reusable authentication, cloud profile/document/resume persistence, durable applications, application preparation, supported public ATS ingestion, automation queue/worker execution, Greenhouse/Lever/Ashby representative adapters, human safety handoffs, lease/heartbeat/recovery logic, independent submission verification and redacted user-scoped evidence.
 
-The current pivot adds the assistant-first surface, removes job discovery from the product positioning, demotes the old opportunities page to a provided-input utility, and gives the assistant an immediate structured heuristic assessment for supplied jobs. The assistant now hands a supplied opportunity into application preparation and persists it to the authenticated application store when signed in, while retaining a local handoff for unauthenticated use. Career and Application Studio are framed around evidence, preparation and improvement rather than role discovery.
+The current pivot adds the assistant-first surface, removes job discovery from the product positioning, demotes the old opportunities page to a provided-input utility, and gives the assistant an immediate structured understanding and heuristic assessment for supplied jobs. The assistant now hands a supplied opportunity into application preparation and persists it to the authenticated application store when signed in, while retaining a local handoff for unauthenticated use. Career and Application Studio are framed around evidence, preparation and improvement rather than role discovery.
 
 ## Architecture
 
