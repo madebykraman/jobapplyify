@@ -53,23 +53,28 @@ export function canonicalJobKey(job: Pick<JobRecord,'company'|'title'|'location'
 }
 
 export function analyseJob(job: JobRecord, profile: RovaProfile): JobAnalysis {
-  const text = `${job.title} ${job.description} ${job.department || ''}`.toLowerCase()
+  const clean = normalizeText(job.description)
+  const text = `${job.title} ${clean} ${job.department || ''}`.toLowerCase()
   const p = profileText(profile)
   const candidateTerms = terms(p)
   const matched = candidateTerms.filter(t => t.length > 3 && text.includes(t)).slice(0, 14)
-  const important = terms(job.description).filter(t => t.length > 4).slice(0, 20)
+  const important = terms(clean).filter(t => t.length > 4).slice(0, 20)
   const gaps = important.filter(t => !p.includes(t)).slice(0, 10)
   const targetBoost = profile.targetRoles.some(r => job.title.toLowerCase().includes(r.toLowerCase())) ? 15 : 0
-  const fit = Math.max(0, Math.min(99, Math.round((matched.length / Math.max(8, Math.min(candidateTerms.length, 20))) * 70 + targetBoost + (job.description.length > 500 ? 8 : 0))))
+  const fit = Math.max(0, Math.min(99, Math.round((matched.length / Math.max(8, Math.min(candidateTerms.length, 20))) * 70 + targetBoost + (clean.length > 500 ? 8 : 0))))
   const seniority = /principal|staff|lead|director|vp|head/i.test(job.title) ? 'Senior / leadership' : /senior|sr\.?/i.test(job.title) ? 'Senior' : /junior|entry|intern|graduate/i.test(job.title) ? 'Early career' : 'Mid-level / unspecified'
   const salary = job.salary || 'Not disclosed'
   const applicationRoute = job.applyUrl ? 'Direct application link available' : 'Source page'
   const duplicateKey = canonicalJobKey(job)
   const targetRole = profile.targetRoles.find(r => job.title.toLowerCase().includes(r.toLowerCase()))
   const careerRelevance = targetRole ? `Directly aligned with target role: ${targetRole}.` : profile.targetRoles.length ? 'Adjacent to the declared target roles; review the career path before applying.' : 'Set target roles in Profile to calculate career relevance.'
-  const projectSignals = terms(`${job.title} ${job.description}`).filter(t => /product|design|system|brand|research|frontend|react|prototype|strategy|growth|platform|analytics|motion|creative/i.test(t)).slice(0, 6)
-  const requirementLines = job.description.split(/(?:\\n|\\r)+/).map(x=>x.replace(/^[•*\\-–]+\\s*/, '').trim()).filter(x=>x.length>25 && /required|requirements|qualifications|experience|skills|proficient|knowledge|degree|years|must|preferred/i.test(x)).slice(0, 8)
-  const responsibilityLines = job.description.split(/(?:\\n|\\r)+/).map(x=>x.replace(/^[•*\\-–]+\\s*/, '').trim()).filter(x=>x.length>25 && /responsibil|you will|build|lead|design|manage|develop|create|partner|collaborat|own|deliver|work with/i.test(x)).slice(0, 8)
+  const projectSignals = terms(`${job.title} ${clean}`).filter(t => /product|design|system|brand|research|frontend|react|prototype|strategy|growth|platform|analytics|motion|creative/i.test(t)).slice(0, 6)
+
+  const blocks = clean.split(/(?<=[.!?])\s+|\n+/).map(x => x.replace(/^[•*–-]+\s*/, '').trim()).filter(x => x.length > 25)
+  const requirementBlocks = blocks.filter(x => /required|requirement|qualification|experience|skills?|proficient|knowledge|degree|years|must have|preferred|familiar/i.test(x))
+  const responsibilityBlocks = blocks.filter(x => /responsibil|you will|build|lead|design|manage|develop|create|partner|collaborat|own|deliver|work with|support/i.test(x))
+  const requirementLines = (requirementBlocks.length ? requirementBlocks : important.slice(0, 8).map(x => `Signal: ${x}`)).slice(0, 8)
+  const responsibilityLines = (responsibilityBlocks.length ? responsibilityBlocks : projectSignals.slice(0, 6).map(x => `Work signal: ${x}`)).slice(0, 8)
   const constraints = [
     job.location && `Location: ${job.location}`,
     job.workMode && `Work mode: ${job.workMode}`,
@@ -77,8 +82,8 @@ export function analyseJob(job: JobRecord, profile: RovaProfile): JobAnalysis {
     salary && salary !== 'Not disclosed' && `Compensation: ${salary}`,
     seniority !== 'Mid-level / unspecified' && `Seniority: ${seniority}`,
   ].filter(Boolean) as string[]
-  const requirements = requirementLines.length ? requirementLines : important.slice(0, 8).map(x => `Signal: ${x}`)
-  const responsibilities = responsibilityLines.length ? responsibilityLines : projectSignals.slice(0, 6).map(x => `Work signal: ${x}`)
+  const requirements = requirementLines
+  const responsibilities = responsibilityLines
   const evidenceNeeds = [...matched.slice(0, 5).map(x => `Show evidence for ${x}.`), ...gaps.slice(0, 5).map(x => `Clarify or build evidence for ${x}.`)].slice(0, 8)
   const companyContext = job.company && job.company !== 'Unknown company' ? `${job.company} · ${job.department || 'Team not disclosed'}` : 'Company context not supplied by the source.'
   return {
@@ -93,7 +98,6 @@ export function analyseJob(job: JobRecord, profile: RovaProfile): JobAnalysis {
     ]
   }
 }
-
 export function normalizeText(value: unknown) { return typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : '' }
 export function humanizeSlug(value: string) { return value.split(/[-_]+/).filter(Boolean).map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join(' ') }
 
