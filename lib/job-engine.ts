@@ -29,6 +29,10 @@ export type JobAnalysis = {
   careerRelevance: string
   companyContext: string
   projectSignals: string[]
+  requirements: string[]
+  responsibilities: string[]
+  constraints: string[]
+  evidenceNeeds: string[]
   summary: string
   signals: { label: string; value: string }[]
 }
@@ -64,9 +68,21 @@ export function analyseJob(job: JobRecord, profile: RovaProfile): JobAnalysis {
   const targetRole = profile.targetRoles.find(r => job.title.toLowerCase().includes(r.toLowerCase()))
   const careerRelevance = targetRole ? `Directly aligned with target role: ${targetRole}.` : profile.targetRoles.length ? 'Adjacent to the declared target roles; review the career path before applying.' : 'Set target roles in Profile to calculate career relevance.'
   const projectSignals = terms(`${job.title} ${job.description}`).filter(t => /product|design|system|brand|research|frontend|react|prototype|strategy|growth|platform|analytics|motion|creative/i.test(t)).slice(0, 6)
+  const requirementLines = job.description.split(/(?:\\n|\\r)+/).map(x=>x.replace(/^[•*\\-–]+\\s*/, '').trim()).filter(x=>x.length>25 && /required|requirements|qualifications|experience|skills|proficient|knowledge|degree|years|must|preferred/i.test(x)).slice(0, 8)
+  const responsibilityLines = job.description.split(/(?:\\n|\\r)+/).map(x=>x.replace(/^[•*\\-–]+\\s*/, '').trim()).filter(x=>x.length>25 && /responsibil|you will|build|lead|design|manage|develop|create|partner|collaborat|own|deliver|work with/i.test(x)).slice(0, 8)
+  const constraints = [
+    job.location && `Location: ${job.location}`,
+    job.workMode && `Work mode: ${job.workMode}`,
+    job.employment && `Employment: ${job.employment}`,
+    salary && salary !== 'Not disclosed' && `Compensation: ${salary}`,
+    seniority !== 'Mid-level / unspecified' && `Seniority: ${seniority}`,
+  ].filter(Boolean) as string[]
+  const requirements = requirementLines.length ? requirementLines : important.slice(0, 8).map(x => `Signal: ${x}`)
+  const responsibilities = responsibilityLines.length ? responsibilityLines : projectSignals.slice(0, 6).map(x => `Work signal: ${x}`)
+  const evidenceNeeds = [...matched.slice(0, 5).map(x => `Show evidence for ${x}.`), ...gaps.slice(0, 5).map(x => `Clarify or build evidence for ${x}.`)].slice(0, 8)
   const companyContext = job.company && job.company !== 'Unknown company' ? `${job.company} · ${job.department || 'Team not disclosed'}` : 'Company context not supplied by the source.'
   return {
-    fit, matched, gaps, seniority, salary, workMode: job.workMode || 'Unspecified', applicationRoute, duplicateKey, careerRelevance, companyContext, projectSignals,
+    fit, matched, gaps, seniority, salary, workMode: job.workMode || 'Unspecified', applicationRoute, duplicateKey, careerRelevance, companyContext, projectSignals, requirements, responsibilities, constraints, evidenceNeeds,
     summary: fit >= 80 ? 'Strong profile alignment. Review the evidence gaps before applying.' : fit >= 60 ? 'Plausible match. Tailoring should focus on the missing signals.' : 'Weak current alignment. Consider this only if it supports the intended career path.',
     signals: [
       { label: 'Fit', value: `${fit}/100` },
