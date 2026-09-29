@@ -1,8 +1,8 @@
 export const BRAND = {
-  name: 'NAUKRI LABS',
-  workingName: 'NAUKRI LABS',
-  tagline: 'Your job assistant.',
-  descriptor: 'Give it the job. Let it handle the work.',
-  status: 'internal',
-  principles: ['Clarity over noise', 'Evidence over invention', 'Control over automation', 'Progress over volume', 'Useful by default'],
+  name: 'JOBSUIT AI',
+  workingName: 'JOBSUIT AI',
+  tagline: 'Build. Analyze. Tailor. Apply.',
+  descriptor: 'AI-powered resume builder and career toolkit.',
+  status: 'clone',
+  principles: ['Resume first', 'Evidence before invention', 'ATS clarity', 'Human control', 'Fast iteration'],
 } as const
