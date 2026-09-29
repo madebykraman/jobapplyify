@@ -1,6 +1,0 @@
-import Link from 'next/link'
-import { ShieldCheck } from 'lucide-react'
-import { BRAND } from '@/lib/brand'
-import { COMMUNITY_SIGNALS } from '@/lib/growth'
-import { KindleapShell, SectionHeader, Surface, Status } from '@/components/kindleap-ui'
-export default function CommunityPage(){return <KindleapShell><div className="kl-page"><SectionHeader eyebrow={`${BRAND.name} / Community`} title="Useful market signals, without profiles." description="These are directional community signals. They are not personal recommendations or live market statistics." action={<Status>Aggregated</Status>}/><Surface><div className="kl-row-head"><div><h2>Field notes</h2><p>Source, date and confidence stay attached to every signal.</p></div><ShieldCheck size={18}/></div><div className="kl-job-list">{COMMUNITY_SIGNALS.map((item,i)=><article className="kl-surface" key={item.topic}><div className="kl-job-head"><div><div className="kl-meta">0{i+1} · {item.topic}</div><h2>{item.signal}</h2><p>{item.source} · {item.date}</p></div><Status>{item.confidence}</Status></div></article>)}</div></Surface><footer className="kl-page-footer">Individual profiles and application histories are not community content.</footer></div></KindleapShell>}

@@ -1,5 +1,0 @@
-import Link from 'next/link'
-import { ArrowRight, ShieldCheck } from 'lucide-react'
-import { BRAND } from '@/lib/brand'
-import { KindleapShell, SectionHeader, Status, Surface } from '@/components/kindleap-ui'
-export default function Review(){return <KindleapShell><div className="kl-page"><SectionHeader eyebrow={`${BRAND.name} / Review queue`} title="Nothing consequential leaves unseen." description="Prepared applications pause here before consequential actions. CAPTCHA, unknown forms, sensitive questions and verification gaps remain explicit human handoffs." action={<Status tone="warn">Human gate</Status>}/><Surface><div className="kl-review-row"><div><Status tone="accent">READY FOR REVIEW</Status><h2>Application package</h2><p>Resume, cover letter and answers prepared for explicit review.</p></div><Link className="kl-button kl-button-primary" href="/applications">Open application <ArrowRight size={14}/></Link></div><div className="kl-notice"><ShieldCheck size={14}/> {BRAND.name} never treats navigation as submission. Verification remains a separate control gate.</div></Surface></div></KindleapShell>}

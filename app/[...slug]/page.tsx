@@ -1,0 +1,2 @@
+import {RolecraftApp} from "@/app/page";
+export default async function CatchAll({params}:{params:Promise<{slug?:string[]}>}){const p=await params;return <RolecraftApp path={"/"+(p.slug||[]).join("/")}/>}

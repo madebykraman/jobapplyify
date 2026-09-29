@@ -1,13 +1,1 @@
-import './globals.css'
-import '@/components/kindleap-ui.css'
-import type { Metadata } from 'next'
-import { BRAND } from '@/lib/brand'
-
-export const metadata: Metadata = {
-  title: `${BRAND.name} — ${BRAND.tagline}`,
-  description: BRAND.descriptor,
-}
-
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>
-}
+import type {Metadata} from "next";import "./globals.css";export const metadata:Metadata={title:"Rolecraft — Resume intelligence for every application",description:"Build, analyze and tailor a stronger resume for every role."};export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
