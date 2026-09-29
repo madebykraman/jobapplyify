@@ -1,69 +1,69 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Check, FileText, ShieldCheck, Sparkles, Upload, Workflow } from 'lucide-react'
+import { ArrowRight, Check, FileCheck2, FileText, MessageCircle, ScanSearch, Sparkles, Target } from 'lucide-react'
 import { BRAND } from '@/lib/brand'
 import './minimal-home.css'
 
-const actions = [
-  { icon: Sparkles, title: 'Understand a job', text: 'Paste a job link or description and turn it into clear requirements, responsibilities and constraints.', href: '/assistant' },
-  { icon: Check, title: 'Check your chances', text: 'Compare the role with your profile and see strengths, gaps and unknowns without pretending the answer is exact.', href: '/career' },
-  { icon: FileText, title: 'Build the application', text: 'Create resumes, cover letters and application answers from the information you give us.', href: '/applications' },
-  { icon: Workflow, title: 'Do the repetitive work', text: 'Prepare and fill supported application flows, with human handoff whenever the system cannot safely continue.', href: '/automation' },
-  { icon: Upload, title: 'Turn existing information into useful documents', text: 'Bring your LinkedIn PDF, resume and career documents into one reusable workspace.', href: '/resume' },
-  { icon: ShieldCheck, title: 'Keep control', text: 'Review consequential actions, see what was prepared and preserve evidence when an application is submitted.', href: '/review' },
+const features = [
+ {icon:ScanSearch,title:'Resume Analysis',text:'See what is working, what is missing, and what could stop a recruiter from understanding your value.'},
+ {icon:Sparkles,title:'Resume Tailoring',text:'Adapt your resume to a specific job while keeping the underlying experience truthful and yours.'},
+ {icon:MessageCircle,title:'Resume Agent',text:'Ask for focused edits, stronger bullets, clearer positioning, and section-by-section feedback.'},
+ {icon:FileCheck2,title:'ATS-friendly Templates',text:'Start from clean layouts built around readable structure and recruiter scanning.'},
+ {icon:FileText,title:'Cover Letter Generator',text:'Create a focused letter that connects your experience to the role without generic filler.'},
+ {icon:Target,title:'Application Tracker',text:'Keep target roles, tailored documents, and application progress together.'},
 ]
 
-const workspace = [
-  ['Career workspace', 'Your profile, experience, skills, projects, documents and goals become reusable context.', '/workspace'],
-  ['Application workspace', 'Keep prepared applications and their job-specific context together.', '/applications'],
-  ['Automation', 'Let NAUKRI LABS handle supported browser work instead of doing every repetitive step yourself.', '/automation'],
+const testimonials=[
+ ['“It finally showed me which parts of my resume were actually relevant to the role.”','Product Designer'],
+ ['“The feedback was specific enough to act on instead of another generic AI rewrite.”','Software Engineer'],
+ ['“I could tailor a version for each role without rebuilding the whole resume.”','Marketing Manager'],
+ ['“The section-by-section suggestions made the editing process much faster.”','Business Analyst'],
 ]
 
-export default function Home() {
-  return <main className="nl-home">
-    <header className="nl-nav">
-      <Link href="/" className="nl-logo">NAUKRI <span>LABS</span></Link>
-      <nav><Link href="/assistant">Assistant</Link><Link href="/workspace">Workspace</Link><Link href="/resume">Resume</Link><Link href="/pricing">Pricing</Link><Link href="/auth">Sign in</Link></nav>
-    </header>
+export default function Home(){
+ return <main className="js-home">
+  <header className="js-nav">
+   <Link href="/" className="js-logo">JOBSUIT <span>AI</span></Link>
+   <nav><Link href="/resume">Resume Builder</Link><Link href="/assistant">Resume Tailoring</Link><Link href="/career">Resume Analysis</Link><Link href="/pricing">Pricing</Link></nav>
+   <div className="js-nav-actions"><Link href="/auth">Log in</Link><Link className="js-nav-cta" href="/resume">Get started free</Link></div>
+  </header>
 
-    <section className="nl-hero">
-      <p className="nl-kicker">{BRAND.descriptor}</p>
-      <h1>Give it the job.<br />Let it handle<br />the work.</h1>
-      <p className="nl-lead">NAUKRI LABS is a job assistant for the work that comes after you find an opportunity: understanding it, judging your fit, building the application and handling the repetitive parts.</p>
-      <div className="nl-actions"><Link href="/assistant" className="nl-primary">Open the assistant <ArrowRight size={16} /></Link><Link href="/auth?mode=sign-up" className="nl-secondary">Create free account</Link></div>
-    </section>
+  <section className="js-hero">
+   <div className="js-hero-copy">
+    <span className="js-pill">AI-powered resume builder</span>
+    <h1>Stop getting ignored.<br/><em>Start getting noticed.</em></h1>
+    <p>Build a clearer resume, understand how it performs against a role, and tailor every application without rewriting your career from scratch.</p>
+    <div className="js-actions"><Link href="/resume" className="js-primary">Build my resume <ArrowRight size={16}/></Link><Link href="/assistant" className="js-watch">See how it works <span>↗</span></Link></div>
+    <div className="js-trust"><Check size={14}/> No credit card required <Check size={14}/> Free to start <Check size={14}/> ATS-ready layouts</div>
+   </div>
+   <div className="js-hero-product">
+    <div className="js-window">
+      <div className="js-window-top"><span>Resume analysis</span><span>•••</span></div>
+      <div className="js-score-row"><div><small>RESUME SCORE</small><strong>78<span>/100</span></strong></div><div className="js-score-ring">78</div></div>
+      <div className="js-mini-list"><div><b>Keyword alignment</b><span>Good</span></div><div><b>Impact & outcomes</b><span>Improve</span></div><div><b>Structure</b><span>Strong</span></div><div><b>Role relevance</b><span>Good</span></div></div>
+      <div className="js-suggestion"><Sparkles size={15}/><div><b>Suggestion</b><p>Make the first experience bullet show the measurable outcome, not only the responsibility.</p></div></div>
+    </div>
+   </div>
+  </section>
 
-    <section className="nl-proof"><span><Check size={15}/> No job board</span><span><Check size={15}/> Evidence before invention</span><span><Check size={15}/> Human control over automation</span><span><Check size={15}/> Bring your own opportunity</span></section>
+  <section className="js-guarantee"><div><b>50</b><span>tailorings</span></div><div><b>50</b><span>applications</span></div><div><b>0</b><span>interviews? eligible for refund*</span></div><p>*Guarantee mechanics can be configured when billing is connected.</p></section>
 
-    <section className="nl-intent">
-      <p className="nl-kicker">The problem</p>
-      <h2>You already found the job.<br />Now comes the annoying part.</h2>
-      <p>Understanding a long description, figuring out whether you are a fit, rewriting your resume, answering the same questions, filling forms and keeping everything consistent takes time. NAUKRI LABS is built for that work.</p>
-    </section>
+  <section className="js-social"><p>Built for people who are serious about their next application.</p><div>{['Product','Engineering','Marketing','Finance','Operations','Design'].map(x=><span key={x}>{x}</span>)}</div></section>
 
-    <section className="nl-overview">
-      <div className="nl-section-intro"><p className="nl-kicker">What the assistant does</p><h2>Bring the problem.<br />Get useful work back.</h2></div>
-      <div className="nl-capabilities">{actions.map(({ icon: Icon, title, text, href }) => <Link href={href} className="nl-capability" key={title}><Icon size={18}/><div><h3>{title}</h3><p>{text}</p></div><ArrowRight size={15}/></Link>)}</div>
-    </section>
+  <section className="js-problem"><div className="js-section-label">WHY RESUMES GET MISSED</div><h2>Most resumes are not bad.<br/><em>They are just too generic.</em></h2><p>A hiring team needs to understand your relevance quickly. Weak keyword alignment, vague bullets, missing outcomes and inconsistent structure can hide otherwise useful experience.</p><div className="js-problem-grid">{[['ATS mismatch','The language does not line up with the role.'],['Missing signals','Important skills or evidence are hard to find.'],['No impact','Responsibilities appear without measurable outcomes.'],['Too generic','One version is sent to every role.']].map(([t,x])=><article key={t}><span>01</span><h3>{t}</h3><p>{x}</p></article>)}</div></section>
 
-    <section className="nl-modules">
-      <div className="nl-section-intro"><p className="nl-kicker">Your workspace</p><h2>One source of truth.<br />Many jobs.</h2></div>
-      <div className="nl-module-grid">{workspace.map(([title, text, href]) => <Link href={href} className="nl-module" key={title}><div><h3>{title}</h3><p>{text}</p></div><ArrowRight size={15}/></Link>)}</div>
-    </section>
+  <section className="js-features"><div className="js-section-label">ONE WORKFLOW</div><h2>Everything you need to<br/><em>make a stronger application.</em></h2><div className="js-feature-grid">{features.map(({icon:Icon,title,text},i)=><article key={title}><span className="js-number">{String(i+1).padStart(2,'0')}</span><Icon size={21}/><h3>{title}</h3><p>{text}</p><Link href={i===0?'/career':'/resume'}>Explore <ArrowRight size={14}/></Link></article>)}</div></section>
 
-    <section className="nl-flow">
-      <div><p className="nl-kicker">How it works</p><h2>You bring context.<br />We do the work.</h2><p>Give NAUKRI LABS a job or career problem. It turns the information into useful next actions, documents or controlled execution.</p></div>
-      <div className="nl-flow-list">{['Give context', 'Understand', 'Assess', 'Create', 'Review', 'Act', 'Improve'].map((item, i, all) => <div key={item}><span>0{i + 1}</span><b>{item}</b>{i < all.length - 1 && <ArrowRight size={14}/>}</div>)}</div>
-    </section>
+  <section className="js-outcomes"><div className="js-section-label">SEE THE DIFFERENCE</div><h2>From “fine” to<br/><em>ready to apply.</em></h2><div className="js-before-after"><div><span>BEFORE</span><h3>Generic resume</h3><p>Broad responsibilities, weak role alignment, little evidence of impact.</p></div><div className="js-arrow">→</div><div><span>AFTER</span><h3>Role-specific resume</h3><p>Relevant experience is prioritized, language is clearer, and evidence is easier to scan.</p></div></div></section>
 
-    <section className="nl-truth">
-      <div className="nl-truth-mark"><ShieldCheck size={20}/></div>
-      <div><p className="nl-kicker">How the assistant behaves</p><h2>Helpful, not fictional.</h2><p>Candidate claims are grounded in information you provide. Public and community signals are presented as approximate guidance, not certainty. Automation stops when a flow is ambiguous, sensitive or unsafe.</p></div>
-    </section>
+  <section className="js-how"><div><div className="js-section-label">HOW IT WORKS</div><h2>Build faster.<br/>Edit smarter.</h2><p>Start with what you already have. Improve it in focused passes instead of starting over every time.</p></div><div className="js-steps">{[['01','Create','Upload an existing resume or start with a blank canvas.'],['02','Analyze','Check structure, keywords, relevance and content gaps.'],['03','Tailor','Give the system a job description and build a targeted version.']].map(([n,t,x])=><article key={n}><span>{n}</span><div><h3>{t}</h3><p>{x}</p></div></article>)}</div></section>
 
-    <section className="nl-bottom"><div><p className="nl-kicker">Start anywhere</p><h2>One job.<br />One problem.</h2><p>Bring it to NAUKRI LABS and start from there.</p></div><Link href="/assistant" className="nl-primary">Open assistant <ArrowRight size={16}/></Link></section>
+  <section className="js-testimonials"><div className="js-section-label">WHAT USERS VALUE</div><div className="js-testimonial-grid">{testimonials.map(([quote,role])=><article key={role}><div>“</div><p>{quote}</p><b>{role}</b></article>)}</div></section>
 
-    <footer className="nl-footer"><span>© 2026 {BRAND.name}</span><span>{BRAND.tagline}</span></footer>
-  </main>
+  <section className="js-faq"><div><div className="js-section-label">FAQ</div><h2>Questions,<br/><em>answered.</em></h2></div><div>{[['What is JOBSUIT AI?','A resume-focused workspace for building, analyzing and tailoring career documents.'],['Can I start with an existing resume?','Yes. Upload a PDF, DOCX or text file and continue from the extracted content.'],['Does tailoring invent experience?','It should not. Suggestions are intended to improve relevance without fabricating qualifications, employers, metrics or credentials.'],['Can I download my resume?','The current builder supports browser print/save-to-PDF. A dedicated export pipeline can be added next.'],['Do I need a job description?','No for basic building and analysis. A target description makes tailoring and relevance checks more useful.']].map(([q,a])=><details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div></section>
+
+  <section className="js-final"><span className="js-pill">Ready when you are</span><h2>Build the resume<br/><em>you actually want to send.</em></h2><Link href="/resume" className="js-primary">Get started free <ArrowRight size={16}/></Link></section>
+  <footer className="js-footer"><div><b>JOBSUIT AI</b><p>{BRAND.tagline}</p></div><div><Link href="/resume">Resume Builder</Link><Link href="/assistant">Tailoring</Link><Link href="/career">Analysis</Link><Link href="/pricing">Pricing</Link></div><div><Link href="/auth">Log in</Link><Link href="/auth?mode=sign-up">Sign up</Link></div><small>Independent recreation / prototype. Not affiliated with Jobsuit AI.</small></footer>
+ </main>
 }
