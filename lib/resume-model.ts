@@ -1,0 +1,10 @@
+export type ResumeSectionId="contact"|"summary"|"experience"|"education"|"skills"|"projects"|"additional";
+export type ResumeSection={id:ResumeSectionId;title:string;content:string};
+export type ResumeVersion={id:string;createdAt:string;label:string;sections:ResumeSection[];template:string;targetRole:string};
+export type ResumeDocument={id:string;name:string;template:string;targetRole:string;createdAt:string;updatedAt:string;currentVersionId:string;versions:ResumeVersion[]};
+export type ApplicationStatus="saved"|"applied"|"screening"|"interview"|"offer"|"rejected";
+export type Application={id:string;company:string;role:string;location:string;status:ApplicationStatus;jobUrl?:string;notes?:string;resumeVersionId?:string;updatedAt:string};
+export const makeId=(prefix:string)=>prefix+"_"+Math.random().toString(36).slice(2,10)+"_"+Date.now().toString(36);
+export const blankResume=():ResumeDocument=>{const now=new Date().toISOString();const version:ResumeVersion={id:makeId("ver"),createdAt:now,label:"Original",template:"Standard",targetRole:"",sections:[{id:"contact",title:"Contact",content:""},{id:"summary",title:"Professional Summary",content:""},{id:"experience",title:"Experience",content:""},{id:"education",title:"Education",content:""},{id:"skills",title:"Skills",content:""},{id:"projects",title:"Projects",content:""},{id:"additional",title:"Additional Information",content:""}]};return{id:makeId("res"),name:"My Resume",template:"Standard",targetRole:"",createdAt:now,updatedAt:now,currentVersionId:version.id,versions:[version]};};
+export const currentVersion=(resume:ResumeDocument)=>resume.versions.find(v=>v.id===resume.currentVersionId)??resume.versions[resume.versions.length-1];
+export const cloneVersion=(resume:ResumeDocument,label:string):ResumeDocument=>{const base=currentVersion(resume);const now=new Date().toISOString();const version={...base,id:makeId("ver"),createdAt:now,label,sections:base.sections.map(s=>({...s}))};return{...resume,updatedAt:now,currentVersionId:version.id,versions:[...resume.versions,version]};};
