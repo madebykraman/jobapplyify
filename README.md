@@ -1,15 +1,33 @@
-# Rolecraft AI
+# Veyra AI
 
-Independent reconstruction of the publicly observable Jobsuit product model, internally rebranded as Rolecraft AI.
+A ground-up, independently reconstructed AI career workspace based on the publicly observable product model of Jobsuit AI.
 
-Active loop: Create → Analyze → Tailor → Apply.
+This is a rebuild, not a continuation of the former Naukri Labs application.
 
-Routes: /, /resume, /analysis, /tailor, /jobs, /cover-letter, /pricing, /auth.
+## Product model
 
-The previous NAUKRI LABS product tree has been retired. This build reconstructs observable product patterns independently and does not use Jobsuit private source code or proprietary assets. It is not affiliated with Jobsuit AI.
+Create / import → choose template → target role → name resume → edit → AI agent → analyze → tailor → export → cover letter / job search / application workflow.
 
-The current implementation prioritizes product architecture, UX, responsive behavior and prototype interactions. Auth, AI providers, billing, production job indexing and persistence remain to be wired.
+## Current application
 
-GitHub main contains the replacement build. Vercel reports a pending check, and deployment success is not claimed because the connected Vercel account does not expose the referenced jobapplyify project.
+- `/` — public acquisition site
+- `/workspace` — first-run resume onboarding + editor
+- `/workspace?view=analysis` — resume analysis
+- `/workspace?view=tailor` — role-specific tailoring
+- `/workspace?view=agent` — AI resume agent
+- `/workspace?view=templates` — 34-template library
+- `/workspace?view=cover` — cover letter workspace
+- `/workspace?view=jobs` — AI job search
+- `/pricing` — pricing
 
-Reference: https://jobsuit.ai/
+## Rebuild principles
+
+The active application tree was replaced rather than layered over the previous product. The visual language, route model, editor shell, onboarding flow and feature surfaces are independently implemented.
+
+Jobsuit private/proprietary source code, private APIs and proprietary assets are not copied. Publicly observable product behavior and information architecture are used as the reconstruction reference.
+
+Veyra AI is an internal working brand and is not affiliated with Jobsuit AI.
+
+## Next implementation layer
+
+Wire the reconstructed UI to persistence, authentication, structured resume data, PDF rendering, AI providers, Supabase, job data, billing and production-grade application tracking.
